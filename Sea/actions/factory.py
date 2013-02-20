@@ -3,8 +3,6 @@ The factory contains functions for creating SEA objects in FreeCAD.
 
 """
 
-
-
 from Sea.adapter.object_maps import *
 
 from Sea.adapter.system import System

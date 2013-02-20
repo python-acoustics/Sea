@@ -12,8 +12,16 @@ This section is a reference of all available classes and functions in Sea.
 Gui
 ***
 
+.. inheritance-diagram:: gui
+.. automodule:: gui
+   :show-inheritance:
+   :members:
 
-
+.. inheritance-diagram:: gui.analysis
+.. automodule:: gui.analysis
+   :show-inheritance:
+   :members:
+   
 SEA
 ***
 

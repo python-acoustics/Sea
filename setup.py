@@ -8,7 +8,7 @@ setup(
       author='Frederik Rietdijk',
       author_email='fridh@fridh.nl',
       license='LICENSE.txt',
-      packages=['Sea'],
+      packages=['Sea', 'Sea.model', 'Sea.adapter', 'Sea.actions', 'gui', 'gui.analysis', 'gui.addItem'],
       zip_safe=False,
       install_requires=[
           'numpy',
