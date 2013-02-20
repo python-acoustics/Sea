@@ -21,9 +21,22 @@
 # If your documentation needs a minimal Sphinx version, state it here.
 #needs_sphinx = '1.0'
 
+
+
+import os
+import sys
+
+sys.path.append(os.path.join(os.getcwd(), '..'))
+
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.pngmath', 'sphinx.ext.inheritance_diagram', 'sphinxcontrib.blockdiag']
+extensions = ['sphinx.ext.autodoc', 'sphinx.ext.pngmath', 'sphinx.ext.inheritance_diagram', 'sphinxcontrib.blockdiag', 'sphinx.ext.intersphinx']
+
+intersphinx_mapping = {
+    'FreeCAD': ('http://free-cad.sourceforge.net/api/', None),
+    'FreeCADGui': ('http://free-cad.sourceforge.net/api/', None),
+    'Part': ('http://free-cad.sourceforge.net/api/', None),
+    }
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -238,3 +251,28 @@ texinfo_documents = [
 
 # How to display URL addresses: 'footnote', 'no', or 'inline'.
 #texinfo_show_urls = 'footnote'
+
+
+import sys
+
+class Mock(object):
+    def __init__(self, *args, **kwargs):
+        pass
+
+    def __call__(self, *args, **kwargs):
+        return Mock()
+
+    @classmethod
+    def __getattr__(cls, name):
+        if name in ('__file__', '__path__'):
+            return '/dev/null'
+        elif name[0] == name[0].upper():
+            mockType = type(name, (), {})
+            mockType.__module__ = __name__
+            return mockType
+        else:
+            return Mock()
+
+MOCK_MODULES = ['FreeCAD', 'FreeCADGui', 'Part']
+for mod_name in MOCK_MODULES:
+    sys.modules[mod_name] = Mock()
