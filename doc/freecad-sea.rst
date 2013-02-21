@@ -51,14 +51,15 @@ when all properties have been set, the modal energies can be solved.
 This can graphically be done by selecting an SEA System and then :menuselection:`Analysis --> Solve` or 
 through Python by executing ``Sea.actions.solve(system)`` where system is the ``DocumentObject`` of the model to be solved. 
 
+=============
 Model classes
-==============
+=============
 The :mod:`Sea.model` classes describe the physics involved in SEA. The baseclasses describe properties that are common to all classes of that type.
 For instance, :class:`Sea.model.baseclasses.Component` describes properties that are identical or mandatory for every component in :mod:`Sea.model.components`.
 
-
+===============
 Adapter classes
-==============================
+===============
 The :mod:`Sea.adapter` classes give FreeCAD access to the physics described in the :mod:`Sea.model` classes.
 The adapter objects all contain the attribute :attr:`model` which on initialization creates 
 a :mod:`Sea.model` object of the respective class.
