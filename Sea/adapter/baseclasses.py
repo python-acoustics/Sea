@@ -1,3 +1,7 @@
+"""
+This following are abstract base classes for the :mod:`adapter` classes.
+"""
+
 
 import abc
 import logging
@@ -8,6 +12,9 @@ from pivy import coin
 
 
 class ViewProviderBaseClass(object):
+    """
+    Base class for SEA viewprovider
+    """
     
     def __init__(self, obj):
         """
@@ -79,12 +86,21 @@ class ViewProviderBaseClass(object):
 
 
 class BaseClass(object):
-    """Abstract base class for all SEA adapter."""
+    """Abstract base class for all SEA adapters."""
     __metaclass__ = abc.ABCMeta
     
+    name = None
+    """
+    Human-readable name of the object.
+    """
+    
+    description = None
+    """
+    Description of the object.
+    """
     model = None
     """
-    Physics model for object
+    Physics :mod:`Sea.model` object of the respective class.
     """
     
     def __init__(self, obj, system):
@@ -115,6 +131,9 @@ class BaseClass(object):
 
 
 class Component(BaseClass):
+    """
+    Abstract base class for all Component adapter classes.
+    """
     __metaclass__ = abc.ABCMeta
     
     def __init__(self, obj, system, material, part, **properties):
@@ -158,6 +177,9 @@ class Component(BaseClass):
         pass
                 
 class Subsystem(BaseClass):
+    """
+    Abstract base class for all Subsystem adapter classes.
+    """
     __metaclass__ = abc.ABCMeta
     
     def __init__(self, obj, system, component, **properties):
@@ -198,6 +220,9 @@ class Subsystem(BaseClass):
 
         
 class Material(BaseClass):
+    """
+    Abstract base class for all Material adapter classes.
+    """
     __metaclass__ = abc.ABCMeta
 
     def __init__(self, obj, system, **properties):
@@ -229,6 +254,9 @@ class Material(BaseClass):
         pass
 
 class Coupling(BaseClass):
+    """
+    Abstract base class for all Coupling adapter classes.
+    """
     __metaclass__ = abc.ABCMeta
     
     def __init__(self, obj, system, subsystem_from, subsystem_to, **properties):
@@ -259,6 +287,9 @@ class Coupling(BaseClass):
             
             
 class Excitation(BaseClass):
+    """
+    Abstract base class for all Excitation adapter classes.
+    """
     __metaclass__ = abc.ABCMeta
     
     def __init___(self, obj, system, subsystem, **properties):

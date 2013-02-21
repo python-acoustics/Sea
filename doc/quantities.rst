@@ -12,7 +12,7 @@ The following is a list of all physical quantities relevant to SEA.
 
 .. _quantities_general:
 
-General
+General quantities
 ==================
 
 .. glossary::
@@ -45,7 +45,7 @@ General
 
 .. _quantities_energy:
 
-Energy
+Energy quantities
 ==================
 
 .. glossary::
@@ -68,7 +68,7 @@ Energy
         
 .. _quantities_modal:
 
-Modal
+Modal quantities
 ================
 
 .. glossary::
@@ -99,7 +99,7 @@ Modal
 
 .. _quantities_material:
 
-Material
+Material quantities
 ===================
         
 .. glossary::

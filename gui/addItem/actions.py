@@ -1,11 +1,15 @@
+"""
+Actions
+"""
+
 import FreeCADGui as Gui
 
 from PyQt4 import QtGui,QtCore
 
-
-import TaskPanel
-
-class AddSystem: 
+class AddSystem(object):
+    """
+    Open taskpanel in order to add a :class:`Sea.adapter.system.System`.
+    """
     def Activated(self):
         import TaskPanelAddSystem
         TaskPanelAddSystem.load()
@@ -15,7 +19,7 @@ class AddSystem:
         ToolTip  = QtCore.QT_TRANSLATE_NOOP('Sea_AddSystem', 'Add a new system.')
         return {'Pixmap' : 'AnalysisCreateIco', 'MenuText': MenuText, 'ToolTip': ToolTip} 
         
-class AddComponent: 
+class AddComponent(object): 
     def Activated(self):
         import TaskPanelAddComponent
         TaskPanelAddComponent.load()
@@ -25,7 +29,7 @@ class AddComponent:
         ToolTip  = QtCore.QT_TRANSLATE_NOOP('Sea_AddComponent', 'Add a new component.')
         return {'Pixmap' : 'AnalysisCreateIco', 'MenuText': MenuText, 'ToolTip': ToolTip} 
         
-class AddSubsystem: 
+class AddSubsystem(object): 
     def Activated(self):
         import TaskPanelAddSubsystem
         TaskPanelAddSubsystem.load()
@@ -35,7 +39,7 @@ class AddSubsystem:
         ToolTip  = QtCore.QT_TRANSLATE_NOOP('Sea_AddSubsystem', 'Add a new subsystem.')
         return {'Pixmap' : 'AnalysisCreateIco', 'MenuText': MenuText, 'ToolTip': ToolTip} 
               
-class AddCoupling: 
+class AddCoupling(object): 
     def Activated(self):
         import TaskPanelAddCoupling
         TaskPanelAddCoupling.load()
@@ -45,20 +49,20 @@ class AddCoupling:
         ToolTip  = QtCore.QT_TRANSLATE_NOOP('Sea_AddCoupling', 'Add a new coupling.')
         return {'Pixmap' : 'AnalysisCreateIco', 'MenuText': MenuText, 'ToolTip': ToolTip} 
 
-class AddExcitation: 
+class AddExcitation(object): 
     def Activated(self):
         import TaskPanel
-        TaskPanel.add_excitation()
+        #TaskPanel.add_excitation()
 
     def GetResources(self):
         MenuText = QtCore.QT_TRANSLATE_NOOP('Sea_AddExcitation', 'Excitation')
         ToolTip  = QtCore.QT_TRANSLATE_NOOP('Sea_AddExcitation', 'Add a new excitation.')
         return {'Pixmap' : 'AnalysisCreateIco', 'MenuText': MenuText, 'ToolTip': ToolTip}     
         
-class AddMaterial: 
+class AddMaterial(object): 
     def Activated(self):
         import TaskPanel
-        TaskPanel.add_material()
+        #TaskPanel.add_material()
 
     def GetResources(self):
         MenuText = QtCore.QT_TRANSLATE_NOOP('Sea_AddMaterial', 'Material')

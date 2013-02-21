@@ -3,8 +3,6 @@ The factory contains functions for creating SEA objects in FreeCAD.
 
 """
 
-
-
 from Sea.adapter.object_maps import *
 
 from Sea.adapter.system import System
@@ -13,10 +11,11 @@ import Sea
 
 import FreeCAD as App
  
- 
+
  
 def makeComponent(sort, system=None, material=None, part=None, **properties):
-    """Add a component to an SEA model.
+    """
+    Add a component to an SEA model.
     
     :param system: System to which the component will be added
     :param sort: Type of component to be added
@@ -65,7 +64,8 @@ def makeSubsystem(sort, system=None, component=None, **properties):
     return obj       
     
 def makeCoupling(sort, system=None, subsystem_from=None, subsystem_to=None, **properties):
-    """Add a coupling to system.
+    """
+    Add a coupling to system.
     
     :param system: System to which the coupling will be added
     :param sort: Type of coupling to be added
@@ -110,7 +110,8 @@ def makeExcitation(sort, system=None, subsystem=None, **properties):
     
 
 def makeMaterial(sort, system=None, **properties):
-    """Add material to SEA system.
+    """
+    Add material to SEA system.
     
     :param system: System to which the material will be added
     :param sort: Type of material to be added
@@ -132,7 +133,7 @@ def makeMaterial(sort, system=None, **properties):
    
 def makeSystem(document):
     """
-    Add System to document
+    Add :class:`Sea.adapter.system.System` to document.
     
     :param document: Document to which the System will be added
     """

@@ -11,12 +11,6 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-import sys
-FREECADPATH = '/usr/lib/freecad/lib' # path to your FreeCAD.so or FreeCAD.dll file
-sys.path.append(FREECADPATH)
-
-sys.path.append('..')
-
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
@@ -27,9 +21,24 @@ sys.path.append('..')
 # If your documentation needs a minimal Sphinx version, state it here.
 #needs_sphinx = '1.0'
 
+
+
+import os
+import sys
+
+
+sys.path.append(os.path.join(os.getcwd(), '..'))
+
+
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.pngmath', 'sphinx.ext.inheritance_diagram', 'sphinxcontrib.blockdiag', 'sphinxcontrib.actdiag']
+extensions = ['sphinx.ext.autodoc', 'sphinx.ext.pngmath', 'sphinx.ext.inheritance_diagram', 'sphinxcontrib.blockdiag', 'sphinx.ext.intersphinx']
+
+intersphinx_mapping = {
+    'FreeCAD': ('http://free-cad.sourceforge.net/api/', None),
+    'FreeCADGui': ('http://free-cad.sourceforge.net/api/', None),
+    'Part': ('http://free-cad.sourceforge.net/api/', None),
+    }
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -244,3 +253,31 @@ texinfo_documents = [
 
 # How to display URL addresses: 'footnote', 'no', or 'inline'.
 #texinfo_show_urls = 'footnote'
+
+
+
+# Create Mock objects for the objects that Sphinx cannot import
+
+import sys
+
+class Mock(object):
+    def __init__(self, *args, **kwargs):
+        pass
+
+    def __call__(self, *args, **kwargs):
+        return Mock()
+
+    @classmethod
+    def __getattr__(cls, name):
+        if name in ('__file__', '__path__'):
+            return '/dev/null'
+        elif name[0] == name[0].upper():
+            mockType = type(name, (), {})
+            mockType.__module__ = __name__
+            return mockType
+        else:
+            return Mock()
+
+MOCK_MODULES = ['FreeCAD', 'FreeCADGui', 'Part', 'PyQt4', 'pivy']
+for mod_name in MOCK_MODULES:
+    sys.modules[mod_name] = Mock()

@@ -1,5 +1,5 @@
 """
-The following are Subsystems classes encapsulating their respective Sea.model.subsystems class.
+The following are Subsystems classes encapsulating their respective :mod:`Sea.model.subsystems` class.
 """
 
 

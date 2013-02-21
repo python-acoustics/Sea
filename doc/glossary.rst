@@ -50,7 +50,9 @@ Glossary
         FreeCAD is a parametric 3D modeler which FreeCAD-SEA is build upon.
         
 
-    
+    python
+        Python is a general-purpose, high-level programming language and is the language in which
+        FreeCAD-SEA is written.
 
     
     
