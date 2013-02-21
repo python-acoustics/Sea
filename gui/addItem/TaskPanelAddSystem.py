@@ -8,7 +8,7 @@ import FreeCAD as App
 
 import Sea
 
-class TaskPanelSystem(object):
+class TaskPanelAddSystem(object):
     """
     Taskpanel for adding a :class:`Sea.adapter.system.System`.
     """
@@ -86,7 +86,7 @@ def load():
     """
     Load the taskpanel defined in this file.
     """
-    panel = TaskPanelSystem()
+    panel = TaskPanelAddSystem()
     Gui.Control.showDialog(panel)
     if panel.setupUi():
         Gui.Control.closeDialog(panel)

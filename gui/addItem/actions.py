@@ -51,9 +51,9 @@ class AddCoupling(object):
 
 class AddExcitation(object): 
     def Activated(self):
-        import TaskPanel
-        #TaskPanel.add_excitation()
-
+        import TaskPanelAddExcitation
+        TaskPanelAddExcitation.load()
+    
     def GetResources(self):
         MenuText = QtCore.QT_TRANSLATE_NOOP('Sea_AddExcitation', 'Excitation')
         ToolTip  = QtCore.QT_TRANSLATE_NOOP('Sea_AddExcitation', 'Add a new excitation.')
@@ -61,15 +61,16 @@ class AddExcitation(object):
         
 class AddMaterial(object): 
     def Activated(self):
-        import TaskPanel
-        #TaskPanel.add_material()
-
+        import TaskPanelAddMaterial
+        TaskPanelAddMaterial.load()
+        
     def GetResources(self):
         MenuText = QtCore.QT_TRANSLATE_NOOP('Sea_AddMaterial', 'Material')
         ToolTip  = QtCore.QT_TRANSLATE_NOOP('Sea_AddMaterial', 'Add a new material.')
         return {'Pixmap' : 'AnalysisCreateIco', 'MenuText': MenuText, 'ToolTip': ToolTip} 
 
 
+      
 Gui.addCommand('Sea_AddSystem', AddSystem())  
 Gui.addCommand('Sea_AddComponent', AddComponent())
 Gui.addCommand('Sea_AddSubsystem', AddSubsystem())

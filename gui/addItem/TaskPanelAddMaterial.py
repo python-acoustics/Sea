@@ -8,13 +8,13 @@ import FreeCAD as App
 
 import Sea
 
-class TaskPanelComponent(object):
+class TaskPanelAddMaterial(object):
     """
     Taskpanel for adding a component defined in :mod:`Sea.adapter.components`.
     """
     
     def __init__(self):
-        self.ui = os.path.join(Paths.uiPath(), 'AddComponent.ui')
+        self.ui = os.path.join(Paths.uiPath(), 'AddMaterial.ui')
 
     
     def getObjectFromList(self, lst):
@@ -36,17 +36,14 @@ class TaskPanelComponent(object):
         sort = self.get_sort()
 
         system = self.getObjectFromList(self.form.system_list)
-        part = self.getObjectFromList(self.form.part_list)
-        material = self.getObjectFromList(self.form.material_list)
         
-        if sort and system and part and material:
-            Sea.actions.makeComponent(sort, system, material, part)
+        if sort and system:
+            Sea.actions.makeMaterial(sort, system)
             return True
-
         else:
-            App.Console.PrintError("Please check your selection.\n")
+            App.Console.PrintError('Please check your selection.\n')
             return False
-        
+            
     def reject(self):
         return True
 
@@ -79,12 +76,9 @@ class TaskPanelComponent(object):
         form.groupbox = form.findChild(QtGui.QGroupBox, 'groupBox')
         form.sort_list = form.findChild(QtGui.QListWidget, "sortList")
         form.system_list = form.findChild(QtGui.QListWidget, "systemList")
-        form.part_list = form.findChild(QtGui.QListWidget, "partList")
-        form.material_list = form.findChild(QtGui.QListWidget, "materialList")
-
         
         sort = dict()
-        for key, item in Sea.adapter.components_map.iteritems():
+        for key, item in Sea.adapter.materials_map.iteritems():
             QtGui.QListWidgetItem(item.name, form.sort_list).setToolTip(item.description)
             sort[item.name] = key
  
@@ -94,17 +88,7 @@ class TaskPanelComponent(object):
             for item in App.ActiveDocument.Objects:
                 if 'IsSeaSystem' in item.PropertiesList:
                     if getattr(item, 'IsSeaSystem') == True:
-                        QtGui.QListWidgetItem(item.Name, form.system_list)
-                
-                elif 'IsSeaMaterial' in item.PropertiesList:
-                    if getattr(item, 'IsSeaMaterial') == True:
-                        QtGui.QListWidgetItem(item.Name, form.material_list)
-                
-                else:
-                    QtGui.QListWidgetItem(item.Name, form.part_list)       
-                    
-
-            
+                        QtGui.QListWidgetItem(item.Name, form.system_list)            
             
         #form.groupbox.setTitle('Add ' + self.sort)
         #form.setWindowTitle('Add ' + self.sort)
@@ -129,11 +113,9 @@ def load():
     """
     Load the taskpanel defined in this file.
     """
-    panel = TaskPanelComponent()
+    panel = TaskPanelAddMaterial()
     Gui.Control.showDialog(panel)
     if panel.setupUi():
         Gui.Control.closeDialog(panel)
         return None
     return panel
-
-    

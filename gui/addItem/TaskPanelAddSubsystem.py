@@ -37,10 +37,12 @@ class TaskPanelSubsystem(object):
         system = self.getObjectFromList(self.form.system_list)
         component = self.getObjectFromList(self.form.component_list)
         
-        if sort:
+        if sort and system and component:
             Sea.actions.makeSubsystem(sort, system, component)
-        
-        return True
+            return True
+        else:
+            App.Console.PrintError('Please check your selection.\n')
+            return False
 
     def reject(self):
         return True
