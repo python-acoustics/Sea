@@ -1,5 +1,5 @@
 """
-The following are Excitation classes encapsulating their respective Sea.model.excitations class.
+The following are Excitation classes encapsulating their respective :mod:`Sea.model.excitations` class.
 """
 
 

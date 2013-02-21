@@ -34,9 +34,12 @@ class System(object):
 
     _frequency = np.array([1000, 2000, 4000, 8000])
     
-    # Switch indicating whether the system (modal energies) were solved or not.
+     
     solved = False
-        
+    """
+    Switch indicating whether the system (modal energies) were solved or not.
+    """
+    
     def _set_frequency(self, f):
         """
         Set frequency bands.
@@ -115,7 +118,7 @@ class System(object):
 
     def clearResults(self):
         """
-        Clear the results. Reset modal energies. Set the switch to False.
+        Clear the results. Reset modal energies. Set :attr:`solved` to False.
         """
         logging.info('Clearing results...')
         
@@ -132,7 +135,7 @@ class System(object):
         
         
         This method solves the modal energies for every subsystem.
-        The method createMatrix() is called for every frequency band to construct a matrix of loss factors and modal densities.
+        The method :meth:`createMatrix` is called for every frequency band to construct a matrix of :term:`loss factors` and :term:`modal densities`.
         
         """
         logging.info('Solving system...')

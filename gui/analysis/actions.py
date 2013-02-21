@@ -1,3 +1,8 @@
+"""
+The following are some actions.
+"""
+
+
 from PyQt4 import QtCore, QtGui
 
 import FreeCADGui as Gui
@@ -6,7 +11,7 @@ import logging
 
 
 
-class RunAnalysis:
+class RunAnalysis(object):
     """
     Perform the SEA analysis. Solve the modal energies.
     """
@@ -27,7 +32,7 @@ class RunAnalysis:
         ToolTip  = QtCore.QT_TRANSLATE_NOOP('Sea_RunAnalysis', 'Calculate modal energies.')
         return {'Pixmap' : 'AnalysisRunIco', 'MenuText': MenuText, 'ToolTip': ToolTip} 
 
-class StopAnalysis: 
+class StopAnalysis(object): 
     """
     Interrupt the calculation.
     """
@@ -47,7 +52,7 @@ class StopAnalysis:
         ToolTip  = QtCore.QT_TRANSLATE_NOOP('Sea_StopAnalysis', 'Stop the currently active calculation.')
         return {'Pixmap' : 'AnalysisStopIco', 'MenuText': MenuText, 'ToolTip': ToolTip} 
 
-class ClearAnalysis:
+class ClearAnalysis(object):
     """
     Clear the results of the analysis.
     """
@@ -61,9 +66,6 @@ class ClearAnalysis:
         return {'Pixmap' : 'AnalysisPostIco', 'MenuText': MenuText, 'ToolTip': ToolTip} 
 
 
- 
-        
-        
 
 Gui.addCommand('Sea_RunAnalysis', RunAnalysis())
 Gui.addCommand('Sea_StopAnalysis', StopAnalysis())

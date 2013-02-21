@@ -17,7 +17,28 @@ Gui
    :show-inheritance:
    :members:
 
+Analysis
+========
+   
 .. inheritance-diagram:: gui.analysis
+.. automodule:: gui.analysis
+   :show-inheritance:
+   :members:
+
+.. inheritance-diagram:: gui.analysis.actions
+.. automodule:: gui.analysis
+   :show-inheritance:
+   :members:
+   
+Add item
+========
+   
+.. inheritance-diagram:: gui.addItem
+.. automodule:: gui.addItem
+   :show-inheritance:
+   :members:   
+   
+.. inheritance-diagram:: gui.addItem.actions
 .. automodule:: gui.analysis
    :show-inheritance:
    :members:

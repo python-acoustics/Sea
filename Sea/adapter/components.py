@@ -1,5 +1,5 @@
 """
-The following are Component classes encapsulating their respective Sea.model.components. class.
+The following are Component classes encapsulating their respective :mod:`Sea.model.components` class.
 """
 
 import logging
@@ -14,10 +14,13 @@ class ComponentBeam(baseclasses.Component):
     name = 'Beam'
     description = 'A structural component with wave propagation along one dimension.'
 
-    model = Sea.model.ComponentBeam()
-    
     def __init__(self, obj, system, material, part, **properties):
         baseclasses.Component.__init__(self, obj, system, material, part, **properties)
+        
+        self.model = Sea.model.ComponentBeam()
+        """
+        This adapter describes a :class:`Sea.model.components.ComponentBeam`
+        """
         
         obj.addProperty("App::PropertyLength", "Length", "Beam", "Length of the beam")
         obj.setEditorMode("MaxLength", 2)

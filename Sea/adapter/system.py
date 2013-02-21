@@ -1,5 +1,5 @@
 """
-The following System class encapsulates its respective class in Sea.model.system.
+The following System class encapsulates its respective class in :mod:`Sea.model.system`.
 """
 
 import Sea

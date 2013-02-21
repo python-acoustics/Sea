@@ -1,5 +1,5 @@
 """"
-The following are Coupling classes encapsulating their respective Sea.model.couplings class.
+The following are Coupling classes encapsulating their respective :mod:`Sea.model.couplings` class.
 """
 
 

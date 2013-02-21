@@ -1,4 +1,6 @@
-
+"""
+The gui module provides a gui for :mod:`Sea`.
+"""
 
 import addItem
 

@@ -255,6 +255,9 @@ texinfo_documents = [
 #texinfo_show_urls = 'footnote'
 
 
+
+# Create Mock objects for the objects that Sphinx cannot import
+
 import sys
 
 class Mock(object):

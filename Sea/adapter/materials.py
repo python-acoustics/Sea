@@ -1,5 +1,5 @@
 """
-The following are Material classes encapsulating their respective Sea.model.materials class.
+The following are Material classes encapsulating their respective :mod:`Sea.model.materials` class.
 """
 
 import logging
