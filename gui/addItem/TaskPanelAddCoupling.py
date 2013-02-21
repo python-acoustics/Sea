@@ -41,13 +41,14 @@ class TaskPanelCoupling(object):
         
         reverse = self.form.reverse.isChecked()
         
-        if sort:
+        if sort and system and subsystem_from and subsystem_to:
             Sea.actions.makeCoupling(sort, system, subsystem_from, subsystem_to)
-        
             if reverse:
                 Sea.actions.makeCoupling(sort, system, subsystem_to, subsystem_from)
-        
-        return True
+            return True
+        else:
+            App.Console.PrintError('Please check your selection.\n')
+            return False
 
     def reject(self):
         return True

@@ -5,7 +5,7 @@ Subsystems are the building blocks of an SEA model. Several types of subsystems 
 import numpy as np
 from baseclasses import Subsystem
 
-              
+import abc
  
 class SubsystemLong(Subsystem):
     """
@@ -56,7 +56,6 @@ class SubsystemBend(Subsystem):
     Subsystem for bending waves.
     """
 
-    
     @property
     def soundspeed_phase(self):
         """
@@ -117,49 +116,46 @@ class SubsystemShear(Subsystem):
         return self.component.mobility_shear
 
      
+
+class SubsystemCavity(Subsystem): 
+    """
+    Abstract base class for all Cavity subsystems.
+    """
+    __metaclass__ = abc.ABCMeta  
+    
+    soundspeed = None
+    """
+    Sound speed for longitudinal waves in a fluid.
+    
+    .. math:: c_{group} = c_{phase}
+    
+    """
+    
+    @property
+    def soundspeed_phase(self):
+        """
+        Phase speed for longitudinal waves in a fluid.
+        """
+        return self.soundspeed
+    
+    @property
+    def soundspeed_group(self):
+        """
+        Group speed for longitudinal waves in a fluid.
+        """
+        return self.soundspeed
         
-class SubsystemCavity2D(Subsystem):
+        
+class SubsystemCavity2D(SubsystemCavity):
     """
     Subsystem for a 2D room.
     """
     pass
     
-class SubsystemCavity3D(Subsystem):
+class SubsystemCavity3D(SubsystemCavity):
     """
     Subsystem for a 3D room.
     """
+    pass
     
-    _soundspeed = None
-    
-    def _get_soundspeed(self):
-        return _soundspeed
-    
-    def _set_soundspeed(self, x):
-        _soundspeed = x
-        
-    def _del_soundspeed(self):
-        _soundspeed = None
-    
-    soundspeed = property(fget=_get_soundspeed, fset=_set_soundspeed, fdel=_del_soundspeed)
-    """
-    Sound speed for longitudinal waves in a fluid.
-    Phase and group speeds are equal.
-    """
-    soundspeed_phase = property(fget=_get_soundspeed, fset=_set_soundspeed, fdel=_del_soundspeed)
-    """
-    Sound speed for longitudinal waves in a fluid.
-    Phase and group speeds are equal.
-    """
-    soundspeed_group = property(fget=_get_soundspeed, fset=_set_soundspeed, fdel=_del_soundspeed)
-    """
-    Sound speed for longitudinal waves in a fluid.
-    Phase and group speeds are equal.
-    """
-    
-subsystems_map = {
-    'long' : SubsystemLong,
-    'bend' : SubsystemBend,
-    'shear': SubsystemShear,
-    'cavity2d' : SubsystemCavity2D,
-    'cavity3d' : SubsystemCavity3D,
-}
+

@@ -13,7 +13,7 @@ import FreeCAD as App
  
 
  
-def makeComponent(sort, system=None, material=None, part=None, **properties):
+def makeComponent(sort, system, material, part, **properties):
     """
     Add a component to an SEA model.
     
@@ -41,7 +41,7 @@ def makeComponent(sort, system=None, material=None, part=None, **properties):
     return obj 
     
 
-def makeSubsystem(sort, system=None, component=None, **properties):
+def makeSubsystem(sort, system, component, **properties):
     """
     Add a subsystem to system.
     
@@ -63,7 +63,7 @@ def makeSubsystem(sort, system=None, component=None, **properties):
     logging.info("Sea: Created %s.", obj.Name)
     return obj       
     
-def makeCoupling(sort, system=None, subsystem_from=None, subsystem_to=None, **properties):
+def makeCoupling(sort, system, subsystem_from, subsystem_to, **properties):
     """
     Add a coupling to system.
     
@@ -86,7 +86,7 @@ def makeCoupling(sort, system=None, subsystem_from=None, subsystem_to=None, **pr
     logging.info("Sea: Created %s.", obj.Name)
     return obj  
     
-def makeExcitation(sort, system=None, subsystem=None, **properties):
+def makeExcitation(sort, system, subsystem, **properties):
     """
     Add an excitation to system
     
@@ -109,7 +109,7 @@ def makeExcitation(sort, system=None, subsystem=None, **properties):
     return obj  
     
 
-def makeMaterial(sort, system=None, **properties):
+def makeMaterial(sort, system, **properties):
     """
     Add material to SEA system.
     

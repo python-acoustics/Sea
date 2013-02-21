@@ -40,36 +40,69 @@ class System(object):
     Switch indicating whether the system (modal energies) were solved or not.
     """
     
-    def _set_frequency(self, f):
+    _octave_true = np.array([
+        0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 
+        0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0])
+    """
+    Which frequency bands should be used when calculating in 1/1-octave bands.
+    """
+    _third_true = np.array([
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
+    """
+    Which frequency bands should be used when calculating in 1/3-octave bands.
+    """
+    
+    """
+    Centerfrequencies of 1/3-octave bands.
+     
+    """
+
+    frequency = np.array([
+        25, 31.5, 40, 50, 63, 80, 100, 125, 160, 200, 250, 315, 
+        400, 500, 630, 800, 1000, 1250, 1600, 2000, 2500, 3150, 
+        4000, 5000, 6300, 8000, 10000, 12500, 16000, 20000])
+    """
+    Frequency is an array of centerfrequencies.
+    """
+ 
+    
+    octaves = False
+    """
+    Switch to indicate whether 1/1-octaves (True) are used or 1/3-octaves (False).
+    """
+    
+    
+    def _set_enabled_bands(self, x):
+        if len(x) == len(self.frequency):
+            if self.octaves:
+                self._enabled_bands = np.array(x * self._octave_true) 
+            else:
+                self._enabled_bands = np.array(x)
+                
+    
+    def _get_enabled_bands(self):
+        return self._enabled_bands
+
+    _enabled_bands = np.ones(len(frequency))
+    enabled_bands = property(fget=_get_enabled_bands, fset=_set_enabled_bands)
+    """"
+    Specify with booleans which :attr:`frequency` are used. 
+    Checks on assignment whether 1/1-octaves should be used or 1/3-octaves.
+    """
+    
+
+    
+    @property
+    def omega(self):
         """
-        Set frequency bands.
+        Angular frequency.
         
-        :param f: is an iterable containing centerfrequencies
+        .. math:: \\omega = 2 \\pi f
+        
         """
-        logging.info("SeaPy - System - _set_frequency - Setting frequency bands.")
-        self._frequency = np.array(f) 
-    
-    def _get_frequency(self):
-        """
-        Get frequency bands.
-        """
-        return self._frequency
-    
-    frequency = property(fget=_get_frequency, fset=_set_frequency)     # Retrieve or set the frequency vector
-    """
-    This property is an array of centerfrequencies.
-    """
-    
-    def _get_omega(self):
         return 2.0 * np.pi * self.frequency  
-        
-    omega = property(fget=_get_omega)
-    """
-    Angular frequency.
-    
-    .. math:: \\omega = 2 \\pi f
-    
-    """
+
 
     def createMatrix(self, subsystems, f):
         """
@@ -149,30 +182,31 @@ class System(object):
         
         # Split this component. Create loss factor matrix and modal densities arrays seperately.
         for f in xrange(0, len(self.frequency), 1):
-            LF = self.createMatrix(subsystems, f)
-            
-            # Create input power vector....we're still working for a single frequency now
-            input_power = np.zeros(len(subsystems))
-            modal_density = np.zeros(len(subsystems))
-
-            
-            i=0
-            for subsystem in subsystems:
-                modal_density[i] = subsystem.modal_density[f]
-                input_power[i] = subsystem.input_power[f] / self.omega[f]   # Retrieve the power for the right frequency
-                i=i+1
+            if self.enabled_bands(f):
+                LF = self.createMatrix(subsystems, f)
                 
+                # Create input power vector....we're still working for a single frequency now
+                input_power = np.zeros(len(subsystems))
+                modal_density = np.zeros(len(subsystems))
 
-            #print input_power
-            modal_energy = np.linalg.solve(LF, input_power)    # Left division results in the modal energies.
-            #print E
-            # Save each modal energy to its respective Subsystem nameect
-            
-            i = 0
-            for subsystem in subsystems:
-                subsystem.modal_energy[f] = modal_energy[i]
-                i=i+1
-            del modal_energy, input_power, LF
+                
+                i=0
+                for subsystem in subsystems:
+                    modal_density[i] = subsystem.modal_density[f]
+                    input_power[i] = subsystem.input_power[f] / self.omega[f]   # Retrieve the power for the right frequency
+                    i=i+1
+                    
+
+                #print input_power
+                modal_energy = np.linalg.solve(LF, input_power)    # Left division results in the modal energies.
+                #print E
+                # Save each modal energy to its respective Subsystem nameect
+                
+                i = 0
+                for subsystem in subsystems:
+                    subsystem.modal_energy[f] = modal_energy[i]
+                    i=i+1
+                del modal_energy, input_power, LF
                 
         self.solved = True  
         logging.info('System solved.')

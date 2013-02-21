@@ -7,6 +7,7 @@ import Sea
 import logging
 import FreeCAD as App
 
+import numpy as np
 
 class System(object):
     """
@@ -14,7 +15,7 @@ class System(object):
     """
     
     model = Sea.model.System()
-
+    
     def __init__(self, obj):
         """
         :param obj: FeaturePython object 
@@ -33,8 +34,11 @@ class System(object):
         
         obj.addProperty("App::PropertyBool","IsSeaSystem","System", "True if it is a valid SEA system")
         
-        obj.addProperty("App::PropertyFloatList", "Frequency", "System","List of frequency bands")
-                
+        obj.addProperty("App::PropertyFloatList", "Frequency", "System","List of available frequency bands")
+        
+        obj.addProperty("App::PropertyIntegerList", "EnabledBands", "System","List of enabled frequency bands")
+        
+        obj.addProperty("App::PropertyBool", "Octaves", "System", "Use 1/1-octaves (True) or 1/3-octaves (False).")        
         obj.addProperty("App::PropertyBool", "Solved", "System", "Boolean showing whether results are present")
         
         obj.Proxy = self
@@ -53,8 +57,15 @@ class System(object):
         :param obj: FeaturePython object
         :param prop: Name of property that has changed
         """
-        pass
+        if prop == 'Octaves':
+            self.model.octaves = obj.Octaves
+            
+            self.model.enabled_bands = map(bool, np.array(obj.EnabledBands))
+            obj.EnabledBands = map(int, list(self.model.enabled_bands))
 
+        elif prop == 'EnabledBands':
+            self.model.enabled_bands = map(bool, np.array(obj.EnabledBands))
+    
     
     def execute(self, obj):
         """
@@ -64,17 +75,11 @@ class System(object):
         """
         logging.info("Object %s - execute - Executing..")
 
-        #obj.Objects = self._update_objects_list(self.model.objects)
-        #obj.Components = self._update_objects_list(self.model.components)
-        #obj.Subsystems = self._update_objects_list(self.model.subsystems)
-        #obj.Couplings = self._update_objects_list(self.model.couplings)
-        #obj.Excitations = self._update_objects_list(self.model.excitations)
-        #obj.Materials = self._update_objects_list(self.model.materials)
-        #obj.Parts = self._update_objects_list(self.model.parts)
-
         obj.Frequency = map(float, list(self.model.frequency))
         
         obj.Solved = self.model.solved
+        obj.Octaves = self.model.octaves
+        obj.EnabledBands = map(int, list(self.model.enabled_bands))
         
         self.update_objects_lists(obj)
 
@@ -121,8 +126,4 @@ class System(object):
         self.model.couplings = couplings
         self.model.excitations = excitations
         self.model.materials = materials
-        
-    #def _update_objects_list(self, obj, obj_list):
-        #return [obj.Document.getObject(item.name) for item in obj_list]
-
 
