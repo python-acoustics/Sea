@@ -26,31 +26,31 @@ def _hasObject(document, sort):
 
 def hasComponent(document):
     """
-    Check whether document has a :mod:`Sea.adapter.component` object
+    Check whether document has a child of :class:`Sea.adapter.baseclasses.Component`.
     """
     return _hasObject(document, 'IsSeaComponent')
     
 def hasSubsystem(document):
     """
-    Check whether document has a :mod:`Sea.adapter.subsystem` object
+    Check whether document has a child of :class:`Sea.adapter.baseclasses.Subsystem`.
     """
     return _hasObject(document, 'IsSeaSubsystem')
 
 def hasCoupling(document):
     """
-    Check whether document has a :mod:`Sea.adapter.coupling` object
+    Check whether document has a child of :class:`Sea.adapter.baseclasses.Subsystem`.
     """
     return _hasObject(document, 'IsSeaCoupling')
     
 def hasExcitation(document):
     """
-    Check whether document has a :mod:`Sea.adapter.excitation` object
+    Check whether document has a :class:`Sea.adapter.baseclasses.Excitation`.
     """
     return _hasObject(document, 'IsSeaExcitation')
     
 def hasMaterial(document):
     """
-    Check whether document has a :mod:`Sea.adapter.material` object
+    Check whether document has a :class:`Sea.adapter.baseclasses.Material`.
     """
     return _hasObject(document, 'IsSeaMaterial')
     

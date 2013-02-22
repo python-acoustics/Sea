@@ -38,13 +38,12 @@ Each :mod:`Sea.adapter` class has a an attribute :attr:`model`, with which it re
 
 
 
-
-
-
-To perform an SEA analysis the document has to contain a geometry of the structure under investigation.
-When the geometry is present, it is possible to add SEA objects manually, or to construct a model automatically from the geometry.
-Rudimentary rules are used to decide what types of each object should be used. 
-It is also possible to detect whether components collide and automatically add the relevent type of coupling. 
+To perform an SEA analysis the document has to contain a geometry of the
+structure under investigation. When the geometry is present, it is possible to
+add SEA objects manually, or to construct a model automatically from the
+geometry. Rudimentary rules are used to decide what types of each object should
+be used. It is also possible to detect whether components collide and
+automatically add the relevent type of coupling. 
 
 Next step is to set the properties of all the objects.
 when all properties have been set, the modal energies can be solved. 

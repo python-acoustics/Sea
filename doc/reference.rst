@@ -11,28 +11,25 @@ This section is a reference of all available classes and functions in Sea.
 
 Gui
 ***
-
 .. inheritance-diagram:: gui
 .. automodule:: gui
    :show-inheritance:
    :members:
 
 Analysis
-========
-   
+======== 
 .. inheritance-diagram:: gui.analysis
 .. automodule:: gui.analysis
    :show-inheritance:
    :members:
 
 .. inheritance-diagram:: gui.analysis.actions
-.. automodule:: gui.analysis
+.. automodule:: gui.analysis.actions
    :show-inheritance:
    :members:
    
 Add item
-========
-   
+======== 
 .. inheritance-diagram:: gui.addItem
 .. automodule:: gui.addItem
    :show-inheritance:
@@ -45,7 +42,6 @@ Add item
    
 SEA
 ***
-
 .. inheritance-diagram:: Sea
 .. automodule:: Sea
    :show-inheritance:
@@ -53,7 +49,6 @@ SEA
    
 Model
 =====
-
 .. inheritance-diagram:: Sea.model
 .. automodule:: Sea.model
    :show-inheritance:
@@ -66,7 +61,6 @@ System
    :show-inheritance:
    :members:
 
-
 Base classes
 ------------
 .. inheritance-diagram:: Sea.model.baseclasses
@@ -74,8 +68,6 @@ Base classes
    :show-inheritance:
    :members:
 
-
-   
 Components   
 ----------
 .. inheritance-diagram:: Sea.model.components
@@ -106,6 +98,15 @@ Excitations
 .. automodule:: Sea.model.excitations
    :show-inheritance:
    :members:
+
+
+Materials
+---------
+.. inheritance-diagram:: Sea.model.materials
+.. automodule:: Sea.model.materials
+   :show-inheritance:
+   :members:
+   
    
 Adapter
 ========
@@ -160,6 +161,12 @@ Excitations
    :show-inheritance:
    :members: 
    
+Excitations
+-----------
+.. inheritance-diagram:: Sea.adapter.materials
+.. automodule:: Sea.adapter.materials
+   :show-inheritance:
+   :members: 
    
 Actions
 ========
