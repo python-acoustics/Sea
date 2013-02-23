@@ -55,7 +55,7 @@ Energy quantities
 
 
     velocity level
-        The velocity level `L_v` 
+        The velocity level :math:`L_v` 
 
 
     mobility
@@ -65,7 +65,15 @@ Energy quantities
     mnergy
         The energy `E`
 
+    power dissipation
+        The power dissipation `P` in a subsystem `i` is given  by
         
+        .. math:: P_{dis,i} = \omega \eta n_i
+    
+        where :math:`\eta` is the loss factor of the subsystem.
+    
+
+    
 .. _quantities_modal:
 
 Modal quantities
@@ -73,28 +81,44 @@ Modal quantities
 
 .. glossary::
 
-    mode count
-        The mode count `N` is the estimation of the amount of modes in a frequency band.
 
+    conductivity
+        The conductivity `C` describes the vibrational coupling.
+        The coupling is however more often desribed by coupling loss factors. The conductivity and the coupling loss factor are related as
+        
+        .. math:: C_{i,j} = \omega n_i \eta_c^{i,j} = \omega n_j \eta_c^{j,i}
+
+    
+    coupling loss factor
+        The coupling loss factors describes the losses in a coupling.
+    
+    mode count
+        The mode count `N` is the amount of modes up to the angular frequency :math:`\omega`. 
+        For a simple structure this value can be calculated, while more complex structures require :term:`FEA` or estimations.
 
     modal density    
-        The modal density `n` is obtained by differentiating the mode count `N` with respect to the angular frequency `\omega`.
+        The modal density `n` is obtained by differentiating the mode count `N` with respect to the angular frequency :math:`\omega`.
 
         .. math::
             
             n = \frac{dN}{d \omega}
 
-
-
     modal overlap
-        The modal overlap `M`
+        The modal overlap `M` describes the overlap of modes and thus dissipation.
+        
+        .. math::
+        
+            M = \eta \omega N
    
 
     modal energy
-        The modal energy `e`
+        The modal energy `e` is the energy in a band per mode.
+        
+        .. math::
+        
+            e = \frac{E}{\frac{dN}{d \omega}} = \frac{E}{N}
    
-    density
-        The density :math:`\rho`
+
 
 
 .. _quantities_material:
@@ -104,6 +128,9 @@ Material quantities
         
 .. glossary::
 
+    density
+        The density :math:`\rho`
+        
     young's modulus
         Young's modulus `E`, also known as the tensile modulus or elastic modulus, 
         is a measure of the stiffness of an elastic material, and has the unit pascal (Pa).

@@ -115,14 +115,14 @@ def create_system_from_document(document):
             properties = None
             sort = determine_component_sort(part)
 
-            material = Sea.actions.makeMaterial('solid', system)
+            material = Sea.actions.makeMaterial('MaterialSolid', system)
             materials_group.addObject(material)
             component = Sea.actions.makeComponent(sort, system, material, part)
             components_group.addObject(component)
             
-            subsys_long = Sea.actions.makeSubsystem('long', system, component)
+            subsys_long = Sea.actions.makeSubsystem('SubsystemLongBeam', system, component)
             subsystems_group.addObject(subsys_long)
-            subsys_bend = Sea.actions.makeSubsystem('bend', system, component)
+            subsys_bend = Sea.actions.makeSubsystem('SubsystemBendBeam', system, component)
             subsystems_group.addObject(subsys_bend)
             
             #makeSubsystem(system, 'shear', component)
@@ -197,7 +197,7 @@ def determine_component_sort(part):
     
     :param part: Part to be investigated
     """
-    return 'beam'
+    return 'ComponentBeam'
     
 def detect_if_coupled(shell1, shell2):
     """

@@ -9,6 +9,8 @@ Glossary
 .. glossary::
 
 
+
+
     component
     components
         A component
@@ -24,6 +26,13 @@ Glossary
     excitation
     excitations
         An excitation
+    
+    FEA
+    FEM
+    finite-element analysis
+    finite-element method
+        Finite-element..
+    
     
     loss factor
     loss factors

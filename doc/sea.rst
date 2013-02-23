@@ -9,9 +9,9 @@ Statistical Energy Analysis
 
 This chapter provides some background on Statistical Energy Analysis
 
-
+============
 Introduction
-************
+============
 
 Statistical Energy Analysis, normally abbreviated to SEA, is a method for
 studying the vibroacoustic motion of a structure from an energy perspective. SEA
@@ -31,8 +31,10 @@ single matrix composed of loss factors, :term:`modal densities` and input
 powers, is solved resulting in the modal energies of each subsystem, from which
 their vibration or noise levels can be calculated.
 
+
+=================
 Example SEA model
-*****************
+=================
 
 Consider two components physically attached to each other.
 
@@ -58,4 +60,13 @@ Energy is allowed to flow from subsystem1 to subsystem2 via coupling1 and vice v
     }
     
 
+
+    
+    
+========================
+SEA consistency relation
+========================
+The consistency relation is
+
+.. math:: n_i \eta_c^{i,j} = n_j \eta_c^{j,i}
 

@@ -158,8 +158,6 @@ class Subsystem(BaseClass):
     """
     Modal energies of each frequency band.
     """
-        
-    
     
     @abc.abstractproperty                      
     def soundspeed_phase(self):
@@ -174,7 +172,7 @@ class Subsystem(BaseClass):
         Group velocity in a subsystem.
         """
         return
-                
+        
     @abc.abstractproperty
     def modal_density(self):
         """
@@ -233,6 +231,145 @@ class Subsystem(BaseClass):
         """
         return 20 * np.log10(self.velocity / (5 * 10**(-8)) ) 
 
+
+        
+class SubsystemStructural(Subsystem):
+    """
+    Abstract base class for all Structural subsystems.
+    """
+    __metaclass__ = abc.ABCMeta  
+    pass
+
+
+        
+        
+class SubsystemLong(SubsystemStructural):
+    """
+    Abstract base class for longitudinal waves in a structural component.
+    """
+    @property
+    def soundspeed_phase(self):
+        """
+        Phase velocity for longitudinal wave.
+        
+        .. math:: c_{phase} = \\frac{B}{\\rho}
+        """
+        return self.component.bending_stiffness / self.component.material.density
+
+    @property
+    def soundspeed_group(self):
+        """
+        Group velocity for longitudinal wave.
+        
+        .. math:: c_{group} = c_{phase}
+        """
+        return self.soundspeed_phase
+    
+    @property
+    def wavenumber(self):
+        """
+        Wave number for longitudinal wave.
+        """
+        return np.sqrt(self.component.density * np.power(self.omega,2) * (1-np.power(self.material.poisson,2)) / (self.component.young * self.component.height))
+    
+    @property
+    def mobility(self):
+        """
+        Mobility.
+        """
+        return self.component.mobility_long()
+        
+        
+class SubsystemBend(SubsystemStructural):
+    """
+    Abstract base class for bending waves in a structural component.
+    """
+    @property
+    def soundspeed_phase(self):
+        """
+        Phase velocity for bending wave.
+        """
+        return np.power((np.power(self.omega,2)*self.component.bending_stiffness/self.component.mass_per_area()),0.25)
+                
+    @property
+    def soundspeed_group(self):
+        """
+        Group velocity for bending wave.
+        
+        .. math:: c_{group} = 2 c_{phase}
+        
+        """
+        return 2.0 * self.soundspeed_phase()
+    
+    @property
+    def wavenumber(self):
+        """
+        Wavenumber of bending wave.
+        """
+        return np.power((self.component.material.density * np.power(self.omega,2) / self.component.bending_stiffness),0.25)
+       
+    @property
+    def mobility(self):
+        """
+        Mobility.
+        """
+        return self.component.mobility_bend
+        
+    
+class SubsystemShear(SubsystemStructural):
+    """
+    Abstract base class for shear waves in a structural component.
+    """
+    @property
+    def wavenumber(self):
+        """
+        Wave number of shear wave.
+        """
+        return np.sqrt(2.0*self.component.material.density * np.power(self.omega,2) * (1+np.power(poisson,2)) / (self.component.E * self.component.h))
+    
+    @property
+    def mobility(self):
+        """
+        Mobility.
+        """
+        return self.component.mobility_shear
+
+    
+    
+class SubsystemCavity(Subsystem): 
+    """
+    Abstract base class for all Cavity subsystems.
+    """
+    __metaclass__ = abc.ABCMeta  
+    
+    soundspeed = None
+    """
+    Sound speed for longitudinal waves in a fluid.
+    
+    .. math:: c = c_{group} = c_{phase}
+    
+    """
+    
+    @property
+    def soundspeed_group(self):
+        """
+        Group velocity for bending wave.
+        
+        .. math:: c = c_{group} = c_{phase}
+        
+        """
+        return self.soundspeed
+    
+    @property
+    def soundspeed_group(self):
+        """
+        Group velocity for bending wave.
+        
+        .. math:: c = c_{group} = c_{phase}
+        
+        """
+        return self.soundspeed
+        
 class Coupling(BaseClass):
     """Abstract Base Class for couplings."""
     __metaclass__ = abc.ABCMeta
