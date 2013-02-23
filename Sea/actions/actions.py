@@ -115,14 +115,14 @@ def create_system_from_document(document):
             properties = None
             sort = determine_component_sort(part)
 
-            material = Sea.actions.makeMaterial('solid', system)
+            material = Sea.actions.makeMaterial('MaterialSolid', system)
             materials_group.addObject(material)
             component = Sea.actions.makeComponent(sort, system, material, part)
             components_group.addObject(component)
             
-            subsys_long = Sea.actions.makeSubsystem('long', system, component)
+            subsys_long = Sea.actions.makeSubsystem('SubsystemLong', system, component)
             subsystems_group.addObject(subsys_long)
-            subsys_bend = Sea.actions.makeSubsystem('bend', system, component)
+            subsys_bend = Sea.actions.makeSubsystem('SubsystemBend', system, component)
             subsystems_group.addObject(subsys_bend)
             
             #makeSubsystem(system, 'shear', component)
