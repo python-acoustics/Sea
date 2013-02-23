@@ -11,6 +11,56 @@ import Sea
 
 import logging
 
+
+def _hasObject(document, sort):
+    """
+    Detect whether document has any :class:`Sea.adapter.system.System`
+    """
+    if document:
+        for item in document.Objects:
+            if hasattr(item, sort):
+                if getattr(item, sort) is True:
+                    return True
+    return False    
+    
+
+def hasComponent(document):
+    """
+    Check whether document has a child of :class:`Sea.adapter.baseclasses.Component`.
+    """
+    return _hasObject(document, 'IsSeaComponent')
+    
+def hasSubsystem(document):
+    """
+    Check whether document has a child of :class:`Sea.adapter.baseclasses.Subsystem`.
+    """
+    return _hasObject(document, 'IsSeaSubsystem')
+
+def hasCoupling(document):
+    """
+    Check whether document has a child of :class:`Sea.adapter.baseclasses.Subsystem`.
+    """
+    return _hasObject(document, 'IsSeaCoupling')
+    
+def hasExcitation(document):
+    """
+    Check whether document has a :class:`Sea.adapter.baseclasses.Excitation`.
+    """
+    return _hasObject(document, 'IsSeaExcitation')
+    
+def hasMaterial(document):
+    """
+    Check whether document has a :class:`Sea.adapter.baseclasses.Material`.
+    """
+    return _hasObject(document, 'IsSeaMaterial')
+    
+def hasSystem(document):
+    """
+    Detect whether document has a :class:`Sea.adapter.system.System`
+    """
+    return _hasObject(document, 'IsSeaSystem')       
+    
+
 def create_empty_system(document):
     """
     Create new SEA analysis
