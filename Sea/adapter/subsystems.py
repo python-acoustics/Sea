@@ -8,43 +8,43 @@ import logging
 import Sea
 import baseclasses
 
-class SubsystemLong(baseclasses.Subsystem):
+class SubsystemLongBeam(baseclasses.SubsystemLong):
     """
-    A subsystem describing longitudinal waves in a structural component.
+    A subsystem describing longitudinal waves in a structural 1D component.
     """
     name = 'Longitudinal waves'
-    description = 'A subsystem describing longitudinal waves in a structural component.'
+    description = 'A subsystem describing longitudinal waves in a structural 1D component.'
     
-    model = Sea.model.SubsystemLong()
+    model = Sea.model.SubsystemLongBeam()
     
     def __init__(self, obj, system, component, **properties):
-        baseclasses.Subsystem.__init__(self, obj, system, component, **properties)
+        baseclasses.SubsystemLong.__init__(self, obj, system, component, **properties)
 
-class SubsystemBend(baseclasses.Subsystem):
+class SubsystemBendBeam(baseclasses.SubsystemBend):
     """
-    A subsystem describing bending or flexural waves in a structural component.
+    A subsystem describing bending or flexural waves in a structural 1D component.
     """
     name = 'Bending waves'
-    description = 'A subsystem describing bending or flexural waves in a structural component.'
-    model = Sea.model.SubsystemBend()
+    description = 'A subsystem describing bending or flexural waves in a structural 1D component.'
+    model = Sea.model.SubsystemBendBeam()
     
     def __init__(self, obj, system, component, **properties):
-        baseclasses.Subsystem.__init__(self, obj, system, component, **properties)
+        baseclasses.SubsystemBend.__init__(self, obj, system, component, **properties)
     
 
-class SubsystemShear(baseclasses.Subsystem):
+class SubsystemShearBeam(baseclasses.SubsystemShear):
     """
-    A subsystem describing shear waves in a structural component.
+    A subsystem describing shear waves in a structural 1D component.
     """
-    #model = Sea.model.SubsystemShear()
+    #model = Sea.model.SubsystemShearBeam()
     
     name = 'Shear waves'
-    description = 'A subsystem describing shear waves in a structural component.'
+    description = 'A subsystem describing shear waves in a structural 1D component.'
     def __init__(self, obj, system, component, **properties):
-        baseclasses.Subsystem.__init__(self, obj, system, component, **properties)
+        baseclasses.SubsystemShear.__init__(self, obj, system, component, **properties)
     
 
-class SubsystemCavity2D(baseclasses.Subsystem):
+class SubsystemCavity2D(baseclasses.SubsystemCavity):
     """
     A subsystem describing a two-dimensional cavity.
     """
@@ -52,9 +52,9 @@ class SubsystemCavity2D(baseclasses.Subsystem):
     description = 'A subsystem describing a two-dimensional cavity.'
     
     def __init__(self, obj, system, component, **properties):
-        baseclasses.Subsystem.__init__(self, obj, system, component, **properties)
+        baseclasses.SubsystemCavity.__init__(self, obj, system, component, **properties)
     
-class SubsystemCavity3D(baseclasses.Subsystem):
+class SubsystemCavity3D(baseclasses.SubsystemCavity):
     """
     Subsystem for 3D cavities.
     """
@@ -62,7 +62,7 @@ class SubsystemCavity3D(baseclasses.Subsystem):
     description = 'A subsystem describing a three-dimensional cavity.'
     
     def __init__(self, obj, system, component, **properties):
-        baseclasses.Subsystem.__init__(self, obj, system, component, **properties)    
+        baseclasses.SubsystemCavity.__init__(self, obj, system, component, **properties)    
 
 
 import inspect, sys

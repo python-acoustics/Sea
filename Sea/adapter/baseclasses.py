@@ -174,7 +174,7 @@ class Component(BaseClass):
         
     
     def execute(self, obj):
-        pass
+        BaseClass.execute(self, obj)
                 
 class Subsystem(BaseClass):
     """
@@ -190,14 +190,13 @@ class Subsystem(BaseClass):
         
         obj.addProperty("App::PropertyLink", "Component", "Subsystem", "Component this subsystem uses.")
         
-        
         obj.addProperty("App::PropertyFloatList", "SoundspeedPhase", "Subsystem", "Phase speed of wave.")
         obj.addProperty("App::PropertyFloatList", "SoundspeedGroup", "Subsystem", "Group speed of wave.")
+        
         obj.addProperty("App::PropertyFloatList", "ModalDensity", "Subsystem", "Modal density.")
         obj.addProperty("App::PropertyFloatList", "Wavenumber", "Subsystem", "Wave number.")
         obj.addProperty("App::PropertyFloatList", "Mobility", "Subsystem", "Mobility.")
-        
-        
+
         obj.Component = component
 
     def onChanged(self, obj, prop):
@@ -211,6 +210,7 @@ class Subsystem(BaseClass):
                     
 
     def execute(self, obj):
+        BaseClass.execute(self, obj)
         
         #obj.SoundspeedPhase = self.model.soundspeed_phase
         #obj.SoundspeedGroup = self.model.soundspeed_group
@@ -218,7 +218,98 @@ class Subsystem(BaseClass):
         pass
    
 
+class SubsystemStructural(Subsystem):
+    """
+    Abstract base class for all structural subsystem adapter classes.
+    """
+    __metaclass__ = abc.ABCMeta
+    
+    def __init__(self, obj, system, component, **properties):
+        Subsystem.__init__(self, obj, system, component, **properties)
+
+    def onChanged(self, obj, prop):
+        Subsystem.onChanged(self, obj, prop)
+       
+
+    def execute(self, obj):
+        Subsystem.execute(obj)
+
+class SubsystemLong(SubsystemStructural):
+    """
+    Abstract base class for all structural longitudinal wave subsystem adapter classes.
+    """
+    __metaclass__ = abc.ABCMeta
+    
+    def __init__(self, obj, system, component, **properties):
+        SubsystemStructural.__init__(self, obj, system, component, **properties)
+
+    def onChanged(self, obj, prop):
+        SubsystemStructural.onChanged(self, obj, prop)
+       
+
+    def execute(self, obj):
+        SubsystemStructural.execute(obj)
+
+class SubsystemBend(SubsystemStructural):
+    """
+    Abstract base class for all structural bending wave subsystem adapter classes.
+    """
+    __metaclass__ = abc.ABCMeta
+    
+    def __init__(self, obj, system, component, **properties):
+        SubsystemStructural.__init__(self, obj, system, component, **properties)
+
+    def onChanged(self, obj, prop):
+        SubsystemStructural.onChanged(self, obj, prop)
+       
+
+    def execute(self, obj):
+        SubsystemStructural.execute(obj)
         
+        
+class SubsystemShear(SubsystemStructural):
+    """
+    Abstract base class for all structural shear wave subsystem adapter classes.
+    """
+    __metaclass__ = abc.ABCMeta
+    
+    def __init__(self, obj, system, component, **properties):
+        SubsystemStructural.__init__(self, obj, system, component, **properties)
+
+    def onChanged(self, obj, prop):
+        SubsystemStructural.onChanged(self, obj, prop)
+       
+
+    def execute(self, obj):
+        SubsystemStructural.execute(obj)
+        
+        
+class SubsystemCavity(Subsystem):
+    """
+    Abstract base class for all Subsystem adapter classes.
+    """
+    __metaclass__ = abc.ABCMeta
+    
+    def __init__(self, obj, system, component, **properties):
+        Subsystem.__init__(self, obj, system, component, **properties)
+
+        obj.addProperty("App::PropertyFloatList", "Soundspeed", "Subsystem", "Sound speed of wave.")
+
+    def onChanged(self, obj, prop):
+        Subsystem.onChanged(self, obj, prop)
+        
+        if prop == 'Component':
+            if obj.Component == None:
+                self.model.component = None
+            else:
+                self.model.component = obj.Component.Proxy.model
+        
+        if prop == 'Soundspeed' or 'SoundspeedGroup' or 'SoundspeedPhase':
+            self.model.soundspeed = getattr(obj, prop)
+            
+    def execute(self, obj):
+        Subsystem.execute(self, obj, prop)
+    
 class Material(BaseClass):
     """
     Abstract base class for all Material adapter classes.
