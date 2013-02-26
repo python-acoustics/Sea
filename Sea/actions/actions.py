@@ -30,12 +30,6 @@ def hasComponent(document):
     """
     return _hasObject(document, 'IsSeaComponent')
     
-def hasSubsystem(document):
-    """
-    Check whether document has a child of :class:`Sea.adapter.baseclasses.Subsystem`.
-    """
-    return _hasObject(document, 'IsSeaSubsystem')
-
 def hasCoupling(document):
     """
     Check whether document has a child of :class:`Sea.adapter.baseclasses.Subsystem`.
@@ -92,9 +86,6 @@ def create_system_from_document(document):
     components_group = SEA_group.newObject("App::DocumentObjectGroup", "Components")
     components_group.Label = "Components"
     
-    subsystems_group = SEA_group.newObject("App::DocumentObjectGroup", "Subsystems")
-    subsystems_group.Label = "Subsystems"
-    
     couplings_group = SEA_group.newObject("App::DocumentObjectGroup", "Couplings")
     couplings_group.Label = "Couplings"
     
@@ -119,24 +110,7 @@ def create_system_from_document(document):
             materials_group.addObject(material)
             component = Sea.actions.makeComponent(sort, system, material, part)
             components_group.addObject(component)
-            
-            subsys_long = Sea.actions.makeSubsystem('SubsystemLongBeam', system, component)
-            subsystems_group.addObject(subsys_long)
-            subsys_bend = Sea.actions.makeSubsystem('SubsystemBendBeam', system, component)
-            subsystems_group.addObject(subsys_bend)
-            
-            #makeSubsystem(system, 'shear', component)
-            
-            #if not None:
-                #component_label = 
-                #system1.addComponent()
-                
-                
-                ##if structural:
-                #system1.addSubSystem(label, 'long', [], component_label)
-                #system1.addSubSystem(label, 'bend', [], component_label)
-                #system1.addSubSystem(label, 'shear', [], component_label)
-        
+
     return system
 
     
@@ -197,7 +171,7 @@ def determine_component_sort(part):
     
     :param part: Part to be investigated
     """
-    return 'ComponentBeam'
+    return 'Component1DBeam'
     
 def detect_if_coupled(shell1, shell2):
     """

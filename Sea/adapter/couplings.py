@@ -15,34 +15,34 @@ class CouplingJunction(baseclasses.Coupling):
     name = 'Junction'
     description = 'A coupling describing a connection of a single point.'
     
-    model = Sea.model.CouplingJunction()
+    model = Sea.model.couplings.CouplingJunction()
  
     def __init__(self, obj, system, subsystem_from, subsystem_to, **properties):
         baseclasses.Coupling.__init__(self, obj, system, subsystem_from, subsystem_to, **properties)
         
-class CouplingLine(baseclasses.Coupling):
-    """
-    A coupling describing a connection along a line.
-    """
-    name = 'Line'
-    description = 'A coupling describing a connection along a line.'
+#class CouplingLine(baseclasses.Coupling):
+    #"""
+    #A coupling describing a connection along a line.
+    #"""
+    #name = 'Line'
+    #description = 'A coupling describing a connection along a line.'
 
-    model = Sea.model.CouplingLine()
+    #model = Sea.model.couplings.CouplingLine()
 
-    def __init__(self, obj, system, subsystem_from, subsystem_to, **properties):
-        baseclasses.Coupling.__init__(self, obj, system, subsystem_from, subsystem_to, **properties)
+    #def __init__(self, obj, system, subsystem_from, subsystem_to, **properties):
+        #baseclasses.Coupling.__init__(self, obj, system, subsystem_from, subsystem_to, **properties)
         
-class CouplingLine(baseclasses.Coupling):
-    """
-    A coupling describing a connection along a surface.
-    """
-    name = 'Surface'
-    description = 'A coupling describing a connection along a surface.'
+#class CouplingLine(baseclasses.Coupling):
+    #"""
+    #A coupling describing a connection along a surface.
+    #"""
+    #name = 'Surface'
+    #description = 'A coupling describing a connection along a surface.'
     
-    model = Sea.model.CouplingLine()
+    #model = Sea.model.couplings.CouplingLine()
 
-    def __init__(self, obj, system, subsystem_from, subsystem_to, **properties):
-        baseclasses.Coupling.__init__(self, obj, system, subsystem_from, subsystem_to, **properties)
+    #def __init__(self, obj, system, subsystem_from, subsystem_to, **properties):
+        #baseclasses.Coupling.__init__(self, obj, system, subsystem_from, subsystem_to, **properties)
         
         
         

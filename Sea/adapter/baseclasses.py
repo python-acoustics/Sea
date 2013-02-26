@@ -2,7 +2,6 @@
 This following are abstract base classes for the :mod:`adapter` classes.
 """
 
-
 import abc
 import logging
 import FreeCAD as App
@@ -11,78 +10,78 @@ import FreeCAD, FreeCADGui
 from pivy import coin
 
 
-class ViewProviderBaseClass(object):
-    """
-    Base class for SEA viewprovider
-    """
+###class ViewProviderBaseClass(object):
+    ###"""
+    ###Base class for SEA viewprovider
+    ###"""
     
-    def __init__(self, obj):
-        """
-        Set this object to the proxy object of the actual view provider
-        """
-        obj.addProperty("App::PropertyColor","Color","View","Color of the object indicator.")
-        obj.Proxy = self
+    ###def __init__(self, obj):
+        ###"""
+        ###Set this object to the proxy object of the actual view provider
+        ###"""
+        ###obj.addProperty("App::PropertyColor","Color","View","Color of the object indicator.")
+        ###obj.Proxy = self
         
-        obj.Color = (1.0,0.0,0.0)
+        ###obj.Color = (1.0,0.0,0.0)
  
-    def attach(self, obj):
-        "Setup the scene sub-graph of the view provider, this method is mandatory"
+    ###def attach(self, obj):
+        ###"Setup the scene sub-graph of the view provider, this method is mandatory"
 
         
-        self.shaded = coin.SoGroup()
-        self.wireframe = coin.SoGroup()
-        self.scale = coin.SoScale()
-        self.color = coin.SoBaseColor()
+        ###self.shaded = coin.SoGroup()
+        ###self.wireframe = coin.SoGroup()
+        ###self.scale = coin.SoScale()
+        ###self.color = coin.SoBaseColor()
         
-        data=coin.SoCube()
-        self.shaded.addChild(self.scale)
-        self.shaded.addChild(self.color)
-        self.shaded.addChild(data)
-        obj.addDisplayMode(self.shaded,"Shaded");
-        style=coin.SoDrawStyle()
-        style.style = coin.SoDrawStyle.LINES
-        self.wireframe.addChild(style)
-        self.wireframe.addChild(self.scale)
-        self.wireframe.addChild(self.color)
-        self.wireframe.addChild(data)
-        obj.addDisplayMode(self.wireframe,"Wireframe");
-        self.onChanged(obj,"Color")
-        self.scale.scaleFactor.setValue(10,10,10)
+        ###data=coin.SoCube()
+        ###self.shaded.addChild(self.scale)
+        ###self.shaded.addChild(self.color)
+        ###self.shaded.addChild(data)
+        ###obj.addDisplayMode(self.shaded,"Shaded");
+        ###style=coin.SoDrawStyle()
+        ###style.style = coin.SoDrawStyle.LINES
+        ###self.wireframe.addChild(style)
+        ###self.wireframe.addChild(self.scale)
+        ###self.wireframe.addChild(self.color)
+        ###self.wireframe.addChild(data)
+        ###obj.addDisplayMode(self.wireframe,"Wireframe");
+        ###self.onChanged(obj,"Color")
+        ###self.scale.scaleFactor.setValue(10,10,10)
         
  
-    #def updateData(self, fp, prop):
-        #"If a property of the handled feature has changed we have the chance to handle this here"
-        ## fp is the handled feature, prop is the name of the property that has changed
-        #l = fp.getPropertyByName("Length")
-        #w = fp.getPropertyByName("Width")
-        #h = fp.getPropertyByName("Height")
-        #self.scale.scaleFactor.setValue(l,w,h)
-        #pass
+    ####def updateData(self, fp, prop):
+        ####"If a property of the handled feature has changed we have the chance to handle this here"
+        ##### fp is the handled feature, prop is the name of the property that has changed
+        ####l = fp.getPropertyByName("Length")
+        ####w = fp.getPropertyByName("Width")
+        ####h = fp.getPropertyByName("Height")
+        ####self.scale.scaleFactor.setValue(l,w,h)
+        ####pass
  
-    #def getDisplayModes(self,obj):
-        #"Return a list of display modes."
-        #modes=[]
-        #modes.append("Shaded")
-        #modes.append("Wireframe")
-        #return modes
+    ####def getDisplayModes(self,obj):
+        ####"Return a list of display modes."
+        ####modes=[]
+        ####modes.append("Shaded")
+        ####modes.append("Wireframe")
+        ####return modes
  
-    #def getDefaultDisplayMode(self):
-        #"Return the name of the default display mode. It must be defined in getDisplayModes."
-        #return "Shaded"
+    ####def getDefaultDisplayMode(self):
+        ####"Return the name of the default display mode. It must be defined in getDisplayModes."
+        ####return "Shaded"
  
-    #def setDisplayMode(self,mode):
-        #"Map the display mode defined in attach with those defined in getDisplayModes.\
-                #Since they have the same names nothing needs to be done. This method is optional"
-        #return mode
+    ####def setDisplayMode(self,mode):
+        ####"Map the display mode defined in attach with those defined in getDisplayModes.\
+                ####Since they have the same names nothing needs to be done. This method is optional"
+        ####return mode
  
-    def onChanged(self, vp, prop):
-        """
-        Here we can do something when a single property got changed
-        """
-        FreeCAD.Console.PrintMessage("Change property: " + str(prop) + "\n")
-        if prop == "Color":
-            c = vp.getPropertyByName("Color")
-            self.color.rgb.setValue(c[0],c[1],c[2])
+    ###def onChanged(self, vp, prop):
+        ###"""
+        ###Here we can do something when a single property got changed
+        ###"""
+        ###FreeCAD.Console.PrintMessage("Change property: " + str(prop) + "\n")
+        ###if prop == "Color":
+            ###c = vp.getPropertyByName("Color")
+            ###self.color.rgb.setValue(c[0],c[1],c[2])
 
 
 class BaseClass(object):
@@ -104,6 +103,13 @@ class BaseClass(object):
     """
     
     def __init__(self, obj, system):
+        """
+        Constructor
+        
+        :param obj: FreeCAD Python Feature object
+        :param system: :class:`Sea.adapter.system.System` instance
+        """
+        
         obj.Proxy = self
         
         obj.addProperty("App::PropertyLink","System","BaseClass", "Reference to System")
@@ -111,11 +117,19 @@ class BaseClass(object):
         
         obj.addProperty("App::PropertyLinkSub", "Frequency", "BaseClass", "Frequency bands")
         
+        obj.Frequency = (system, ['Frequency'])
+        
 
     def __del__(self):
         logging.info("Object - Destructor - Deleting this object")        
         
     def onChanged(self, obj, prop):
+        """
+        Respond on a change in object :attr:`obj` to property :attr:`prop`.
+        
+        :param obj: Feature object
+        :param prop: Property that was updated
+        """
         logging.info("Object %s - onChanged - Changing property %s.", obj.Name, prop)
         
         if prop == 'System':
@@ -127,6 +141,11 @@ class BaseClass(object):
             self.model.frequency = obj.Frequency
             
     def execute(self, obj):
+        """
+        This method will be executed on a recomputation.
+        
+        :param obj: Feature object
+        """
         obj.Frequency = (obj.System.Name, ['Frequency'])
 
 
@@ -136,7 +155,18 @@ class Component(BaseClass):
     """
     __metaclass__ = abc.ABCMeta
     
-    def __init__(self, obj, system, material, part, **properties):
+    def __init__(self, obj, system, material, part):
+        """
+        Constructor
+        
+        :param obj: FreeCAD Python Feature object
+        :param system: :class:`Sea.adapter.system.System` instance
+        :param material: Material instance as defined in :mod:`Sea.adapter.materials`
+        :param material: FreeCAD part
+        :param **properties: Properties
+        """
+        
+        
         BaseClass.__init__(self, obj, system)
         
         obj.addProperty("App::PropertyBool","IsSeaComponent","Component", "True if it is a valid SEA Component")        
@@ -144,9 +174,13 @@ class Component(BaseClass):
         
         obj.addProperty("App::PropertyLink","Part","Component", "Reference to Part")
         obj.addProperty("App::PropertyLink","Material","Component", "Reference to Material")
-        obj.addProperty("App::PropertyFloat", "BendingStiffness", "Component", "Bending stiffness of the Component")
+
         
         obj.addProperty("App::PropertyLinkSub", "Volume", "SeaComponent", "Volume of component")
+       
+        obj.addProperty("App::PropertyBool", "EnableLong", "Subsystems", "Enable the subsystem describing longitudinal waves.")
+        obj.addProperty("App::PropertyBool", "EnableBend", "Subsystems", "Enable the subsystem describing bending waves.")
+        obj.addProperty("App::PropertyBool", "EnableShear", "Subsystems", "Enable the subsystem describing shear waves.")
         
 
         obj.IsSeaComponent = True
@@ -161,155 +195,138 @@ class Component(BaseClass):
         if prop == 'Material':
             if obj.Material == None:
                 self.model.material = None
-            else:
-                self.model.material = obj.Material.Proxy.model
+            #else:
+                #self.model.material = obj.Material.Proxy.model
         
         elif prop == 'Part':
             if obj.Part == None:
                 obj.Volume = None
             else:
                 obj.Volume = (obj.Part, ['Shape', 'Volume'])
+                
         elif prop == 'Volume':
             self.model.volume = obj.Volume
         
-    
+        #elif prop == 'EnableLong':
+            #self.enableSubsystem(obj, 'long', obj.EnableLong)
+        
+        #elif prop == 'EnableBend':
+            #self.enableSubsystem(obj, 'bend', obj.EnableBend)
+        
+        #elif prop == 'EnableShear':
+            #self.enableSubsystem(obj, 'shear', obj.EnableShear)
+        
+
     def execute(self, obj):
         BaseClass.execute(self, obj)
-                
-class Subsystem(BaseClass):
-    """
-    Abstract base class for all Subsystem adapter classes.
-    """
-    __metaclass__ = abc.ABCMeta
     
-    def __init__(self, obj, system, component, **properties):
-        BaseClass.__init__(self, obj, system)
+    def includeSubsystem(self, obj, sort):
+        """
+        Include subsystem.
         
-        obj.addProperty("App::PropertyBool","IsSeaSubsystem","Subsystem", "True if it is a valid SEA Subsystem").IsSeaSubsystem=True        
-        obj.setEditorMode("IsSeaSubsystem", 2)
+        :param obj: Feature object
+        :param sort: string representing type of subsystem, see :attr:`names`.
+        :param switch: Boolean
+        """
         
-        obj.addProperty("App::PropertyLink", "Component", "Subsystem", "Component this subsystem uses.")
-        
-        obj.addProperty("App::PropertyFloatList", "SoundspeedPhase", "Subsystem", "Phase speed of wave.")
-        obj.addProperty("App::PropertyFloatList", "SoundspeedGroup", "Subsystem", "Group speed of wave.")
-        
-        obj.addProperty("App::PropertyFloatList", "ModalDensity", "Subsystem", "Modal density.")
-        obj.addProperty("App::PropertyFloatList", "Wavenumber", "Subsystem", "Wave number.")
-        obj.addProperty("App::PropertyFloatList", "Mobility", "Subsystem", "Mobility.")
+        spectra = { 
+                    'Impedance' : 'Impedance.',
+                    'Resistance' : 'Resistance is the real part of the impedance.',
+                    'Mobility' : 'Mobility.',
+                    'ModalDensity' : 'Modal density represents the amount of modes per frequency band.',
+                    'FrequencySpacing' : 'Average frequency spacing in hertz.',
+                    'SoundspeedPhase' : 'Phase speed of the wave.',
+                    'SoundspeedGroup' : 'Group speed of the wave.',
+                    }
 
-        obj.Component = component
-
-    def onChanged(self, obj, prop):
-        BaseClass.onChanged(self, obj, prop)
+        names = { 'bend' : 'Wave - Bending',
+                'long' : 'Wave - Longitudinal',
+                'shear' : 'Wave - Shear',
+                }
         
-        if prop == 'Component':
-            if obj.Component == None:
-                self.model.component = None
-            else:
-                self.model.component = obj.Component.Proxy.model
+        if sort in names.keys():
+            for name, description in spectra.iteritems():
+                obj.addProperty("App::PropertyFloatList", sort.capitalize() + name, names[sort], description)
+
                     
-
-    def execute(self, obj):
-        BaseClass.execute(self, obj)
+    #def enableSubsystem(self, obj, sort, switch):
+        #"""
+        #Enable subsystem.
         
-        #obj.SoundspeedPhase = self.model.soundspeed_phase
-        #obj.SoundspeedGroup = self.model.soundspeed_group
+        #:param obj: Feature object
+        #:param sort: string representing type of subsystem, see :attr:`names`.
+        #:param switch: Boolean
+        #"""
         
-        pass
-   
+        #spectra = { 
+                    #'Impedance' : 'Impedance.',
+                    #'Resistance' : 'Resistance is the real part of the impedance.',
+                    #'Mobility' : 'Mobility.',
+                    #'ModalDensity' : 'Modal density represents the amount of modes per frequency band.',
+                    #'FrequencySpacing' : 'Average frequency spacing in hertz.',
+                    #'SoundspeedPhase' : 'Phase speed of the wave.',
+                    #'SoundspeedGroup' : 'Group speed of the wave.',
+                    #}
 
-class SubsystemStructural(Subsystem):
-    """
-    Abstract base class for all structural subsystem adapter classes.
-    """
-    __metaclass__ = abc.ABCMeta
-    
-    def __init__(self, obj, system, component, **properties):
-        Subsystem.__init__(self, obj, system, component, **properties)
+        #names = { 'bend' : 'Wave - Bending',
+                #'long' : 'Wave - Longitudinal',
+                #'shear' : 'Wave - Shear',
+                #}
+        
+        #if sort in names.keys():
+            #if switch:
+                #for name, description in spectra.iteritems():
+                    #obj.addProperty("App::PropertyFloatList", sort.capitalize() + name, names[sort], description)
+            #else:
+                #for name in spectra.iterkeys():
+                    #obj.removeProperty(sort.capitalize() + name)
 
-    def onChanged(self, obj, prop):
-        Subsystem.onChanged(self, obj, prop)
+
        
-
-    def execute(self, obj):
-        Subsystem.execute(obj)
-
-class SubsystemLong(SubsystemStructural):
+class ComponentStructural(Component):
     """
-    Abstract base class for all structural longitudinal wave subsystem adapter classes.
+    Abstract base class for all structural component adapter classes.
     """
     __metaclass__ = abc.ABCMeta
     
-    def __init__(self, obj, system, component, **properties):
-        SubsystemStructural.__init__(self, obj, system, component, **properties)
-
-    def onChanged(self, obj, prop):
-        SubsystemStructural.onChanged(self, obj, prop)
-       
-
+    availableSubsystems = ['long', 'bend', 'shear']
+    
+    def __init__(self, obj, system, material, part):
+        Component.__init__(self, obj, system, material, part)
+        obj.addProperty("App::PropertyFloat", "BendingStiffness", "Component", "Bending stiffness of the Component")
+        
+        for sort in self.availableSubsystems:
+            self.includeSubsystem(obj, sort)
+        
+        obj.EnableLong = True
+        obj.EnableBend = True
+        obj.EnableShear = True
+    
+    
     def execute(self, obj):
-        SubsystemStructural.execute(obj)
+        Component.execute(self, obj)
+        
+        for sort in self.availableSubsystems:
+            setattr(obj, sort.capitalize() + 'Impedance', getattr(getattr(self, 'subsystem_' + sort), 'impedance'))
+            setattr(obj, sort.capitalize() + 'Resistance', getattr(getattr(self, 'subsystem_' + sort), 'resistance'))
+            setattr(obj, sort.capitalize() + 'Mobility', getattr(getattr(self, 'subsystem_' + sort), 'mobility'))
+            setattr(obj, sort.capitalize() + 'ModalDensity', getattr(getattr(self, 'subsystem_' + sort), 'modal_density'))
+            setattr(obj, sort.capitalize() + 'FrequencySpacing', getattr(getattr(self, 'subsystem_' + sort), 'average_frequency_spacing'))
+            setattr(obj, sort.capitalize() + 'SoundspeedPhase', getattr(getattr(self, 'subsystem_' + sort), 'soundspeed_phase'))
+            setattr(obj, sort.capitalize() + 'SoundspeedGroup', getattr(getattr(self, 'subsystem_' + sort), 'soundspeed_group'))
 
-class SubsystemBend(SubsystemStructural):
+class ComponentCavity(Component):
     """
-    Abstract base class for all structural bending wave subsystem adapter classes.
+    Abstract base class for all cavity component adapter classes.
     """
     __metaclass__ = abc.ABCMeta
     
-    def __init__(self, obj, system, component, **properties):
-        SubsystemStructural.__init__(self, obj, system, component, **properties)
-
-    def onChanged(self, obj, prop):
-        SubsystemStructural.onChanged(self, obj, prop)
-       
-
-    def execute(self, obj):
-        SubsystemStructural.execute(obj)
+    def __init__(self, obj, system, material, part):
+        Component.__init__(self, obj, system, material, part)
         
+        self.includeSubsystem(obj, 'long')
+        obj.EnableLong = True
         
-class SubsystemShear(SubsystemStructural):
-    """
-    Abstract base class for all structural shear wave subsystem adapter classes.
-    """
-    __metaclass__ = abc.ABCMeta
-    
-    def __init__(self, obj, system, component, **properties):
-        SubsystemStructural.__init__(self, obj, system, component, **properties)
-
-    def onChanged(self, obj, prop):
-        SubsystemStructural.onChanged(self, obj, prop)
-       
-
-    def execute(self, obj):
-        SubsystemStructural.execute(obj)
-        
-        
-class SubsystemCavity(Subsystem):
-    """
-    Abstract base class for all Subsystem adapter classes.
-    """
-    __metaclass__ = abc.ABCMeta
-    
-    def __init__(self, obj, system, component, **properties):
-        Subsystem.__init__(self, obj, system, component, **properties)
-
-        obj.addProperty("App::PropertyFloatList", "Soundspeed", "Subsystem", "Sound speed of wave.")
-
-    def onChanged(self, obj, prop):
-        Subsystem.onChanged(self, obj, prop)
-        
-        if prop == 'Component':
-            if obj.Component == None:
-                self.model.component = None
-            else:
-                self.model.component = obj.Component.Proxy.model
-        
-        if prop == 'Soundspeed' or 'SoundspeedGroup' or 'SoundspeedPhase':
-            self.model.soundspeed = getattr(obj, prop)
-            
-    def execute(self, obj):
-        Subsystem.execute(self, obj, prop)
-    
 class Material(BaseClass):
     """
     Abstract base class for all Material adapter classes.
@@ -356,10 +373,15 @@ class Coupling(BaseClass):
         obj.addProperty("App::PropertyBool","IsSeaCoupling","Coupling", "True if it is a valid SEA Coupling").IsSeaCoupling=True        
         obj.setEditorMode("IsSeaCoupling", 2)
         
-        obj.addProperty("App::PropertyLink", "SubsystemFrom", "Subsystem", "Subsystem the coupling begins.")
-        obj.addProperty("App::PropertyLink", "SubsystemTo", "Subsystem", "Subsystem the coupling ends.")
-        obj.SubsystemFrom = subsystem_from
-        obj.SubsystemTo = subsystem_to
+        
+        obj.addProperty("App::PropertyLink", "Components", "Coupling", "Components that are connected via this coupling.")
+        
+        obj.addProperty("App::PropertyLink", "Subsystems", "Coupling", "Components that are connected via this coupling.")
+        
+        #obj.addProperty("App::PropertyLink", "SubsystemFrom", "Subsystem", "Subsystem the coupling begins.")
+        #obj.addProperty("App::PropertyLink", "SubsystemTo", "Subsystem", "Subsystem the coupling ends.")
+        #obj.SubsystemFrom = subsystem_from
+        #obj.SubsystemTo = subsystem_to
 
     def onChanged(self, obj, prop):
         BaseClass.onChanged(self, obj, prop)

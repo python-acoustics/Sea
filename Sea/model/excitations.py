@@ -22,9 +22,3 @@ class ExcitationRain(Excitation):
     """
     pass
         
-
-excitations_map = {
-    'point' : ExcitationPoint,
-    'rain' : ExcitationRain,
-} 
-

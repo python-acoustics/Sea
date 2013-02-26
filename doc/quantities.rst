@@ -11,7 +11,7 @@ Quantities
 The following is a list of all physical quantities relevant to SEA.
 
 .. _quantities_general:
-
+==================
 General quantities
 ==================
 
@@ -36,17 +36,38 @@ General quantities
             Group speed :math:`c_{group}` 
 
 
+        
+        
+.. _quantities_mechanical:
+=====================
+Mechanical quantities
+=====================
+
+.. glossary::
+
+
     aera moment of inertia
     second moment of inertia
         Area moment of area, also known as 'second moment of inertia, 'moment of inertia of plane area, or 'second area moment', 
         is a geometrical property of an area which reflects how its points are distributed with regards to an arbitrary axis.
         It has unit (m^4).
 
+        
+    torsional moment of rigidity
+        The torsional moment of rigidity `J`
+
+        
+    radius of gyration
+        Radius of gyration :math:`\kappa` or gyradius is the name of several related measures of the size of an object, a surface, 
+        or an ensemble of points. It is calculated as the root mean square distance of the objects' parts from either its center of gravity or a given axis.
+        See http://en.wikipedia.org/wiki/Radius_of_gyration
+
+
 
 .. _quantities_energy:
-
+=================
 Energy quantities
-==================
+=================
 
 .. glossary::
 
@@ -55,14 +76,16 @@ Energy quantities
 
 
     velocity level
-        The velocity level :math:`L_v` 
+        The velocity level :math:`L_v` is given by
+        
+        .. math:: L_v = 20 \log_{10}{\frac{v}{v_0}}
 
-
+        where :math:`v_0` is a reference velocity.
+        
     mobility
-        The mobility `Y`
+        The mobility `Y` describes how easily a body moves when subject to a force.
             
-
-    mnergy
+    energy
         The energy `E`
 
     power dissipation
@@ -75,7 +98,7 @@ Energy quantities
 
     
 .. _quantities_modal:
-
+================
 Modal quantities
 ================
 
@@ -103,6 +126,8 @@ Modal quantities
             
             n = \frac{dN}{d \omega}
 
+        Modal densities in FreeCAD-SEA are as function of :math:`\omega`, so :math:`n(\omega)`
+        
     modal overlap
         The modal overlap `M` describes the overlap of modes and thus dissipation.
         
@@ -117,12 +142,13 @@ Modal quantities
         .. math::
         
             e = \frac{E}{\frac{dN}{d \omega}} = \frac{E}{N}
+            
+            
    
 
 
-
 .. _quantities_material:
-
+===================
 Material quantities
 ===================
         

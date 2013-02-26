@@ -14,7 +14,7 @@ class MaterialSolid(baseclasses.Material):
     name = 'Solid'
     description = 'A material in solid state.'
     
-    model = Sea.model.MaterialSolid()
+    model = Sea.model.materials.MaterialSolid()
     
     def __init__(self, obj, system, **properties):
         baseclasses.Material.__init__(self, obj, system, **properties)

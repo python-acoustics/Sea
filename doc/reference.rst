@@ -6,7 +6,7 @@ Reference
 .. toctree::
     :maxdepth: 2
     
-This section is a reference of all available classes and functions in Sea.
+This section is a reference of all available classes and functions in FreeCAD-SEA.
 
 
 Gui
@@ -68,21 +68,6 @@ Base classes
    :show-inheritance:
    :members:
 
-Components   
-----------
-.. inheritance-diagram:: Sea.model.components
-.. automodule:: Sea.model.components
-   :show-inheritance:
-   :members:
-
-  
-Subsystems
-----------
-.. inheritance-diagram:: Sea.model.subsystems
-.. automodule:: Sea.model.subsystems
-   :show-inheritance:
-   :members:
-
 
 Couplings
 ---------
@@ -106,7 +91,27 @@ Materials
 .. automodule:: Sea.model.materials
    :show-inheritance:
    :members:
+
+Components   
+----------
+.. inheritance-diagram:: Sea.model.components
+.. automodule:: Sea.model.components
+   :show-inheritance:
+   :members:
    
+Beam 
+^^^^
+.. inheritance-diagram:: Sea.model.components.structural_1D_beam
+.. automodule:: Sea.model.components.structural_1D_beam
+   :show-inheritance:
+   :members: Component1DBeam, SubsystemLong, SubsystemBend, SubsystemShear
+   
+Plate
+^^^^^
+.. inheritance-diagram:: Sea.model.components.structural_2D_plate
+.. automodule:: Sea.model.components.structural_2D_plate
+   :show-inheritance:
+   :members: Component2DPlate, SubsystemLong, SubsystemBend, SubsystemShear
    
 Adapter
 ========
@@ -131,21 +136,6 @@ Base classes
    :show-inheritance:
    :members:
 
-Components   
-----------
-.. inheritance-diagram:: Sea.adapter.components
-.. automodule:: Sea.adapter.components
-   :show-inheritance:
-   :members:
-
-  
-Subsystems
-----------
-.. inheritance-diagram:: Sea.adapter.subsystems
-.. automodule:: Sea.adapter.subsystems
-   :show-inheritance:
-   :members:
-
 Couplings
 ---------
 .. inheritance-diagram:: Sea.adapter.couplings
@@ -165,6 +155,27 @@ Excitations
 -----------
 .. inheritance-diagram:: Sea.adapter.materials
 .. automodule:: Sea.adapter.materials
+   :show-inheritance:
+   :members: 
+   
+Components   
+----------
+.. inheritance-diagram:: Sea.adapter.components
+.. automodule:: Sea.adapter.components
+   :show-inheritance:
+   :members:
+   
+Beam
+^^^^^^^^^^^^^^
+.. inheritance-diagram:: Sea.adapter.components.structural_1D_beam
+.. automodule:: Sea.adapter.components.structural_1D_beam
+   :show-inheritance:
+   :members: 
+   
+Plate
+^^^^^^^^^^^^^^
+.. inheritance-diagram:: Sea.adapter.components.structural_2D_plate
+.. automodule:: Sea.adapter.components.structural_2D_plate
    :show-inheritance:
    :members: 
    

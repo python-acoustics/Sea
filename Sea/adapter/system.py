@@ -14,7 +14,7 @@ class System(object):
     A class that contains the SEA model
     """
     
-    model = Sea.model.System()
+    model = Sea.model.system.System()
     
     def __init__(self, obj):
         """

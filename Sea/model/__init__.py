@@ -10,9 +10,16 @@ The :class:`Sea.model.system.System` class contains methods for solving the SEA 
 
 """
 
-from system import *
-from components import *
-from subsystems import *
-from couplings import *
-from excitations import *
-from materials import *
+
+import system
+import components
+import couplings
+import excitations
+import materials
+
+#from system import *
+#from components import *
+#from subsystems import *
+#from couplings import *
+#from excitations import *
+#from materials import *
