@@ -1,9 +1,7 @@
 """
 This module contains abstract base classes from which all components, subsystems, couplings and excitations are ultimately derived of.
 The properties these items have in common can be found in these abstract classes.
-
 """
-
 
 import math
 import cmath
@@ -11,7 +9,6 @@ import numpy as np
 
 import warnings # Handling of warnings
 import abc      # Abstract base classes
-import weakref  # Weak references to objects
 import logging  # Add logging functionality
 
 class BaseClass(object):
@@ -22,8 +19,7 @@ class BaseClass(object):
     """
     System of which this object is part.
     """
-    
-    
+
     frequency = None
     
     @property
@@ -49,7 +45,6 @@ class Component(BaseClass):
     Material which this component consists of.
     """
     
-    
     volume = None
     """
     Volume :math:`V` of the component.
@@ -72,28 +67,6 @@ class Component(BaseClass):
     .. math:: m = \\rho V 
     
     """   
-    
-    _bending_stiffness = None
-    
-    def _get_bending_stiffness(self):
-        if self._bending_stiffness is not None:
-            return self._bending_stiffness 
-        else: 
-            return self.material.young * self.area_moment_of_inertia
-    
-    def _del_bending_stiffness(self):
-        self._bending_stiffness = None
-    
-    def _set_bending_stiffness(self, x):
-        self._bending_stiffness = float(x)
-    
-    bending_stiffness = property(fget=_get_bending_stiffness, fset=_set_bending_stiffness, fdel=_del_bending_stiffness)
-    """
-    Bending stiffness :math:`B` is the Young's modulus :math:`E` multiplied with the area moment of inertia :math:`J`.
-    
-    .. math:: B = E J
-    """
-    
     
     @property
     def velocity(self):
@@ -119,6 +92,20 @@ class Component(BaseClass):
         
         
         
+class ComponentStructural(Component):
+    """
+    Abstract base class for structural components.
+    """
+    availableSubsystems = ['long', 'bend', 'shear']
+    
+
+class ComponentCavity(Component):
+    """
+    Abstract base class for fluid components.
+    """
+    
+    availableSubsystems = ['long']
+        
 class Subsystem(BaseClass):
     """Abstract Base Class for subsystems."""
     __metaclass__ = abc.ABCMeta
@@ -138,11 +125,20 @@ class Subsystem(BaseClass):
     List of excitations this subsystem experiences.
     """
 
-    component = None     
-    """
-    Component this subsystem uses.
-    """        
+
+    def __init__(self, component):
+        """
+        Constructor
         
+        :param component: Component this object belongs to.
+        """
+        
+        
+        self.component = component
+        """
+        Component this subsystem uses.
+        """        
+    
     def _set_modal_energy(self, x):
         if len(x) == len(self.omega):
             self._modal_energy = np.array(x)
@@ -159,6 +155,24 @@ class Subsystem(BaseClass):
     Modal energies of each frequency band.
     """
     
+    def _set_modal_overlap_factor(self, x):
+        self._modal_overlap_factor = x
+    
+    def _get_modal_overlap_factor(self):
+        if not self._modal_overlap_factor:
+            return self.component.material.loss_factor
+        else:
+            self._modal_overlap_factor
+    
+    _modal_overlap_factor = None
+    modal_overlap_factor = property(fget=_get_modal_overlap_factor, fset=_set_modal_overlap_factor)
+    """
+    Modal overlap factor. Initial value is based on damping loss factor of subsystem.
+    After solving the system a first time, this value is updated to its results.
+    This value is iteratively updated.
+    """
+    
+    
     @abc.abstractproperty                      
     def soundspeed_phase(self):
         """
@@ -174,25 +188,79 @@ class Subsystem(BaseClass):
         return
         
     @abc.abstractproperty
-    def modal_density(self):
-        """
-        Modal density of the subsystem.
-        """
-        return
-
-    @abc.abstractproperty                      
-    def wavenumber(self):
-        """
-        Wave number.
+    def average_frequency_spacing(self):
+        """"
+        Average frequency spacing.
         """
         return
     
-    @abc.abstractproperty
-    def mobility(self):
+    @property            
+    def modal_density(self):
         """
-        Acoustic mobility :math:`Y`.
+        Modal density.
+       
+        .. math:: n(\\omega) = \\frac{1}{2 \\pi \\overline{\\delta f}}
+        
+        See Lyon, eq. 8.1.6
+        """
+        return 1.0 / (2.0 * np.pi * self.average_frequency_spacing)
+
+    #@abc.abstractproperty                      
+    #def wavenumber(self):
+        #"""
+        #Wave number.
+        #"""
+        #return
+    
+    #@abc.abstractproperty
+    @property
+    def impedance(self):
+        """
+        Impedance `Z`
         """
         return
+        
+    
+    @property
+    def resistance(self):
+        """
+        Resistance `R`, the real part of the impedance `Z`.
+        
+        .. math:: R = \\Re{Z}
+        """
+        return np.real(self.impedance)
+    
+    @property
+    def mobility(self):
+        """
+        Mobility `Y`
+        
+        .. math:: Y = \\frac{1}{Z}
+        """
+        return 1.0 / self.impedance
+    
+    @property
+    def damping_term(self):
+        """
+        The damping term is the ratio of the modal half-power bandwidth to the average modal frequency spacing.
+        
+        .. math:: \\beta_{ii} = \\frac{f \\eta_{loss} }{\\overline{\\delta f}}
+        
+        See Lyon, above equation 12.1.4
+        """
+        return self.frequency * self.component.loss_factor / self.average_frequency_spacing
+    
+    @property
+    def modal_overlap_factor(self):
+        """
+        Modal overlap factor.
+        
+        .. math:: M = \\frac{ \\pi \\beta_{ii} }{2}
+        
+        See Lyon, above equation 12.1.4
+        """
+        return np.pi * self.damping_term / 2.0
+    
     
     @property
     def input_power(self):
@@ -239,102 +307,6 @@ class SubsystemStructural(Subsystem):
     """
     __metaclass__ = abc.ABCMeta  
     pass
-
-
-        
-        
-class SubsystemLong(SubsystemStructural):
-    """
-    Abstract base class for longitudinal waves in a structural component.
-    """
-    @property
-    def soundspeed_phase(self):
-        """
-        Phase velocity for longitudinal wave.
-        
-        .. math:: c_{phase} = \\frac{B}{\\rho}
-        """
-        return self.component.bending_stiffness / self.component.material.density
-
-    @property
-    def soundspeed_group(self):
-        """
-        Group velocity for longitudinal wave.
-        
-        .. math:: c_{group} = c_{phase}
-        """
-        return self.soundspeed_phase
-    
-    @property
-    def wavenumber(self):
-        """
-        Wave number for longitudinal wave.
-        """
-        return np.sqrt(self.component.density * np.power(self.omega,2) * (1-np.power(self.material.poisson,2)) / (self.component.young * self.component.height))
-    
-    @property
-    def mobility(self):
-        """
-        Mobility.
-        """
-        return self.component.mobility_long()
-        
-        
-class SubsystemBend(SubsystemStructural):
-    """
-    Abstract base class for bending waves in a structural component.
-    """
-    @property
-    def soundspeed_phase(self):
-        """
-        Phase velocity for bending wave.
-        """
-        return np.power((np.power(self.omega,2)*self.component.bending_stiffness/self.component.mass_per_area()),0.25)
-                
-    @property
-    def soundspeed_group(self):
-        """
-        Group velocity for bending wave.
-        
-        .. math:: c_{group} = 2 c_{phase}
-        
-        """
-        return 2.0 * self.soundspeed_phase()
-    
-    @property
-    def wavenumber(self):
-        """
-        Wavenumber of bending wave.
-        """
-        return np.power((self.component.material.density * np.power(self.omega,2) / self.component.bending_stiffness),0.25)
-       
-    @property
-    def mobility(self):
-        """
-        Mobility.
-        """
-        return self.component.mobility_bend
-        
-    
-class SubsystemShear(SubsystemStructural):
-    """
-    Abstract base class for shear waves in a structural component.
-    """
-    @property
-    def wavenumber(self):
-        """
-        Wave number of shear wave.
-        """
-        return np.sqrt(2.0*self.component.material.density * np.power(self.omega,2) * (1+np.power(poisson,2)) / (self.component.E * self.component.h))
-    
-    @property
-    def mobility(self):
-        """
-        Mobility.
-        """
-        return self.component.mobility_shear
-
-    
     
 class SubsystemCavity(Subsystem): 
     """
@@ -342,56 +314,125 @@ class SubsystemCavity(Subsystem):
     """
     __metaclass__ = abc.ABCMeta  
     
-    soundspeed = None
-    """
-    Sound speed for longitudinal waves in a fluid.
-    
-    .. math:: c = c_{group} = c_{phase}
-    
-    """
-    
     @property
     def soundspeed_group(self):
         """
-        Group velocity for bending wave.
-        
-        .. math:: c = c_{group} = c_{phase}
-        
+        Group speed of a fluid in a duct with rigid walls.
         """
-        return self.soundspeed
+        return self.soundspeed_phase
     
     @property
-    def soundspeed_group(self):
+    def soundspeed_phase(self):
         """
-        Group velocity for bending wave.
+        Phase speed of a fluid in a duct with rigid walls.
         
-        .. math:: c = c_{group} = c_{phase}
+        .. math:: c_0 = c_g = c_{\\phi} = \\sqrt{\\frac{K_0}{\\rho_0}}
         
+        See Lyon, above eq 8.1.9.
         """
-        return self.soundspeed
+        return np.sqrt(self.component.material.bulk_modulus / self.component.material.density)
+
         
+        
+
 class Coupling(BaseClass):
-    """Abstract Base Class for couplings."""
+    """
+    Abstract base class for couplings.
+    """
     __metaclass__ = abc.ABCMeta
     
-
-    subsystem_from = None
+    
+    connection = None
     """
-    Subsystem origin for coupling
-    """
-        
-    subsystem_to = None
-    """
-    Subsystem destination for coupling
+    Connection this coupling is part of.
     """
     
-    @abc.abstractproperty     
+    
+    component_from = None
+    """
+    Component
+    """
+    component_to = None
+    """
+    Component
+    """
+    subsystem_from = None
+    """
+    Type of subsystem origin for coupling
+    """
+    subsystem_to = None
+    """
+    Type of subsystem destination for coupling
+    """
+    
+    size = None
+    """
+    Size of the coupling.
+    """
+    
+    @abc.abstractproperty
+    def impedance_from(self):
+        """
+        Impedance of :attr:`subsystem_from` corrected for the type of coupling.
+        """
+        return
+    
+    @abc.abstractproperty
+    def impedance_to(self):
+        """
+        Impedance of :attr:`subsystem_to` corrected for the type of coupling.
+        """
+        return
+     
+    @abc.abstractproperty
     def clf(self):
         """
-        Coupling loss factor.
+        Coupling loss factor `\\eta`.
         """
-        return   
+        return
+        
+    @property
+    def mobility_from(self):
+        """
+        Mobility of :attr:`subsystem_from` corrected for the type of coupling.
+        """
+        return 1.0 / self.impedance_from
+        
+    @property
+    def mobility_to(self):
+        """
+        Mobility of :attr:`subsystem_to` corrected for the type of coupling.
+        """
+        return 1.0 / self.impedance_to
+    
+    @property
+    def resistance_from(self):
+        """
+        Resistance of :attr:`subsystem_from` corrected for the type of coupling.
+        """
+        return np.real(self.impedance_from)
+    
+    @property
+    def resistance_to(self):
+        """
+        Resistance of :attr:`subsystem_to` corrected for the type of coupling.
+        """
+        return np.real(self.impedance_to)
+    
+    
+    @property
+    def modal_coupling_factor(self):
+        """
+        Modal coupling factor of the coupling.
+        
+        .. math:: \\beta_{ij} = \\frac{ f * \\eta_{ij} } { \\overline{\\delta f_i} }
+        
+        See Lyon, above equation 12.1.4
+        """
+        return self.frequency * self.clf / self.subsystem_from.average_frequency_spacing
+        
 
+        
 class Excitation(BaseClass):
     """Abstract Base Class for excitations."""
     __metaclass__ = abc.ABCMeta

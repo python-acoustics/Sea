@@ -19,7 +19,7 @@ created graphically, via the Python console or by writing Python scripts.
 ===============
 Install and run
 ===============
-* Install FreeCAD-SEA
+* Install FreeCAD
 * Copy source of FreeCAD-SEA to Mod folder of FreeCAD
 * Run FreeCAD
 * View -> Workbench - SEA

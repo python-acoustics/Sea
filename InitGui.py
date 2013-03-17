@@ -41,7 +41,7 @@ class SeaWorkbench(Workbench):
         Gui.addLanguagePath(Paths.translationsPath())
 
 
-        items = ["Sea_AddSystem", "Sea_AddComponent", "Sea_AddSubsystem", "Sea_AddCoupling", "Sea_AddExcitation", "Sea_AddMaterial"]
+        items = ["Sea_AddSystem", "Sea_AddComponent", "Sea_AddCoupling", "Sea_AddExcitation", "Sea_AddMaterial"]
         self.appendToolbar(str(QtCore.QT_TRANSLATE_NOOP("Sea", "Add item")), items)
         self.appendMenu(str(QtCore.QT_TRANSLATE_NOOP("Sea", "Add item")), items)        
  

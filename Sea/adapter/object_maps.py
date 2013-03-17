@@ -3,11 +3,10 @@ The following dictionaries provide easy access to the objects described in this 
 """
 
 
-from components import *
-from subsystems import *
-from couplings import *
-from excitations import *
-from materials import *
+from components import components_map
+from couplings import couplings_map
+from excitations import excitations_map
+from materials import materials_map
 
 #from collections import namedtuple
 
@@ -42,7 +41,6 @@ from materials import *
     
 objects_map = {
     'component' : components_map,
-    'subsystem' : subsystems_map,
     'coupling' : couplings_map,
     'excitation' : excitations_map,
     'material' : materials_map,

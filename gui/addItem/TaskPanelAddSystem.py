@@ -16,19 +16,27 @@ class TaskPanelAddSystem(object):
     def __init__(self):
         self.ui = os.path.join(Paths.uiPath(), 'AddSystem.ui')
 
+    
+    def getObjectFromList(self, lst):
+        if lst.currentItem():
+            item = str(lst.currentItem().text())
+            if not App.ActiveDocument:
+                App.newDocument()
+            return App.ActiveDocument.getObject(item)
+        else:
+            return None
         
     def accept(self):
         
         build = self.form.build.isChecked()
-        
-        if not App.ActiveDocument:
-            App.newDocument()
-        document = App.ActiveDocument
+        part = self.getObjectFromList(self.form.part_list)
         
         if build:
-            Sea.actions.create_system_from_document(document)
+            App.Console.PrintMessage("Creating new SEA System.\n")
+            Sea.actions.document.create_system_from_structure(part)
         else:
-            Sea.actions.create_empty_system(document)
+            App.Console.PrintMessage("Creating new SEA System from geometry.\n")
+            Sea.actions.document.create_empty_system(part)
             
         return True
 
@@ -61,7 +69,14 @@ class TaskPanelAddSystem(object):
         form = mw.findChild(QtGui.QWidget, "TaskPanel")
         #form.title
         
+        form.part_list = form.findChild(QtGui.QListWidget, "partList")
         form.build = form.findChild(QtGui.QCheckBox, 'buildSystem')
+        
+        for item in App.ActiveDocument.Objects:
+            if item.isDerivedFrom('Part::MultiFuse'):
+                QtGui.QListWidgetItem(item.Name, form.part_list)
+           
+        
         
         #form.groupbox.setTitle('Add ' + self.sort)
         #form.setWindowTitle('Add ' + self.sort)

@@ -20,6 +20,9 @@ class AddSystem(object):
         return {'Pixmap' : 'AnalysisCreateIco', 'MenuText': MenuText, 'ToolTip': ToolTip} 
         
 class AddComponent(object): 
+    """
+    Open taskpanel in order to add an object from :mod:`Sea.adapter.components`.
+    """
     def Activated(self):
         import TaskPanelAddComponent
         TaskPanelAddComponent.load()
@@ -28,18 +31,11 @@ class AddComponent(object):
         MenuText = QtCore.QT_TRANSLATE_NOOP('Sea_AddComponent', 'Component')
         ToolTip  = QtCore.QT_TRANSLATE_NOOP('Sea_AddComponent', 'Add a new component.')
         return {'Pixmap' : 'AnalysisCreateIco', 'MenuText': MenuText, 'ToolTip': ToolTip} 
-        
-class AddSubsystem(object): 
-    def Activated(self):
-        import TaskPanelAddSubsystem
-        TaskPanelAddSubsystem.load()
-
-    def GetResources(self):
-        MenuText = QtCore.QT_TRANSLATE_NOOP('Sea_AddSubsystem', 'Subsystem')
-        ToolTip  = QtCore.QT_TRANSLATE_NOOP('Sea_AddSubsystem', 'Add a new subsystem.')
-        return {'Pixmap' : 'AnalysisCreateIco', 'MenuText': MenuText, 'ToolTip': ToolTip} 
-              
+                      
 class AddCoupling(object): 
+    """
+    Open taskpanel in order to add an object from :mod:`Sea.adapter.couplings`.
+    """
     def Activated(self):
         import TaskPanelAddCoupling
         TaskPanelAddCoupling.load()
@@ -49,7 +45,10 @@ class AddCoupling(object):
         ToolTip  = QtCore.QT_TRANSLATE_NOOP('Sea_AddCoupling', 'Add a new coupling.')
         return {'Pixmap' : 'AnalysisCreateIco', 'MenuText': MenuText, 'ToolTip': ToolTip} 
 
-class AddExcitation(object): 
+class AddExcitation(object):
+    """
+    Open taskpanel in order to add an object from :mod:`Sea.adapter.excitations`.
+    """
     def Activated(self):
         import TaskPanelAddExcitation
         TaskPanelAddExcitation.load()
@@ -59,7 +58,10 @@ class AddExcitation(object):
         ToolTip  = QtCore.QT_TRANSLATE_NOOP('Sea_AddExcitation', 'Add a new excitation.')
         return {'Pixmap' : 'AnalysisCreateIco', 'MenuText': MenuText, 'ToolTip': ToolTip}     
         
-class AddMaterial(object): 
+class AddMaterial(object):
+    """
+    Open taskpanel in order to add an object from :mod:`Sea.adapter.materials`.
+    """
     def Activated(self):
         import TaskPanelAddMaterial
         TaskPanelAddMaterial.load()
@@ -73,7 +75,6 @@ class AddMaterial(object):
       
 Gui.addCommand('Sea_AddSystem', AddSystem())  
 Gui.addCommand('Sea_AddComponent', AddComponent())
-Gui.addCommand('Sea_AddSubsystem', AddSubsystem())
 Gui.addCommand('Sea_AddCoupling', AddCoupling())
 Gui.addCommand('Sea_AddExcitation', AddExcitation())
 Gui.addCommand('Sea_AddMaterial', AddMaterial())
