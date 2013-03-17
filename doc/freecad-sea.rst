@@ -16,7 +16,6 @@ Overview
 An SEA model in FreeCAD-SEA is represented by the descendents of the following abstract objects
 
 * :class:`Sea.adapter.baseclasses.Component`
-* :class:`Sea.adapter.baseclasses.Subsystem`
 * :class:`Sea.adapter.baseclasses.Coupling`
 * :class:`Sea.adapter.baseclasses.Material`
 * :class:`Sea.adapter.baseclasses.Excitation`
@@ -25,10 +24,9 @@ as well as
 
 * :class:`Sea.adapter.system.System`
 
-
 Additionaly, :mod:`FreeCAD` objects containing a Shape (like :mod:`Part` classes) are used for the geometry.
 
-Each :mod:`Sea.adapter` class has a an attribute :attr:`model`, with which it refers to a :mod:`Sea.model` class of the same type.
+Each :mod:`Sea.adapter` class has an attribute :attr:`model`, with which it refers to a :mod:`Sea.model` class of the same type.
 
 .. blockdiag::
 

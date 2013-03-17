@@ -2,15 +2,19 @@
 Adapter classes for :class:`Sea.model.components.ComponentCavity2D`
 """
 
-class SubsystemCavity2D(baseclasses.SubsystemCavity):
+import Sea
+from .. import baseclasses
+
+class Component2DCavity(baseclasses.ComponentCavity):
     """
-    A subsystem describing a two-dimensional cavity.
+    3D cavity component.
     """
-    name = 'Cavity 2D'
-    description = 'A subsystem describing a two-dimensional cavity.'
     
-    model = Sea.model.SubsystemCavity2D
+    name = "Cavity 2D"
+    description = "A component describing a two-dimensional cavity."
     
-    def __init__(self, obj, system, component, **properties):
-        baseclasses.SubsystemCavity.__init__(self, obj, system, component, **properties)
+    model = Sea.model.components.Component2DCavity()
     
+    def __init__(self, obj, system, position):
+        baseclasses.ComponentCavity.__init__(self, obj, system, position)
+        

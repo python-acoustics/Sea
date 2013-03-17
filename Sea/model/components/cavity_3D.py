@@ -3,8 +3,6 @@ Classes describing a three-dimensional cavity.
 """
 
 import numpy as np
-#from ..baseclasses import ComponentCavity, SubsystemCavity
-
 from ..baseclasses import ComponentCavity, SubsystemCavity
 
 
@@ -37,7 +35,7 @@ class SubsystemLong(SubsystemCavity):
 
 
         
-class ComponentCavity3D(ComponentCavity):
+class Component3DCavity(ComponentCavity):
     """
     Component for a fluid in a 3D cavity.
     """

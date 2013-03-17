@@ -92,14 +92,10 @@ class TaskPanelComponent(object):
         
         if App.ActiveDocument:   
             for item in App.ActiveDocument.Objects:
-                if 'IsSeaSystem' in item.PropertiesList:
-                    if getattr(item, 'IsSeaSystem') == True:
-                        QtGui.QListWidgetItem(item.Name, form.system_list)
-                
-                elif 'IsSeaMaterial' in item.PropertiesList:
-                    if getattr(item, 'IsSeaMaterial') == True:
-                        QtGui.QListWidgetItem(item.Name, form.material_list)
-                
+                if Sea.actions.document.isSystem(item):
+                    QtGui.QListWidgetItem(item.Name, form.system_list)
+                elif Sea.actions.document.isMaterial(item):
+                    QtGui.QListWidgetItem(item.Name, form.material_list)
                 else:
                     QtGui.QListWidgetItem(item.Name, form.part_list)       
                     

@@ -10,6 +10,21 @@ class SubsystemLong(SubsystemStructural):
     """
     Subsystem for longitudinal waves in a 1D system.
     """
+    
+    @property
+    def wavenumber(self, N, delta):
+        """
+        Wavenumber in radians per unit length.
+        
+        :param N: mode
+        :param delta: boundary condition dependent constant
+        
+        .. math:: k = (N + \\delta_{BC} ) \\frac{\\pi}{L}
+        
+        See Lyon, equation 8.1.2
+        """
+        return (N + delta) * np.pi / self.component.length
+    
     @property
     def soundspeed_phase(self):
         """
@@ -40,16 +55,18 @@ class SubsystemLong(SubsystemStructural):
         return self.soundspeed_group / (2.0 * self.component.length)
         
     @property
-    def impedance(self):
+    def impedance_force_point_edge(self):
         """
-        Impedance for longitudinal waves in a bar.
+        Impedance for longitudinal waves in a bar when excited at a point by a force.
     
-        .. math:: Z_{L}^{1D} = 2 \\rho S c_L
+        .. math:: Z_{L}^{F, 1D} = 2 \\rho S c_L
         
         See Lyon, table 10.1, first row.
         """
         return 2.0 * self.component.material.density * self.component.cross_section * self.soundspeed_group
-        
+    
+
+    
 class SubsystemBend(SubsystemStructural):
     """
     Subsystem for bending waves in a 1D system.
@@ -87,9 +104,9 @@ class SubsystemBend(SubsystemStructural):
         return self.soundspeed_group / (self.component.length)
 
     @property
-    def impedance(self):
+    def impedance_force_point_center(self):
         """
-        Impedance for bending waves in a bar.
+        Impedance for bending waves in a thin beam excited far way from the edges.
         
         .. math:: Z_B^{F,1D} = 2 \\rho S c_{L, \\phi}^{1D} (1 + j)
         
@@ -97,7 +114,42 @@ class SubsystemBend(SubsystemStructural):
         """
         return 2.0 * self.component.material.density * self.component.cross_section * self.soundspeed_group * (1.0 + 1.0j)
 
- 
+    @property
+    def impedance_force_point_edge(self):
+        """
+        Impedance for bending waves in a thin beam excited on the side.
+        
+        .. math:: Z_B^{F,1D} = \\frac{1}{2} \\rho S c_{L, \\phi}^{1D} (1 + j)
+        
+        See Hynna, table 1, second equation.
+        """
+        return 0.5 * self.component.material.density * self.component.cross_section * self.soundspeed_group * (1.0 + 1.0j)
+
+    
+    @property
+    def impedance_moment_center(self):
+        """
+        Moment impedance for bending waves excited in the center of the beam.
+        
+        .. math:: W = 2 \\rho S c_B \\frac{(1-j)}{k_B^2}
+        
+        See Hynna, table 1.
+        """
+        return 2.0 * self.component.material.density * self.component.cross_section * self.soundspeed_group * (1.0 - 1.0j) / self.wavenumber**2.0
+        
+    
+    @property
+    def impedance_moment_edge(self):
+        """
+        Moment impedance for bending waves excited at the edge of the beam.
+        
+        .. math:: W = \\frac{1}{2} \\rho S c_B \\frac{(1-j)}{k_B^2} 
+        
+        See Hynna, table 1.
+        """
+        return 0.5 * self.component.material.density * self.component.cross_section * self.soundspeed_group * (1.0 - 1.0j) / self.wavenumber**2.0
+    
+    
 class SubsystemShear(SubsystemStructural):
     """
     Subsystem for shear waves in a 1D isotropic system.
@@ -107,7 +159,7 @@ class SubsystemShear(SubsystemStructural):
         """
         Phase velocity for shear wave.
         
-        .. math:: c_{T,group} = \\sqrt{\\frac{G J }{\\rho I_p}}
+        .. math:: c_{T,g}^{1D} = \\sqrt{\\frac{G J }{\\rho I_p}}
         """
         return np.sqrt(self.component.material.shear * self.component.torsional_rigidity / (self.component.material.density * self.component.area_moment_of_inertia))
 
@@ -116,7 +168,7 @@ class SubsystemShear(SubsystemStructural):
         """
         Group velocity for shear wave.
         
-        .. math:: c_{T,group} = c_{T,phase}
+        .. math:: c_{T,g}^{1D} = c_{T,\\phi}^{1D}
         
         """
         return self.soundspeed_phase
@@ -135,7 +187,7 @@ class SubsystemShear(SubsystemStructural):
         
     @property
     def impedance(self):
-        return
+        return 0.0
         
 class Component1DBeam(ComponentStructural):
     """
@@ -157,6 +209,7 @@ class Component1DBeam(ComponentStructural):
     """
     Height of the beam
     """
+    
     
     
     def __init__(self):

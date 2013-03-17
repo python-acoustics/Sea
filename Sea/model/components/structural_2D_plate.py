@@ -35,7 +35,7 @@ class SubsystemLong(SubsystemStructural):
     
     @property
     def average_frequency_spacing(self):
-        """"
+        """
         Average frequency spacing for a 2D isotropic plate.
         
         .. math:: \\overline{\delta f}_S^{2D} = \\frac{{c_L^1}^2}{\\omega A}
@@ -43,6 +43,28 @@ class SubsystemLong(SubsystemStructural):
         return  self.soundspeed_group**2.0 / (self.omega * self.A)
 
 
+    @property
+    def wavenumber(self, m, n, delta1, delta2):
+        """
+        Wavenumber for longitudinal waves in a plate.
+        
+        .. math:: k_L = \\sqrt{\\left[ \\left( m - \\delta_1 \\right) \\frac{\\pi}{L_1} \\right] + \\left[ \\left( n - \\delta_2 \\right) \\frac{\\pi}{L_2} \\right]}
+       
+        See Lyon, equation 8.2.1.
+        """
+        return np.sqrt( ( ( m - delta1) * np.pi / self.component.length) + ( ( m - delta2) * np.pi / self.component.width) )
+        
+        
+    #@property
+    #def wavenumber(self):
+        #"""
+        #Wavenumber of longitudinal waves in a plate.
+        
+        #.. math:: k_L = \\frac{ \\rho \\omega \\left( 1 - \\nu \\right) }{E h}
+        
+        #Langley and Heron, 1990, eq 24.
+        #"""
+        #return self.component.material.density * self.omega * (1.0 - self.component.material.poisson) / (self.component.material.young * self.component.thickness)
         
         
 class SubsystemBend(SubsystemStructural):
@@ -83,6 +105,30 @@ class SubsystemBend(SubsystemStructural):
         """
         return 2.0 * self.component.radius_of_gyration * self.soundspeed_group_long / self.component.area
     
+    @property
+    def wavenumber(self):
+        """
+        Wavenumber of flexural waves in a plate.
+        
+        
+        .. math:: k_B = \\sqrt[4]{ \\frac{ \\rho \\omega }{D}} 
+        
+        
+        See Langley and Heron, 1990, eq 18.
+        """
+        return np.power(self.component.material.density * self.omega / self.flexural_rigidity, 0.25)
+    
+    @property
+    def flexural_rigidity(self):
+        """
+        Flexural rigidity of a plate.
+        
+        .. math:: D = \\frac{t^3}{12 \\left( 1 - \\nu^2 \\right)}
+        
+        
+        """
+        return self.thickness**3.0 / (12.0 * (1.0 - self.poisson()**2.0))
+     
 class SubsystemShear(SubsystemStructural):
     """
     Subsystem for shear waves in a 2D isotopic component.
@@ -112,7 +158,7 @@ class SubsystemShear(SubsystemStructural):
 
     @property
     def average_frequency_spacing(self):
-        """"
+        """
         Average frequency spacing for shear waves in a 2D isotropic plate.
         
         .. math:: \\overline{\\delta f}_S^{2D} = \\frac{c_S^2}{\\omega A}
@@ -121,6 +167,19 @@ class SubsystemShear(SubsystemStructural):
         """
         return self.soundspeed_group**2.0 / (self.omega * self.component.area)
    
+    
+    @property
+    def wavenumber(self):
+        """
+        Wavenumber of shear waves.
+        
+        .. math:: k_S = \\frac{2 \\rho \\omega \\left( 1 + \\nu  \\right) }{E h}
+        
+        Langley and Heron, 1990, eq 25
+        """
+        return self.component.material.density * self.omega * (1.0 + self.component.material.poisson) / (self.component.material.young * self.component.thickness) 
+        
+    
    
 class Component2DPlate(ComponentStructural):
     """
@@ -166,9 +225,14 @@ class Component2DPlate(ComponentStructural):
         """
         Area moment of inertia.
         
+        .. math:: J = \\frac{t^3}{12}
+        
+        
+        Following equation includes resistance to deflection and is thus part of the bending wave subsystem:
         .. math:: J = \\frac{t^3}{12 \\left( 1 - \\nu^2 \\right)}
         """
-        return self.thickness**3.0 / (12.0 * (1.0 - self.poisson()**2.0))
+        return self.thickness**3.0 / 12.0
+        #return self.thickness**3.0 / (12.0 * (1.0 - self.poisson()**2.0))
  
 
 

@@ -1,4 +1,10 @@
+"""
+A module with actions related to :mod:`Sea.adapter` instances.
+"""
 
+import factory
 
-from actions import *
-from factory import *
+import document
+import system
+import component
+import connection

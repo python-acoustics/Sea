@@ -3,11 +3,22 @@
 Tutorial
 ########
 
-Now follow several examples.
+Creating an SEA model
+*********************
+In FreeCAD-SEA an SEA model can be made by taking the following steps:
+
+* Create a geometry in the Part workbench.
+* Merge the geometry into a single Fusion using Usion.
+* Switch to the SEA workbench
+* Add an SEA system and optionally build the system from the geometry.
+
+
 
 
 Examples
 *********
+
+Now follow several examples.
 
 Beams
 ======

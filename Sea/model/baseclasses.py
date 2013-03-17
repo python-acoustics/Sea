@@ -96,34 +96,15 @@ class ComponentStructural(Component):
     """
     Abstract base class for structural components.
     """
+    availableSubsystems = ['long', 'bend', 'shear']
     
-    
-    _bending_stiffness = None
-    
-    def _get_bending_stiffness(self):
-        if self._bending_stiffness is not None:
-            return self._bending_stiffness 
-        else: 
-            return self.material.young * self.area_moment_of_inertia
-    
-    def _del_bending_stiffness(self):
-        self._bending_stiffness = None
-    
-    def _set_bending_stiffness(self, x):
-        self._bending_stiffness = float(x)
-    
-    bending_stiffness = property(fget=_get_bending_stiffness, fset=_set_bending_stiffness, fdel=_del_bending_stiffness)
-    """
-    Bending stiffness :math:`B` is the Young's modulus :math:`E` multiplied with the area moment of inertia :math:`J`.
-    
-    .. math:: B = E J
-    """
 
 class ComponentCavity(Component):
     """
     Abstract base class for fluid components.
     """
-    pass
+    
+    availableSubsystems = ['long']
         
 class Subsystem(BaseClass):
     """Abstract Base Class for subsystems."""
@@ -173,6 +154,24 @@ class Subsystem(BaseClass):
     """
     Modal energies of each frequency band.
     """
+    
+    def _set_modal_overlap_factor(self, x):
+        self._modal_overlap_factor = x
+    
+    def _get_modal_overlap_factor(self):
+        if not self._modal_overlap_factor:
+            return self.component.material.loss_factor
+        else:
+            self._modal_overlap_factor
+    
+    _modal_overlap_factor = None
+    modal_overlap_factor = property(fget=_get_modal_overlap_factor, fset=_set_modal_overlap_factor)
+    """
+    Modal overlap factor. Initial value is based on damping loss factor of subsystem.
+    After solving the system a first time, this value is updated to its results.
+    This value is iteratively updated.
+    """
+    
     
     @abc.abstractproperty                      
     def soundspeed_phase(self):
@@ -225,7 +224,9 @@ class Subsystem(BaseClass):
     @property
     def resistance(self):
         """
-        Resistance `R`, the real part of the impedance `Z`
+        Resistance `R`, the real part of the impedance `Z`.
+        
+        .. math:: R = \\Re{Z}
         """
         return np.real(self.impedance)
     
@@ -233,8 +234,33 @@ class Subsystem(BaseClass):
     def mobility(self):
         """
         Mobility `Y`
+        
+        .. math:: Y = \\frac{1}{Z}
         """
         return 1.0 / self.impedance
+    
+    @property
+    def damping_term(self):
+        """
+        The damping term is the ratio of the modal half-power bandwidth to the average modal frequency spacing.
+        
+        .. math:: \\beta_{ii} = \\frac{f \\eta_{loss} }{\\overline{\\delta f}}
+        
+        See Lyon, above equation 12.1.4
+        """
+        return self.frequency * self.component.loss_factor / self.average_frequency_spacing
+    
+    @property
+    def modal_overlap_factor(self):
+        """
+        Modal overlap factor.
+        
+        .. math:: M = \\frac{ \\pi \\beta_{ii} }{2}
+        
+        See Lyon, above equation 12.1.4
+        """
+        return np.pi * self.damping_term / 2.0
+    
     
     @property
     def input_power(self):
@@ -308,54 +334,105 @@ class SubsystemCavity(Subsystem):
 
         
         
+
 class Coupling(BaseClass):
-    """Abstract Base Class for couplings."""
+    """
+    Abstract base class for couplings.
+    """
     __metaclass__ = abc.ABCMeta
     
-    components = list()
-    """
-    List of all components that connect to this coupling."""
     
-    subsystems = list()
-    """List of all enabled subsystems that make use of this coupling."""
+    connection = None
+    """
+    Connection this coupling is part of.
+    """
+    
+    
+    component_from = None
+    """
+    Component
+    """
+    component_to = None
+    """
+    Component
+    """
+    subsystem_from = None
+    """
+    Type of subsystem origin for coupling
+    """
+    subsystem_to = None
+    """
+    Type of subsystem destination for coupling
+    """
+    
+    size = None
+    """
+    Size of the coupling.
+    """
     
     @abc.abstractproperty
-    def impedance(self):
+    def impedance_from(self):
         """
-        Impedance of the coupling is the sum of the impedances of all subsystems.
+        Impedance of :attr:`subsystem_from` corrected for the type of coupling.
         """
         return
     
     @abc.abstractproperty
-    def clf(self, subsystem_from, subsystem_to):
+    def impedance_to(self):
+        """
+        Impedance of :attr:`subsystem_to` corrected for the type of coupling.
+        """
+        return
+     
+    @abc.abstractproperty
+    def clf(self):
         """
         Coupling loss factor `\\eta`.
         """
         return
         
-        
-class CouplingOld(BaseClass):
-    """Abstract Base Class for couplings."""
-    __metaclass__ = abc.ABCMeta
-    
-
-    subsystem_from = None
-    """
-    Subsystem origin for coupling
-    """
-        
-    subsystem_to = None
-    """
-    Subsystem destination for coupling
-    """
-    
-    @abc.abstractproperty     
-    def clf(self):
+    @property
+    def mobility_from(self):
         """
-        Coupling loss factor.
+        Mobility of :attr:`subsystem_from` corrected for the type of coupling.
         """
-        return   
+        return 1.0 / self.impedance_from
+        
+    @property
+    def mobility_to(self):
+        """
+        Mobility of :attr:`subsystem_to` corrected for the type of coupling.
+        """
+        return 1.0 / self.impedance_to
+    
+    @property
+    def resistance_from(self):
+        """
+        Resistance of :attr:`subsystem_from` corrected for the type of coupling.
+        """
+        return np.real(self.impedance_from)
+    
+    @property
+    def resistance_to(self):
+        """
+        Resistance of :attr:`subsystem_to` corrected for the type of coupling.
+        """
+        return np.real(self.impedance_to)
+    
+    
+    @property
+    def modal_coupling_factor(self):
+        """
+        Modal coupling factor of the coupling.
+        
+        .. math:: \\beta_{ij} = \\frac{ f * \\eta_{ij} } { \\overline{\\delta f_i} }
+        
+        See Lyon, above equation 12.1.4
+        """
+        return self.frequency * self.clf / self.subsystem_from.average_frequency_spacing
+        
 
+        
 class Excitation(BaseClass):
     """Abstract Base Class for excitations."""
     __metaclass__ = abc.ABCMeta

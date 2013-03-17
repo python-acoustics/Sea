@@ -2,10 +2,10 @@
 Classes describing a two-dimensional cavity.
 """
 
+import numpy as np
+from ..baseclasses import ComponentCavity, SubsystemCavity
 
-
-
-class SubsystemCavity2D(SubsystemCavity):
+class SubsystemLong(SubsystemCavity):
     """
     Subsystem for a fluid in a 2D cavity.
     """
@@ -24,7 +24,7 @@ class SubsystemCavity2D(SubsystemCavity):
     
     
     
-class ComponentCavity2D(ComponentCavity):
+class Component2DCavity(ComponentCavity):
     """
     Component for a fluid in a 2D cavity.
     """

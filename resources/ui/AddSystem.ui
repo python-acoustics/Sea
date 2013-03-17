@@ -59,6 +59,16 @@
          <enum>QLayout::SetDefaultConstraint</enum>
         </property>
         <item>
+         <widget class="QLabel" name="partLabel">
+          <property name="text">
+           <string>TextLabel</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QListWidget" name="partList"/>
+        </item>
+        <item>
          <widget class="QCheckBox" name="buildSystem">
           <property name="text">
            <string>Build system from geometry in document</string>

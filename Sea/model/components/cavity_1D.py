@@ -2,6 +2,9 @@
 Classes describing a one-dimensional cavity.
 """
 
+import numpy as np
+from ..baseclasses import ComponentCavity, SubsystemCavity
+
 
 class SubsystemCavity1D(SubsystemCavity):
     """

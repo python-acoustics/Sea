@@ -5,7 +5,7 @@ Adapter classes for :class:`Sea.model.components.Component2DPlate`
 import Sea
 from .. import baseclasses
 
-class Component2DPlate(baseclasses.Component):
+class Component2DPlate(baseclasses.ComponentStructural):
     """
     Plate structural component.
     """
@@ -21,7 +21,7 @@ class Component2DPlate(baseclasses.Component):
     def __init__(self, obj, system, material, part, **properties):
         baseclasses.ComponentStructural.__init__(self, obj, system, material, part, **properties)
         
-        obj.addProperty("App::PropertyFloat", "Thickness", "Thickness of the plate")
+        #obj.addProperty("App::PropertyFloat", "Thickness", "Thickness of the plate")
         
     def onChanged(self, obj, prop):
         baseclasses.ComponentStructural.onChanged(self, obj, prop)
@@ -29,4 +29,4 @@ class Component2DPlate(baseclasses.Component):
     def execute(self, obj):
         baseclasses.ComponentStructural.execute(self, obj)
         
-        obj.Thickness = self.model.thickness
+        #obj.Thickness = self.model.thickness

@@ -163,7 +163,8 @@ Material quantities
 
 
     bending stiffness
-        Bending stiffness `B`
+    flexural rigidity
+        The bending stiffness or flexural rigidity `D`
 
 
     shear modulus
