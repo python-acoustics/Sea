@@ -35,9 +35,11 @@ class Connection(BaseClass):
         """
         Total impedance at the coupling.
         """
-        impedance = np.zeros(len(self.omega))
+        imp = np.zeros(len(self.omega))
+        print self.subsystems
         for subsystem in self.subsystems:
-            impedance = impedance + subsystem.impedance
+            print subsystem.impedance
+            imp = imp + subsystem.impedance
         return impedance
     
     def get_coupling(self, subsystem_from, subsystem_to):
@@ -47,10 +49,10 @@ class Connection(BaseClass):
         return
     
     
-    @property
-    def routes(self):
-        """
-        Create a list.
-        """
-        return [(couplings.subsystem_from, coupling.subsystem_to) for coupling in couplings]
+    #@property
+    #def routes(self):
+        #"""
+        #Create a list.
+        #"""
+        #return [(couplings.subsystem_from, coupling.subsystem_to) for coupling in couplings]
     

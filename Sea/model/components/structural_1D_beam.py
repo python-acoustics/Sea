@@ -65,8 +65,7 @@ class SubsystemLong(SubsystemStructural):
         """
         return 2.0 * self.component.material.density * self.component.cross_section * self.soundspeed_group
     
-
-    
+   
 class SubsystemBend(SubsystemStructural):
     """
     Subsystem for bending waves in a 1D system.

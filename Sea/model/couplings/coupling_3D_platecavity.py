@@ -7,11 +7,11 @@ class Coupling3DPlateCavity(Coupling):
     
     @property
     def impedance_from(self):
-        return
+        return self.subsystem_from.impedance
     
     @property
     def impedance_to(self):
-        return
+        return self.subsystem_to.impedance
     
     @property
     def clf(self):
@@ -25,4 +25,9 @@ class Coupling3DPlateCavity(Coupling):
         
         See BAC, equation 3.6
         """
-        return self.component_from.material.density * self.subsystem_from.soundspeed_group * self.component_from.radiation_efficiency / (self.omega * self.component_from.mass_per_area)
+        print self.subsystem_from
+        try:
+            return self.subsystem_from.component.material.density * self.subsystem_to.soundspeed_group * \
+                   self.subsystem_from.radiation_efficiency / (self.omega * self.subsystem_from.component.mass_per_area)
+        except ZeroDivisionError:
+            return np.zeros(len(self.frequency))

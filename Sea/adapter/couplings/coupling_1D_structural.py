@@ -10,8 +10,8 @@ class Coupling1DStructural(baseclasses.Coupling):
     
     model = Sea.model.couplings.Coupling1DStructural()
  
-    def __init__(self, obj, system, connection, component_from, subsystem_from, component_to, subsystem_to):
-        baseclasses.Coupling.__init__(self, obj, system, connection, component_from, subsystem_from, component_to, subsystem_to)
+    def __init__(self, obj, connection, component_from, subsystem_from, component_to, subsystem_to):
+        baseclasses.Coupling.__init__(self, obj, connection, component_from, subsystem_from, component_to, subsystem_to)
     
     
     def onChanged(self, obj, prop):

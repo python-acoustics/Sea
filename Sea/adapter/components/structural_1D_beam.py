@@ -17,8 +17,8 @@ class Component1DBeam(baseclasses.ComponentStructural):
     This adapter describes a :class:`Sea.model.components.Component1DBeam`
     """
     
-    def __init__(self, obj, system, material, part):
-        baseclasses.ComponentStructural.__init__(self, obj, system, material, part)
+    def __init__(self, obj, material, part):
+        baseclasses.ComponentStructural.__init__(self, obj, material, part)
         
 
         obj.addProperty("App::PropertyLength", "Length", "Beam", "Length of the beam")

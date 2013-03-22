@@ -12,7 +12,7 @@ class Coupling1DStructural(Coupling):
         Choses the right impedance of subsystem_from.
         Applies boundary conditions correction as well.
         """
-        return subsystem_from.impedance
+        return self.subsystem_from.impedance
 
     @property
     def impedance_to(self):
@@ -20,7 +20,7 @@ class Coupling1DStructural(Coupling):
         Choses the right impedance of subsystem_from.
         Applies boundary conditions correction as well.
         """     
-        return subsystem_to.impedance
+        return self.subsystem_to.impedance
     
     @property
     def tau(self):
@@ -31,7 +31,7 @@ class Coupling1DStructural(Coupling):
         
         .. math:: \\tau_{12} = \\frac{4 R_1 R_2}{\\left| \\sum_{i=1}^m Z_i \\right|^2}
         """
-        return 4.0 * resistance_from * resistance_to / self.connection.impedance**2.0
+        return 4.0 * self.resistance_from * self.resistance_to / self.connection.impedance**2.0
          
     
     @property

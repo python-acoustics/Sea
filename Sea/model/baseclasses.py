@@ -90,8 +90,7 @@ class Component(BaseClass):
         return 20 * np.log10(self.velocity() / (5 * 10**(-8)) ) 
         
         
-        
-        
+
 class ComponentStructural(Component):
     """
     Abstract base class for structural components.
@@ -139,6 +138,11 @@ class Subsystem(BaseClass):
         Component this subsystem uses.
         """        
     
+    
+    @property
+    def frequency(self):
+        return self.component.frequency
+    
     def _set_modal_energy(self, x):
         if len(x) == len(self.omega):
             self._modal_energy = np.array(x)
@@ -173,6 +177,7 @@ class Subsystem(BaseClass):
     """
     
     
+    
     @abc.abstractproperty                      
     def soundspeed_phase(self):
         """
@@ -203,8 +208,11 @@ class Subsystem(BaseClass):
         
         See Lyon, eq. 8.1.6
         """
-        return 1.0 / (2.0 * np.pi * self.average_frequency_spacing)
-
+        try:
+            return 1.0 / (2.0 * np.pi * self.average_frequency_spacing)
+        except FloatingPointError:
+            return np.zeros(len(self.frequency))
+        
     #@abc.abstractproperty                      
     #def wavenumber(self):
         #"""
@@ -212,7 +220,6 @@ class Subsystem(BaseClass):
         #"""
         #return
     
-    #@abc.abstractproperty
     @property
     def impedance(self):
         """
@@ -237,8 +244,11 @@ class Subsystem(BaseClass):
         
         .. math:: Y = \\frac{1}{Z}
         """
-        return 1.0 / self.impedance
-    
+        try:
+            return 1.0 / self.impedance
+        except FloatingPointError:
+            return np.zeros(len(self.frequency))
+            
     @property
     def damping_term(self):
         """
@@ -248,8 +258,11 @@ class Subsystem(BaseClass):
         
         See Lyon, above equation 12.1.4
         """
-        return self.frequency * self.component.loss_factor / self.average_frequency_spacing
-    
+        try:
+            return self.frequency * self.component.material.loss_factor / self.average_frequency_spacing
+        except FloatingPointError:
+            return np.zeros(len(self.frequency))
+        
     @property
     def modal_overlap_factor(self):
         """
@@ -299,20 +312,32 @@ class Subsystem(BaseClass):
         """
         return 20 * np.log10(self.velocity / (5 * 10**(-8)) ) 
 
-
+    
         
 class SubsystemStructural(Subsystem):
     """
     Abstract base class for all Structural subsystems.
     """
     __metaclass__ = abc.ABCMeta  
-    pass
+    
+    @property
+    def radiation_efficiency(self):
+        return np.zeros(len(self.frequency))
+    
+    @property
+    def critical_frequency(self):
+        return 0.0
     
 class SubsystemCavity(Subsystem): 
     """
     Abstract base class for all Cavity subsystems.
     """
     __metaclass__ = abc.ABCMeta  
+    
+    
+    @property
+    def wavenumber(self):
+        pass
     
     @property
     def soundspeed_group(self):
@@ -330,8 +355,10 @@ class SubsystemCavity(Subsystem):
         
         See Lyon, above eq 8.1.9.
         """
-        return np.sqrt(self.component.material.bulk_modulus / self.component.material.density)
-
+        try:
+            return np.ones(len(self.frequency)) * np.sqrt(self.component.material.bulk / self.component.material.density)
+        except ZeroDivisionError:
+            return np.zeros(len(self.frequency))
         
         
 
@@ -488,4 +515,9 @@ class Material(BaseClass):
     pressure = 0.0
     """
     Pressure :math:`p`
+    """
+
+    bulk = 0.0
+    """
+    Bulk modulus
     """

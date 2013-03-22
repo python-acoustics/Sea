@@ -10,9 +10,18 @@ class Coupling2DStructural(baseclasses.Coupling):
 
     model = Sea.model.couplings.Coupling2DStructural()
 
-    def __init__(self, obj, system, connection, component_from, component_to, subsystem_from, subsystem_to):
-        baseclasses.Coupling.__init__(self, obj, system, connection, component_from, component_to, subsystem_from, subsystem_to)
+    def __init__(self, obj, connection, component_from, component_to, subsystem_from, subsystem_to):
+        baseclasses.Coupling.__init__(self, obj, connection, component_from, component_to, subsystem_from, subsystem_to)
 
+    
+    def onChanged(self, obj, prop):
+        baseclasses.Coupling.onChanged(self, obj, prop)
+        
+    
+    def execute(self, obj):
+        baseclasses.Coupling.execute(self, obj)
+    
+    
     @staticmethod
     def size(obj):
         """
@@ -21,4 +30,4 @@ class Coupling2DStructural(baseclasses.Coupling):
         :param obj: an instance of :class:`Sea.adapter.couplings.CouplingPoint`
         
         """
-        return
+        return 0.0
