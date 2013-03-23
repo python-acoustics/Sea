@@ -17,12 +17,15 @@ class Coupling(BaseClass):
         connection.Couplings = connection.Couplings + [obj]
         obj.Frequency = connection.Frequency
         
+        
+        
+        
         obj.addProperty("App::PropertyFloatList", "CLF", "Coupling", "Coupling loss factor.")
         
-        obj.addProperty("App::PropertyLink", "ComponentFrom", "Coupling", "Component from")
-        obj.addProperty("App::PropertyLink", "ComponentTo", "Coupling", "Component to")
-        obj.addProperty("App::PropertyLink", "SubsystemFrom", "Coupling", "Subsystem from")
-        obj.addProperty("App::PropertyLink", "SubsystemTo", "Coupling", "Subsystem to")
+        obj.addProperty("App::PropertyString", "ComponentFrom", "Coupling", "Component from")
+        obj.addProperty("App::PropertyString", "ComponentTo", "Coupling", "Component to")
+        obj.addProperty("App::PropertyString", "SubsystemFrom", "Coupling", "Subsystem from")
+        obj.addProperty("App::PropertyString", "SubsystemTo", "Coupling", "Subsystem to")
         
         obj.addProperty("App::PropertyFloatList", "ImpedanceFrom", "Subsystem From", "Impedance of connection corrected From subsystem.")     
         obj.addProperty("App::PropertyFloatList", "ResistanceFrom", "Subsystem From", "Resistance of connection corrected From subsystem.")
@@ -34,34 +37,25 @@ class Coupling(BaseClass):
         """How or more specifically, when to update the size of the coupling?"""
         #obj.addProperty("App::PropertyFloat", "Size", "Coupling", "Size of the junction.")
         
-        obj.ComponentFrom = component_from
-        obj.ComponentTo = component_to
-        obj.SubsystemFrom = subsystem_from
-        obj.SubsystemTo = subsystem_to
+        #component_from.CouplingsFrom = component_from.CouplingsFrom + [obj]
+        #component_to.CouplingsTo = component_to.Couplingsto + [obj]
+        subsystem_from.CouplingsFrom = subsystem_from.CouplingsFrom + [obj]
+        subsystem_to.CouplingsTo = subsystem_to.CouplingsTo + [obj]
+        
+        
+        obj.ComponentFrom = component_from.Name
+        obj.ComponentTo = component_to.Name
+        obj.SubsystemFrom = subsystem_from.Name
+        obj.SubsystemTo = subsystem_to.Name
         
     def onChanged(self, obj, prop):
         BaseClass.onChanged(self, obj, prop)
         
-        if prop == 'ComponentFrom' or prop == 'SubsystemFrom':
-            if obj.ComponentFrom and obj.SubsystemFrom:
-                self.model.subsystem_from = obj.SubsystemFrom.Proxy.model
-        elif prop == 'ComponentTo' or prop == 'SubsystemTo':
-            if obj.ComponentTo and obj.SubsystemTo:
-                self.model.subsystem_to = obj.SubsystemTo.Proxy.model
-            
-            
         
-        #pass
-        #if prop == 'Connection':
-            #self.model.connection = obj.Connection.Proxy.model
-        
-        #elif prop == 'ComponentFrom' or 'SubsystemFrom':
-            #self.model.component_from = Obj.ComponentFrom.Proxy.model
-            #self.model.subsystem_from = getattr(Obj.ComponentFrom.Proxy.model, 'subsystem_' + Obj.SubsystemFrom)
-            
-        #elif prop == 'ComponentTo' or 'SubsystemTo':
-            #self.model.component_to = Obj.ComponentTo.Proxy.model
-            #self.model.subsystem_to = getattr(Obj.ComponentTo.Proxy.model, 'subsystem_' + Obj.SubsystemTo)
+        if prop == 'SubsystemFrom':
+            self.model.subsystem_from = obj.Document.getObject(obj.SubsystemFrom).Proxy.model
+        elif prop == 'SubsystemTo':
+            self.model.subsystem_to = obj.Document.getObject(obj.SubsystemTo).Proxy.model
             
 
     def execute(self, obj):

@@ -30,14 +30,24 @@ class Subsystem(BaseClass):
         obj.addProperty("App::PropertyFloatList", "Mobility", "Subsystem", "Mobility")
         obj.addProperty("App::PropertyFloatList", "ModalDensity", "Subsystem", "Modal density")
         
+        
+        obj.addProperty("App::PropertyLinkList", "CouplingsFrom", "Couplings", "Couplings that originate from this subsystem.")
+        obj.addProperty("App::PropertyLinkList", "CouplingsTo", "Couplings", "Couplings that end at this subsystem.")
                 
     def onChanged(self, obj, prop):
         BaseClass.onChanged(self, obj, prop)
         
+        if prop == 'CouplingsFrom':
+            #for coupling in obj.CouplingsFrom:
+                #coupling.Proxy.model.subsystem_from = self.model
+            self.model.linked_couplings_from = [coupling.Proxy.model for coupling in obj.CouplingsFrom]
+        if prop == 'CouplingsTo':
+            #for coupling in obj.CouplingsTo:
+                #coupling.Proxy.model.subsystem_to = self.model        
+            self.model.linked_couplings_to = [coupling.Proxy.model for coupling in obj.CouplingsTo]
 
     def execute(self, obj):
         BaseClass.execute(self, obj)
-        
         
         #obj.Impedance = self.model.impedance
         #obj.Resistance  = self.model.resistance

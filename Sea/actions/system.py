@@ -130,9 +130,16 @@ class System(object):
         
         
         subsystems = list()
+        for comp in self.system.Components:
+            for sub in comp.Subsystems:
+                subsystems.append(sub.Proxy.model)
+        self.system.Proxy.model.subsystems = subsystems
         
-        #for comp in self.system.Components:
-            
+        couplings = list()
+        for con in self.system.Connections:
+            for coupling in con.Couplings:
+                couplings.append(coupling.Proxy.model)
+        self.system.Proxy.model.couplings = couplings
         
         self.system.Proxy.model.solveSystem()
         
