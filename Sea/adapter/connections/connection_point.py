@@ -4,6 +4,9 @@ import Sea
 from .. import baseclasses
 
 class ConnectionPoint(baseclasses.Connection):
+    """
+    Class for point connections.
+    """
     
     def __init__(self, obj, system, components):
         baseclasses.Connection.__init__(self, obj, system, components)

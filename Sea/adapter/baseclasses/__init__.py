@@ -1,5 +1,5 @@
 """
-This following are abstract base classes for the :mod:`adapter` classes.
+This module contains abstract base classes for the :mod:`Sea.adapter` classes.
 """
 
 

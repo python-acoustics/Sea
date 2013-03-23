@@ -4,6 +4,10 @@ from .. import baseclasses
 
 
 class ConnectionSurface(baseclasses.Connection):
+    """
+    Class for surface connections.
+    """
+    
     def __init__(self, obj, system, components):
         baseclasses.Connection.__init__(self, obj, system, components)
         

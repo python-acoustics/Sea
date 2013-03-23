@@ -11,10 +11,10 @@ def makeComponent(system, sort, material, part):
     """
     Add a component from :mod:`Sea.adapter.components` to an SEA model.
     
-    :param system: :class:`Sea.adapter.system.System` to which the component will be added
-    :param sort: Type of component specified in :class:`Sea.adapter.components.components_map`
-    :param material: Material that the component is made of
-    :param part: a :class:`Freecad.Shape` carrying object that the component is based on
+    :param system: a instance of :class:`Sea.adapter.system.System` to which the component will be added.
+    :param sort: type of component as specified in :class:`Sea.adapter.components.components_map`
+    :param material: an instance of a child of :class:`Sea.adapter.baseclasses.Material` that the component is made of.
+    :param part: an instance of :class:`Freecad.Part` that the component is based on
         
     """
     obj = system.ComponentsGroup.newObject("App::DocumentObjectGroupPython", 'Component')
@@ -41,6 +41,10 @@ def makeComponentCavity(system, sort, material, position):
 def makeSubsystem(component, sort, model):
     """
     Add a subsystem to a component.
+    
+    :param component: an instance of a child of :class:`Sea.adapter.baseclasses.Component`.
+    :param sort: type of subsystem.
+    :param model: model of the subsysten belonging to :attr:`component` and specified in :mod:`Sea.model.components`
     """
     obj = component.newObject("App::FeaturePython", "Subsystem")
     subsystems_map[sort](obj, component, model)
@@ -53,6 +57,8 @@ def makeConnection(system, sort, components):
     Add a connection to system.
     
     :param system: :class:`Sea.adapter.system.System` to which the connection will be added
+    :param sort: sort
+    :param components: list of components
     """
     obj = system.ConnectionsGroup.newObject("App::DocumentObjectGroupPython", "Connection")
     connections_map[sort](obj, system, components)

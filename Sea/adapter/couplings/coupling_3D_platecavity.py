@@ -3,7 +3,7 @@ from .. import baseclasses
 
 class Coupling3DPlateCavity(baseclasses.Coupling):
     """
-    A coupling describing the relation between a plate and a cavity.
+    A coupling describing the relation between a 2D plate and a 3D cavity.
     """
     name = "PlateToCavity"
     description = "A coupling describing the relation between a plate and a cavity."

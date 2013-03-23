@@ -15,7 +15,7 @@ class Component2DPlate(baseclasses.ComponentStructural):
     
     model = Sea.model.components.Component2DPlate()  
     """
-    This adapter describes a :class:`Sea.model.components.ComponentPlate`
+    This adapter describes a :class:`Sea.model.components.Component2DPlate`
     """
     
     def __init__(self, obj, system, material, part):

@@ -4,6 +4,10 @@ from .. import baseclasses
 
       
 class ConnectionLine(baseclasses.Connection):
+    """
+    Class for line connections.
+    """
+    
     def __init__(self, obj, system, components):
         baseclasses.Connection.__init__(self, obj, system, components)
         

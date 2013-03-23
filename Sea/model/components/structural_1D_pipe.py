@@ -4,14 +4,14 @@ from ..baseclasses import ComponentStructural, SubsystemStructural
 
 
 
-class SubsystemLong(self):
+class SubsystemLong(SubsystemStructural):
     pass
 
 
-class SubsystemBend(self):
+class SubsystemBend(SubsystemStructural):
     pass
 
-class SubsystemShear(self):
+class SubsystemShear(SubsystemStructural):
     pass
 
 
@@ -33,7 +33,7 @@ class SubsystemShear(self):
 
 
     
-class ComponentPipe(Component):
+class ComponentPipe(ComponentStructural):
     """
     One-dimensional beam component.
     """

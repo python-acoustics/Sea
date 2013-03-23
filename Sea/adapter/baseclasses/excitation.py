@@ -6,7 +6,7 @@ from baseclass import BaseClass
     
 class Excitation(BaseClass):
     """
-    Abstract base class for all Excitation adapter classes.
+    Abstract base class for all :mod:`Sea.adapter.excitations` classes.
     """
     __metaclass__ = abc.ABCMeta
     

@@ -18,7 +18,7 @@ class Coupling3DPlateCavity(Coupling):
         """
         Coupling loss factor for plate to cavity radiation.
         
-        .. math:: \\eta_{plate, cavity} = \\frac{\\rho_0 c_0 \\sigma}{\\omega \\m^{''}}
+        .. math:: \\eta_{plate, cavity} = \\frac{\\rho_0 c_0 \\sigma}{\\omega m^{''}}
         
         .. attention::
             Which speed of sound???

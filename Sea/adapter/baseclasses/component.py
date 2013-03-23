@@ -6,7 +6,7 @@ from baseclass import BaseClass
 
 class Component(BaseClass):
     """
-    Abstract base class for all Component adapter classes.
+    Abstract base class for all :mod:`Sea.adapter.components` classes.
     """
     __metaclass__ = abc.ABCMeta
     

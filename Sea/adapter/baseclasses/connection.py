@@ -8,7 +8,7 @@ from baseclass import BaseClass
 
 class Connection(BaseClass):
     """
-    Adapter class for :class:`Sea.model.connection.Connection`.
+    Abstract base class for all :mod:`Sea.adapter.connections` classes.
     """
     __metaclass__ = abc.ABCMeta
     

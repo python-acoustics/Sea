@@ -6,7 +6,7 @@ from baseclass import BaseClass
 
 class Subsystem(BaseClass):
     """
-    Abstract base class for all Subsystem adapter classes.
+    Abstract base class for all :mod:`Sea.adapter.subsystems` classes.
     """
     __metaclass__ = abc.ABCMeta
     

@@ -19,7 +19,7 @@ from baseclass import BaseClass
         
 class Material(BaseClass):
     """
-    Abstract base class for all Material adapter classes.
+    Abstract base class for all :mod:`Sea.adapter.materials` classes.
     """
     __metaclass__ = abc.ABCMeta
 

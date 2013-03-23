@@ -3,7 +3,7 @@ from .. import baseclasses
 
 class Coupling1DStructural(baseclasses.Coupling):
     """
-    A coupling describing a connection of a single point.
+    A coupling describing a structural connection of a single point.
     """
     name = 'Point'
     description = 'A coupling describing a connection of a single point.'

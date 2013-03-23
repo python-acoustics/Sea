@@ -1,8 +1,9 @@
 """
-Subsystems module
+A module containing subsystem classes.
 
 """
 
+#from . import *
 from longitudinal import SubsystemLong
 from bending import SubsystemBend
 from shear import SubsystemShear

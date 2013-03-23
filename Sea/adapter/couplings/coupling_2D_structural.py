@@ -3,7 +3,7 @@ from .. import baseclasses
 
 class Coupling2DStructural(baseclasses.Coupling):
     """
-    A coupling describing a connection along a line.
+    A coupling describing a structural connection along a line.
     """
     name = 'Line'
     description = 'A coupling describing a connection along a line.'

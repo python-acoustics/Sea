@@ -6,7 +6,7 @@ from baseclass import BaseClass
 
 class Coupling(BaseClass):
     """
-    Abstract base class for couplings.
+    Abstract base class for all :mod:`Sea.adapter.couplings` classes.
     """
     __metaclass__ = abc.ABCMeta
     

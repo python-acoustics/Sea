@@ -1,7 +1,7 @@
 """
 Module with all components that are available.
 
-The following are Component classes encapsulating their respective :mod:`Sea.model.components` class.
+The following are Component classes encapsulating their respective :mod:`Sea.model.components` classes.
 
 """
 

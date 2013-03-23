@@ -232,9 +232,6 @@ Cavity to Plate
    :show-inheritance:
    :members:
       
-   
-   
-   
 Excitations
 -----------
 .. inheritance-diagram:: Sea.adapter.excitations
@@ -285,7 +282,35 @@ Cavity3D
    :show-inheritance:
    :members: 
 
+Subsystems   
+----------
+.. inheritance-diagram:: Sea.adapter.subsystems
+.. automodule:: Sea.adapter.subsystems
+   :show-inheritance:
+   :members:
+
+Longitudinal
+^^^^^^^^^^^^
+.. inheritance-diagram:: Sea.adapter.subsystems.longitudinal
+.. automodule:: Sea.adapter.subsystems.longitudinal
+   :show-inheritance:
+   :members: 
+
    
+Bending
+^^^^^^^
+.. inheritance-diagram:: Sea.adapter.subsystems.bending
+.. automodule:: Sea.adapter.subsystems.bending
+   :show-inheritance:
+   :members: 
+   
+   
+Shear
+^^^^^
+.. inheritance-diagram:: Sea.adapter.subsystems.shear
+.. automodule:: Sea.adapter.subsystems.shear
+   :show-inheritance:
+   :members: 
    
 Actions
 ========

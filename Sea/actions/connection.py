@@ -19,12 +19,18 @@ class ShapeConnection(object):
         Initialization
         
         :param a: an instance or list of :class:`FreeCAD.TopoShape`
-        :param b: an instance or list of :class:`FreeCAD.TopoShape`
+        :param b: an optional instance or list of :class:`FreeCAD.TopoShape`
         
         """
         self.a = a if isinstance(a, list) else [a]
+        """
+        List of :class:`FreeCAD.TopoShape`
+        """
         self.b = b if isinstance(b, list) or b is None else [b]
-               
+        """
+        List of :class:`FreeCAD.TopoShape`
+        """
+        
     @staticmethod           
     def _commons_list(x):
         """
@@ -261,35 +267,35 @@ def hasShapeType(items, sort):
     """
     return any([getattr(item, sort) for item in items])
                 
-def addComponent(connection, component):
-    """
-    Add component to the connection. Test whether the component really is connected.
+#def addComponent(connection, component):
+    #"""
+    #Add component to the connection. Test whether the component really is connected.
         
-    :param connection: an instance of :class:`Sea.adapter.connection.Connection`
-    :param component: an instance of a child of :class:`Sea.adapter.baseclasses.Component`
-    """
+    #:param connection: an instance of :class:`Sea.adapter.connection.Connection`
+    #:param component: an instance of a child of :class:`Sea.adapter.baseclasses.Component`
+    #"""
     
-    if connection.Components:
-        """There are components. Test whether this new one connects to any."""
-        if component not in connection.Components:
-            """It shouldn't already be in the list of components."""
+    #if connection.Components:
+        #"""There are components. Test whether this new one connects to any."""
+        #if component not in connection.Components:
+            #"""It shouldn't already be in the list of components."""
             
-            if ShapeConnection( [item.Shape for item in connection.Components], component.Shape).anyConnected():
-                """If there is any connection..."""
-                print 'Thereis a connection\n'
-                connection.Components = connection.Components + [component]
-            else:
-                pass
-                App.Console.PrintWarning("Component was not added to the Connection as there was no connection to any of the other components.\n")
-        else:
-            App.Console.PrintWarning("Component was already added to this connection.\n")
-    else:
-        """
-        This is the first component added to the connection. Therefore add it straight away.
-        """
-        connection.Components = connection.Components + [component]
+            #if ShapeConnection( [item.Shape for item in connection.Components], component.Shape).anyConnected():
+                #"""If there is any connection..."""
+                #print 'Thereis a connection\n'
+                #connection.Components = connection.Components + [component]
+            #else:
+                #pass
+                #App.Console.PrintWarning("Component was not added to the Connection as there was no connection to any of the other components.\n")
+        #else:
+            #App.Console.PrintWarning("Component was already added to this connection.\n")
+    #else:
+        #"""
+        #This is the first component added to the connection. Therefore add it straight away.
+        #"""
+        #connection.Components = connection.Components + [component]
     
-    connection.Document.recompute()
+    #connection.Document.recompute()
     
             
     
