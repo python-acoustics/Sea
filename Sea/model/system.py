@@ -18,13 +18,13 @@ class System(object):
     
     
     # update lists through connector
-    objects = list()
-    components = list()
+    #objects = list()
+    #components = list()
     subsystems = list()
     couplings = list()
     excitations = list()
-    materials = list()
-    parts = list()
+    #materials = list()
+    #parts = list()
 
     _frequency = np.array([1000, 2000, 4000, 8000])
     
