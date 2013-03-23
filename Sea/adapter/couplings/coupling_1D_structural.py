@@ -3,15 +3,15 @@ from .. import baseclasses
 
 class Coupling1DStructural(baseclasses.Coupling):
     """
-    A coupling describing a connection of a single point.
+    A coupling describing a structural connection of a single point.
     """
     name = 'Point'
     description = 'A coupling describing a connection of a single point.'
     
     model = Sea.model.couplings.Coupling1DStructural()
  
-    def __init__(self, obj, system, connection, component_from, subsystem_from, component_to, subsystem_to):
-        baseclasses.Coupling.__init__(self, obj, system, connection, component_from, subsystem_from, component_to, subsystem_to)
+    def __init__(self, obj, connection, component_from, subsystem_from, component_to, subsystem_to):
+        baseclasses.Coupling.__init__(self, obj, connection, component_from, subsystem_from, component_to, subsystem_to)
     
     
     def onChanged(self, obj, prop):

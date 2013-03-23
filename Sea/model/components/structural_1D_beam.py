@@ -65,8 +65,7 @@ class SubsystemLong(SubsystemStructural):
         """
         return 2.0 * self.component.material.density * self.component.cross_section * self.soundspeed_group
     
-
-    
+   
 class SubsystemBend(SubsystemStructural):
     """
     Subsystem for bending waves in a 1D system.
@@ -210,25 +209,19 @@ class Component1DBeam(ComponentStructural):
     Height of the beam
     """
     
-    
-    
-    def __init__(self):
-        """
-        Constructor
-        """
-        self.subsystem_long = SubsystemLong(self)
-        """
-        An instance of :class:`SubsystemLong` describing longitudinal waves.
-        """
-        self.subsystem_bend = SubsystemBend(self)
-        """
-        An instance of :class:`SubsystemBend` describing bending waves.
-        """
-        self.subsystem_shear = SubsystemShear(self)
-        """
-        an instance of :class:`SubsystemShear` describing shear waves.
-        """
-    
+    subsystem_long = None
+    """
+    An instance of :class:`SubsystemLong` describing longitudinal waves.
+    """
+    subsystem_bend = None
+    """
+    An instance of :class:`SubsystemBend` describing bending waves.
+    """
+    subsystem_shear = None
+    """
+    an instance of :class:`SubsystemShear` describing shear waves.
+    """
+
     @property
     def mass_per_area(self):
         """

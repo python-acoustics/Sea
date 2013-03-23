@@ -16,13 +16,12 @@ class MaterialSolid(baseclasses.Material):
     
     model = Sea.model.materials.MaterialSolid()
     
-    def __init__(self, obj, system, **properties):
-        baseclasses.Material.__init__(self, obj, system, **properties)
+    def __init__(self, obj, system):
+        baseclasses.Material.__init__(self, obj, system)
 
-        obj.addProperty("App::PropertyFloat", "Young", "Solid", "Young's modulus")
-        obj.addProperty("App::PropertyFloat", "Bulk", "Solid", "Bulk modulus")
-        obj.addProperty("App::PropertyFloat", "Shear", "Solid", "Shear modulus")
-        obj.addProperty("App::PropertyFloat", "Poisson", "Solid", "Poisson's ratio")
+        obj.addProperty("App::PropertyFloat", "Young", "Solid", "Young's modulus").Young=0.0
+        obj.addProperty("App::PropertyFloat", "Shear", "Solid", "Shear modulus").Shear=0.0
+        obj.addProperty("App::PropertyFloat", "Poisson", "Solid", "Poisson's ratio").Poisson=0.0
     
     
     def onChanged(self, obj, prop):
@@ -30,8 +29,6 @@ class MaterialSolid(baseclasses.Material):
         
         if prop == 'Young':
             self.model.young = obj.Young
-        elif prop == 'Bulk':
-            self.model.bulk = obj.Bulk
         elif prop == 'Shear':
             self.model.shear = obj.Shear
         elif prop == 'Poisson':
@@ -39,10 +36,15 @@ class MaterialSolid(baseclasses.Material):
             
     def execute(self, obj):
         baseclasses.Material.execute(self, obj)
-
-        obj.Young = self.model.young if self.model.young else 0.0
+        
+class MaterialGas(baseclasses.Material):
     
-
+    name = 'Gas'
+    description = 'A material in gas state.'
+    
+    model = Sea.model.materials.MaterialGas()
+    
+    
 import inspect, sys
 materials_map = {item[0]: item[1] for item in inspect.getmembers(sys.modules[__name__], inspect.isclass)}
 """

@@ -10,18 +10,24 @@ class Coupling2DStructural(Coupling):
         Choses the right impedance of subsystem_from.
         Applies boundary conditions correction as well.
         """
-        return subsystem_from.impedance
-
+        if self.subsystem_from.impedance:
+            return self.subsystem_from.impedance
+        else:
+            return np.zeros(len(self.frequency))
+            
     @property
     def impedance_to(self):
         """
         Choses the right impedance of subsystem_from.
         Applies boundary conditions correction as well.
         """     
-        return subsystem_to.impedance
-    
+        if self.subsystem_to.impedance:
+            return self.subsystem_to.impedance
+        else:
+            return np.zeros(len(self.frequency))
+            
     
     
     @property
     def clf(self):
-        pass
+        return 0.5

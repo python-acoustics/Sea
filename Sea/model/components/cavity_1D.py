@@ -40,12 +40,7 @@ class ComponentCavity1D(ComponentCavity):
     Component for a fluid in a 1D cavity.
     """
 
-    def __init__(self):
-        self.subsystem_long = SubsystemLong
-        """
-        An instance of :class:`SubsystemLong` describing longitudinal waves.
-        """
-
-       
-       
-       
+    subsystem_long = None
+    """
+    An instance of :class:`SubsystemLong` describing longitudinal waves.
+    """   

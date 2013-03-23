@@ -5,6 +5,7 @@ Every class in this module has an :attr:`model` attribute, encapsulating the res
 
 from baseclasses import *
 from components import *
+from connections import *
 from system import *
 from couplings import *
 from excitations import *

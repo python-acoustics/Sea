@@ -33,11 +33,11 @@ class System(object):
 
         self.model = Sea.model.system.System()
         
-        obj.addProperty("App::PropertyLinkList","Objects","Objects", "Objects linked to SEA System")
+        #obj.addProperty("App::PropertyLinkList","Objects","Objects", "Objects linked to SEA System")
         obj.addProperty("App::PropertyLinkList","Parts","Objects", "Parts linked to SEA System")
         obj.addProperty("App::PropertyLinkList","Components","Objects", "Components linked to SEA System")
         obj.addProperty("App::PropertyLinkList","Connections","Objects", "Connections linked to SEA System")
-        obj.addProperty("App::PropertyLinkList","Couplings","Objects", "Couplings linked to SEA System")
+        #obj.addProperty("App::PropertyLinkList","Couplings","Objects", "Couplings linked to SEA System")
         obj.addProperty("App::PropertyLinkList","Excitations","Objects", "Couplings linked to SEA System")
         obj.addProperty("App::PropertyLinkList","Materials","Objects", "Materials linked to SEA System")
         
@@ -65,7 +65,6 @@ class System(object):
         
         obj.addProperty("App::PropertyLink", "ComponentsGroup", "Groups", "Components that are part of System.")
         obj.addProperty("App::PropertyLink", "ConnectionsGroup", "Groups", "Connections that are part of System.")
-        obj.addProperty("App::PropertyLink", "CouplingsGroup", "Groups", "Couplings that are part of System.")
         obj.addProperty("App::PropertyLink", "ExcitationsGroup", "Groups", "Excitations that are part of System.")
         obj.addProperty("App::PropertyLink", "MaterialsGroup", "Groups", "Materials that are part of System.")
         
@@ -83,9 +82,6 @@ class System(object):
         
         obj.ConnectionsGroup = group.newObject("App::DocumentObjectGroup", "GroupConnections")
         obj.ConnectionsGroup.Label = "Connections"
-        
-        obj.CouplingsGroup = group.newObject("App::DocumentObjectGroup", "GroupCouplings")
-        obj.CouplingsGroup.Label = "Couplings"
         
         obj.ExcitationsGroup = group.newObject("App::DocumentObjectGroup", "GroupExcitations")
         obj.ExcitationsGroup.Label = "Excitations"    
@@ -115,7 +111,8 @@ class System(object):
             self.model.enabled_bands = map(bool, np.array(obj.EnabledBands))
     
         elif prop == 'Frequency':
-            for item in obj.Objects:
+            self.model.frequency = np.array(obj.Frequency)
+            for item in obj.Components + obj.Connections:
                 item.Frequency = obj.Frequency
         
     def execute(self, obj):
@@ -135,6 +132,7 @@ class System(object):
         #self.update_objects_lists(obj)
 
         
+   
     
     #def update_objects_lists(self, obj):
         #"""

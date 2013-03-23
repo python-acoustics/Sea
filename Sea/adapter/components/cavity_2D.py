@@ -15,6 +15,6 @@ class Component2DCavity(baseclasses.ComponentCavity):
     
     model = Sea.model.components.Component2DCavity()
     
-    def __init__(self, obj, system, position):
-        baseclasses.ComponentCavity.__init__(self, obj, system, position)
+    def __init__(self, obj, material, structure, position):
+        baseclasses.ComponentCavity.__init__(self, obj, material, structure, position)
         

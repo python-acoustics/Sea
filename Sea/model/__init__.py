@@ -16,3 +16,6 @@ import components
 import couplings
 import excitations
 import materials
+
+import numpy as np
+np.seterr(all='raise')

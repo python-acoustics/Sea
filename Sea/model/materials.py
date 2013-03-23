@@ -19,8 +19,8 @@ class MaterialSolid(Material):
     name__ = 'Solid'
     description = 'A material in solid state.'
     
+    
     young = 0.0
-    bulk = 0.0
     shear = 0.0
     poisson = 0.0
 
@@ -158,28 +158,10 @@ class MaterialLiquid(Material):
     """
     Liquid material.
     """
-    __name__ = 'liquid'
-    name = 'Liquid'
-    description = 'A material in liquid state.'
-    
-    def __init__(self, name, system, **kwargs):
-        #super(Liquid, self).__init__(**kwargs)
-        Material.__init__(self, name, system, **kwargs)
+    pass
 
 class MaterialGas(Material):
     """
     Gas material.
     """    
-    
-    __name__ = 'gas'
-    name = 'Gas'
-    description = 'A material in gas state.'
-    
-    def __init__(self, name, system, **kwargs):
-        Material.__init__(self, name, system, **kwargs)
-        
-materials_map = {
-        'solid' : MaterialSolid,
-        'liquid' : MaterialLiquid,
-        'gas' : MaterialGas,
-}
+    pass

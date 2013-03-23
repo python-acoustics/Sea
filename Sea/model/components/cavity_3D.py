@@ -31,8 +31,10 @@ class SubsystemLong(SubsystemCavity):
         
         See Lyon, table 10.1, last row.
         """
-        return np.pi * self.component.material.density * self.frequency**2 / self.soundspeed_phase * (1.0 + 1.0j / (self.wavenumber * self.excitation.radius)) 
-
+        try:
+            return np.pi * self.component.material.density * self.frequency**2.0 / self.soundspeed_phase * (1.0 + 1.0j / (self.wavenumber * self.excitation.radius)) 
+        except FloatingPointError:
+            return np.zeros(len(self.frequency))
 
         
 class Component3DCavity(ComponentCavity):
@@ -40,11 +42,8 @@ class Component3DCavity(ComponentCavity):
     Component for a fluid in a 3D cavity.
     """
 
-    def __init__(self):
-        self.subsystem_long = SubsystemLong
-        """
-        An instance of :class:`SubsystemLong` describing longitudinal waves.
-        """
-
-
-
+    
+    subsystem_long = None
+    """
+    An instance of :class:`SubsystemLong` describing longitudinal waves.
+    """
