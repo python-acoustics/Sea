@@ -1,5 +1,5 @@
 """
-Adapter classes for :class:`Sea.model.components.Component1DBeam`
+Adapter class for :class:`Sea.model.components.Component1DBeam`
 """
 
 import Sea
@@ -30,9 +30,6 @@ class Component1DBeam(baseclasses.ComponentStructural):
         obj.addProperty("App::PropertyFloat", "MassPerArea", "Beam", "Mass per unit area")
         obj.addProperty("App::PropertyFloat", "AreaMoment", "Beam", "Area moment of inertia")
 
- 
-
-         
 
     def onChanged(self, obj, prop):
         baseclasses.ComponentStructural.onChanged(self, obj, prop)

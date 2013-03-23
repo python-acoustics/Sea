@@ -25,7 +25,6 @@ class Coupling3DPlateCavity(Coupling):
         
         See BAC, equation 3.6
         """
-        print self.subsystem_from
         try:
             return self.subsystem_from.component.material.density * self.subsystem_to.soundspeed_group * \
                    self.subsystem_from.radiation_efficiency / (self.omega * self.subsystem_from.component.mass_per_area)

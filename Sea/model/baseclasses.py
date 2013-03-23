@@ -95,7 +95,7 @@ class ComponentStructural(Component):
     """
     Abstract base class for structural components.
     """
-    availableSubsystems = ['long', 'bend', 'shear']
+    availableSubsystems = ['Long', 'Bend', 'Shear']
     
 
 class ComponentCavity(Component):
@@ -103,7 +103,7 @@ class ComponentCavity(Component):
     Abstract base class for fluid components.
     """
     
-    availableSubsystems = ['long']
+    availableSubsystems = ['Long']
         
 class Subsystem(BaseClass):
     """Abstract Base Class for subsystems."""
@@ -125,23 +125,11 @@ class Subsystem(BaseClass):
     """
 
 
-    def __init__(self, component):
-        """
-        Constructor
         
-        :param component: Component this object belongs to.
-        """
-        
-        
-        self.component = component
-        """
-        Component this subsystem uses.
-        """        
-    
-    
-    @property
-    def frequency(self):
-        return self.component.frequency
+    component = None
+    """
+    Component this subsystem uses.
+    """        
     
     def _set_modal_energy(self, x):
         if len(x) == len(self.omega):

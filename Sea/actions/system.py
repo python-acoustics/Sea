@@ -22,7 +22,7 @@ class System(object):
         if Sea.actions.document.isSystem(obj):
             self.system = obj
         else:
-            App.Console.PrintError('Invalid DocumentObject.')
+            App.Console.PrintError('Invalid DocumentObject.\n')
             raise ValueError
 
     def addComponentsStructural(self):
@@ -31,6 +31,8 @@ class System(object):
         
         :param system: an instance of :class:`Sea.adapter.system.System`
         """
+        
+        App.Console.PrintMessage("Adding structural components to the model.\n")
         for part in self.system.Structure.Shapes:
             if isinstance(part, Part.Feature):
                 sort = Sea.actions.component.determine_structural_sort(part)
@@ -39,6 +41,7 @@ class System(object):
                     Sea.actions.factory.makeComponent(self.system, sort, material, part)
     
         self.system.Document.recompute()
+        App.Console.PrintMessage("Finished adding structural components to the model.\n")
         
     def addComponentsCavities(self):
         """
@@ -50,6 +53,7 @@ class System(object):
         
         """Add cavity components"""
         """These are given by every negative shell volume in the structure."""
+        App.Console.PrintMessage("Adding cavity components to the model.\n")
         for shape in self.system.Structure.Shape.Shells:
             if shape.Volume < 0.0:
                 pos = shape.BoundBox.Center
@@ -59,7 +63,7 @@ class System(object):
                     Sea.actions.factory.makeComponentCavity(self.system, sort, material, pos)
     
         self.system.Document.recompute()
-   
+        App.Console.PrintMessage("Finished adding cavity components to the model.\n")
     
     #connection_options = {
         ## Component from and component to
@@ -98,12 +102,14 @@ class System(object):
         
         :param self.system: an instance of :class:`Sea.adapter.self.system.System`
         """
+        App.Console.PrintMessage("Adding connections and couplings to the model. This might take a while.\n")
         for component_from, component_to in itertools.combinations(self.system.Components, 2):
             connections = self.determineConnectionSort(component_from, component_to)
             
             for sort in connections:
                 Sea.actions.factory.makeConnection(self.system, sort, [component_from, component_to])
-                    
+        self.system.Document.recompute()    
+        App.Console.PrintMessage("Finished adding connections and couplings to the model.\n")
                
     def solve(self):
         """
@@ -121,6 +127,12 @@ class System(object):
             #App.Console.PrintMessage("Please select an SEA System.\n")
         
         #App.Console.PrintMessage(obj)
+        
+        
+        subsystems = list()
+        
+        #for comp in self.system.Components:
+            
         
         self.system.Proxy.model.solveSystem()
         
@@ -154,7 +166,7 @@ def getCavity(structure, position):
             
         for shape in structure.Shape.Shells:
             if shape.isInside(position, tolerance, allowface) and shape.Volume < 0.0:
-                shape.reverse() # Reverse the shape to obtain positive volume
+                shape.complement() # Reverse the shape to obtain positive volume
                 return shape
             #else:
                 #App.Console.PrintWarning("No cavity at this position.\n")

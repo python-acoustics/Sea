@@ -3,12 +3,8 @@ The factory contains functions for creating SEA objects in FreeCAD. These functi
 """
 
 from Sea.adapter.object_maps import *
-from Sea.adapter.system import System
-
 import Sea
-
-import FreeCAD as App
- 
+import FreeCAD as App 
 import logging
  
 def makeComponent(system, sort, material, part):
@@ -21,8 +17,7 @@ def makeComponent(system, sort, material, part):
     :param part: a :class:`Freecad.Shape` carrying object that the component is based on
         
     """
-    obj = system.ComponentsGroup.newObject("App::FeaturePython", 'Component')
-    #obj.Label = sort
+    obj = system.ComponentsGroup.newObject("App::DocumentObjectGroupPython", 'Component')
     components_map[sort](obj, system, material, part)
     logging.info("Sea: Created %s.", obj.Name)
     obj.Document.recompute()
@@ -37,12 +32,21 @@ def makeComponentCavity(system, sort, material, position):
     :param sort: Type of component specified in :class:`Sea.adapter.components.components_map`
         
     """
-    obj = system.ComponentsGroup.newObject("App::FeaturePython", 'Component')
-    #obj.Label = sort
+    obj = system.ComponentsGroup.newObject("App::DocumentObjectGroupPython", 'Component')
     components_map[sort](obj, system, material, position)
     logging.info("Sea: Created %s.", obj.Name)
     obj.Document.recompute()
     return obj         
+
+def makeSubsystem(component, sort, model):
+    """
+    Add a subsystem to a component.
+    """
+    obj = component.newObject("App::FeaturePython", "Subsystem")
+    subsystems_map[sort](obj, component, model)
+    logging.info("Sea: Created %s.", obj.Name)
+    obj.Document.recompute()
+    return obj  
         
 def makeConnection(system, sort, components):
     """
@@ -50,8 +54,7 @@ def makeConnection(system, sort, components):
     
     :param system: :class:`Sea.adapter.system.System` to which the connection will be added
     """
-    obj = system.ConnectionsGroup.newObject("App::FeaturePython", "Connection")
-    #obj.Label = sort.capitalize()
+    obj = system.ConnectionsGroup.newObject("App::DocumentObjectGroupPython", "Connection")
     connections_map[sort](obj, system, components)
     logging.info("Sea: Created %s.", obj.Name)
     obj.Document.recompute()
@@ -71,14 +74,11 @@ def makeCoupling(connection, component_from, subsystem_from, component_to, subsy
     """
     #if connection.System == component_from.System == component_to.System:
         
-    obj = connection.Document.addObject("App::FeaturePython", 'Coupling')
-    #obj.Label = sort.capitalize()
+    obj = connection.newObject("App::FeaturePython", 'Coupling')
     couplings_map[sort](obj, connection, component_from, subsystem_from, component_to, subsystem_to)
     logging.info("Sea: Created %s.", obj.Name)
     obj.Document.recompute()
     return obj
-    #else:
-        #App.Console.PrintWarning("Connection and components do not belong to the same system.")
     
 def makeExcitation(system, component, subsystem, sort):
     """
@@ -94,8 +94,7 @@ def makeExcitation(system, component, subsystem, sort):
     excitations_map[sort](obj, component, subsystem)
     logging.info("Sea: Created %s.", obj.Name)
     obj.Document.recompute()
-    return obj  
-    
+    return obj
 
 def makeMaterial(system, sort):
     """
@@ -109,7 +108,7 @@ def makeMaterial(system, sort):
     materials_map[sort](obj, system)
     logging.info("Sea: Created %s.", obj.Name)
     obj.Document.recompute()
-    return obj    
+    return obj
    
    
 def makeSystem(structure):
@@ -123,7 +122,7 @@ def makeSystem(structure):
     
     sea.Label = "SEA model"
     obj = sea.newObject("App::FeaturePython", "System")
-    System(obj, sea, structure)
+    Sea.adapter.system.System(obj, sea, structure)
     obj.Document.recompute()
     return obj
     

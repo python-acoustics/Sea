@@ -205,22 +205,19 @@ class Component2DPlate(ComponentStructural):
     Area of the plate.
     """
     
-    def __init__(self):
-        """
-        Constructor
-        """
-        self.subsystem_long = SubsystemLong(self)
-        """
-        Subsystem describing longitudinal waves.
-        """
-        self.subsystem_bend = SubsystemBend(self)
-        """
-        Subsystem describing bending waves.
-        """
-        self.subsystem_shear = SubsystemShear(self)
-        """
-        Subsystem describing shear waves.
-        """
+    
+    subsystem_long = None
+    """
+    An instance of :class:`SubsystemLong` describing longitudinal waves.
+    """
+    subsystem_bend = None
+    """
+    An instance of :class:`SubsystemBend` describing bending waves.
+    """
+    subsystem_shear = None
+    """
+    an instance of :class:`SubsystemShear` describing shear waves.
+    """
     
     @property
     def mass_per_area(self):

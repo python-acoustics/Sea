@@ -21,8 +21,8 @@ class Coupling(BaseClass):
         
         obj.addProperty("App::PropertyLink", "ComponentFrom", "Coupling", "Component from")
         obj.addProperty("App::PropertyLink", "ComponentTo", "Coupling", "Component to")
-        obj.addProperty("App::PropertyString", "SubsystemFrom", "Coupling", "Subsystem from")
-        obj.addProperty("App::PropertyString", "SubsystemTo", "Coupling", "Subsystem to")
+        obj.addProperty("App::PropertyLink", "SubsystemFrom", "Coupling", "Subsystem from")
+        obj.addProperty("App::PropertyLink", "SubsystemTo", "Coupling", "Subsystem to")
         
         obj.addProperty("App::PropertyFloatList", "ImpedanceFrom", "Subsystem From", "Impedance of connection corrected From subsystem.")     
         obj.addProperty("App::PropertyFloatList", "ResistanceFrom", "Subsystem From", "Resistance of connection corrected From subsystem.")
@@ -44,10 +44,10 @@ class Coupling(BaseClass):
         
         if prop == 'ComponentFrom' or prop == 'SubsystemFrom':
             if obj.ComponentFrom and obj.SubsystemFrom:
-                self.model.subsystem_from = getattr(obj.ComponentFrom.Proxy.model, 'subsystem_' + obj.SubsystemFrom)
+                self.model.subsystem_from = obj.SubsystemFrom.Proxy.model
         elif prop == 'ComponentTo' or prop == 'SubsystemTo':
             if obj.ComponentTo and obj.SubsystemTo:
-                self.model.subsystem_to = getattr(obj.ComponentTo.Proxy.model, 'subsystem_' + obj.SubsystemTo)
+                self.model.subsystem_to = obj.SubsystemTo.Proxy.model
             
             
         

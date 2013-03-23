@@ -33,7 +33,7 @@ class System(object):
 
         self.model = Sea.model.system.System()
         
-        obj.addProperty("App::PropertyLinkList","Objects","Objects", "Objects linked to SEA System")
+        #obj.addProperty("App::PropertyLinkList","Objects","Objects", "Objects linked to SEA System")
         obj.addProperty("App::PropertyLinkList","Parts","Objects", "Parts linked to SEA System")
         obj.addProperty("App::PropertyLinkList","Components","Objects", "Components linked to SEA System")
         obj.addProperty("App::PropertyLinkList","Connections","Objects", "Connections linked to SEA System")
@@ -112,7 +112,7 @@ class System(object):
     
         elif prop == 'Frequency':
             self.model.frequency = np.array(obj.Frequency)
-            for item in obj.Objects:
+            for item in obj.Components + obj.Connections:
                 item.Frequency = obj.Frequency
         
     def execute(self, obj):

@@ -103,10 +103,10 @@ class Connection(BaseClass):
                 return
 
             for sub_from, sub_to in itertools.product(comp_from.AvailableSubsystems, comp_to.AvailableSubsystems):
-                
+                #print connection
                 #print 'From: ' + comp_from.ClassName + sub_from
                 #print 'To: ' + comp_to.ClassName + sub_to
-                Sea.actions.factory.makeCoupling(connection, comp_from, sub_from, comp_to, sub_to, coupling_sort)
+                Sea.actions.factory.makeCoupling(connection, comp_from, getattr(comp_from, 'Subsystem' + sub_from), comp_to, getattr(comp_to, 'Subsystem' + sub_to), coupling_sort)
     
     coupling_options = {        
             ('ConnectionPoint', 'Component1DBeam', 'Component1DBeam') : 'Coupling1DStructural',

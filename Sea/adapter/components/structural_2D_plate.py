@@ -25,6 +25,11 @@ class Component2DPlate(baseclasses.ComponentStructural):
         obj.addProperty("App::PropertyFloat", "Thickness", self.name, "Thickness of the plate.")
         obj.addProperty("App::PropertyFloat", "MassPerArea", self.name, "Mass per unit area.")
         
+        
+        obj.SubsystemLong = Sea.actions.factory.makeSubsystem(obj, 'SubsystemLong', Sea.model.components.structural_2D_plate.SubsystemLong)
+        obj.SubsystemBend = Sea.actions.factory.makeSubsystem(obj, 'SubsystemBend', Sea.model.components.structural_2D_plate.SubsystemBend) 
+        obj.SubsystemShear = Sea.actions.factory.makeSubsystem(obj, 'SubsystemShear', Sea.model.components.structural_2D_plate.SubsystemShear) 
+        
         self.calc_area_and_thickness(obj)
         
     def onChanged(self, obj, prop):
