@@ -41,7 +41,7 @@ Consider two components physically attached to each other.
 .. blockdiag::
 
     blockdiag components {
-      component1 <-> component2;
+      "Component A" <-> "Component B";
     }
 
 The figure below shows a block diagram of how the different objects in a simple SEA model based on these two components are related. 
@@ -49,14 +49,14 @@ We assume one wave type exists per component, and so there is one subsystem per 
 Energy is allowed to flow from subsystem1 to subsystem2 via coupling1 and vice versa via coupling2.
 
 
-.. blockdiag::
+.. graphviz::
 
-    blockdiag sea {
-      component1 -> subsystem1;
-      component2 -> subsystem2;
+    digraph sea {
+      "Component A" -> "Subsystem A";
+      "Component B" -> "Subsystem B";
      
-      subsystem1 -> coupling1 -> subsystem2;
-      subsystem2 -> coupling2 -> subsystem1;
+      "Subsystem A" -> "Coupling 1" -> "Subsystem B";
+      "Subsystem B" -> "Coupling 2" -> "Subsystem A";
     }
     
 

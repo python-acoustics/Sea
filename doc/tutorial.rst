@@ -2,9 +2,17 @@
 
 Tutorial
 ########
+The previous chapter showed how Statistical Energy Analysis is implemented in FreeCAD-SEA. 
+In this chapter we will have a look at how to create an SEA model using the graphical user interfance as well as through the Python interpreter.
+Additionally several examples will be shown.
 
 Creating an SEA model
 *********************
+An SEA model can be made using both the graphical user interface as well as through a Python interpreter, either FreeCAD's internal or an external one.
+
+Using the GUI
+=============
+
 In FreeCAD-SEA an SEA model can be made by taking the following steps:
 
 * Create a geometry in the Part workbench.
@@ -12,7 +20,16 @@ In FreeCAD-SEA an SEA model can be made by taking the following steps:
 * Switch to the SEA workbench
 * Add an SEA system and optionally build the system from the geometry.
 
+.. blockdiag::
 
+    blockdiag workflow {
+    
+    "Create geometry" -> "Fuse geometry" -> "Create SEA system"
+    }
+    
+
+Using the Python interpreter
+============================
 
 
 Examples

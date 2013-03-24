@@ -2,7 +2,6 @@
 This module contains abstract base classes for the :mod:`Sea.adapter` classes.
 """
 
-
 from component import ComponentStructural, ComponentCavity
 from connection import Connection
 from coupling import Coupling

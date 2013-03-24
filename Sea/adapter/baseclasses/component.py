@@ -135,6 +135,8 @@ class ComponentStructural(Component):
         obj.Part = part
         obj.ShapeLink = (obj.Part, ['Shape'])
         
+        obj.Label = part.Label + '_' + obj.ClassName
+        
     
     def onChanged(self, obj, prop):
         Component.onChanged(self, obj, prop)
