@@ -18,8 +18,6 @@ class Connection(BaseClass):
         BaseClass.__init__(self, obj, 'Connection')
         system.Connections = system.Connections + [obj]
         
-        
-        
         obj.addProperty("App::PropertyLinkList", "Couplings", "Connection", "List of all couplings.")
         obj.addProperty("App::PropertyLinkList", "Components", "Connection", "Components that are connected via this connection.")
         obj.Frequency = system.Frequency

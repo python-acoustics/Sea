@@ -17,8 +17,7 @@ class Coupling(BaseClass):
         connection.Couplings = connection.Couplings + [obj]
         obj.Frequency = connection.Frequency
         
-        
-        
+        obj.Label = obj.ClassName + '_' + subsystem_from.ClassName.replace('Subsystem', '') + '_to_' + subsystem_to.ClassName.replace('Subsystem', '')
         
         obj.addProperty("App::PropertyFloatList", "CLF", "Coupling", "Coupling loss factor.")
         
