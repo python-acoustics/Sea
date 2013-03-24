@@ -30,4 +30,4 @@ class Coupling2DStructural(Coupling):
     
     @property
     def clf(self):
-        return 0.5
+        return np.ones(len(self.frequency)) * 0.5

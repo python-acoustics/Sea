@@ -107,8 +107,6 @@ class System(object):
         """
         logging.info('Creating matrix for centerfrequency %s', str(self.frequency[f]))
         
-        print subsystems
-        
         LF = np.zeros((len(subsystems), len(subsystems)), dtype=float)
         j = 0
         for subsystem_j in subsystems: # Row j 
@@ -119,8 +117,7 @@ class System(object):
                     #print 'i = j'
                     ## Total loss factor: sum of damping loss factor + loss factors for power transported from i elsewhere
                     loss_factor = subsystem_i.component.material.loss_factor # Damping loss factor
-                    for item in subsystem_i.linked_couplings_from: # + all CLFs 'from' i elsewhere
-                        coupling = self.getObject(item)
+                    for coupling in subsystem_i.linked_couplings_from: # + all CLFs 'from' i elsewhere
                         loss_factor = loss_factor + coupling.clf[f] 
                 
                 else:
@@ -133,7 +130,7 @@ class System(object):
                     ##print 'error. No coupling?'
                     if len(x)==1:
                         coupling = x[0]
-                        loss_factor = - self.getObject(coupling).clf()[f]
+                        loss_factor = - coupling.clf[f]
                     del x        
                 LF[j,i] = loss_factor * subsystem_i.modal_density[f]
                 i+=1
@@ -157,9 +154,7 @@ class System(object):
         logging.info('Cleared results.')
      
     def solveSystem(self):  # Put the actual solving in a separate thread
-        """
-        Solve energies for all subsystems.
-        
+        """Solve modal powers.
         
         This method solves the modal energies for every subsystem.
         The method :meth:`createMatrix` is called for every frequency band to construct a matrix of :term:`loss factors` and :term:`modal densities`.
@@ -170,30 +165,23 @@ class System(object):
 
         subsystems = self.subsystems
         
-        print subsystems
-        
-        f=0
-        
-        # Split this component. Create loss factor matrix and modal densities arrays seperately.
-        for f in xrange(0, len(self.frequency), 1):
-            if self.enabled_bands(f):
-                LF = self.createMatrix(subsystems, f)
+       
+        for f in xrange(0, len(self.frequency), 1): # For every frequency band
+            if self.enabled_bands[f]:               # If it is enabled
+                LF = self.createMatrix(subsystems, f)   # Create a loss factor matrix.
                 
-                # Create input power vector....we're still working for a single frequency now
-                input_power = np.zeros(len(subsystems))
-                modal_density = np.zeros(len(subsystems))
-
+                input_power = np.zeros(len(subsystems))     # Create input power vector
                 
                 i=0
                 for subsystem in subsystems:
-                    modal_density[i] = subsystem.modal_density[f]
                     input_power[i] = subsystem.input_power[f] / self.omega[f]   # Retrieve the power for the right frequency
                     i=i+1
                     
-
-                #print input_power
-                modal_energy = np.linalg.solve(LF, input_power)    # Left division results in the modal energies.
-                #print E
+                try:
+                    modal_energy = np.linalg.solve(LF, input_power)    # Left division results in the modal energies.
+                except np.linalg.linalg.LinAlgError as e:   # If there is an error solving the matrix, then quit right away.
+                    warnings.warn( repr(e) )
+                    return
                 # Save each modal energy to its respective Subsystem nameect
                 
                 i = 0

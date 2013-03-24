@@ -60,7 +60,7 @@ class Coupling(BaseClass):
     def execute(self, obj):
         BaseClass.execute(self, obj)
         
-        obj.CLF = self.model.clf
+        obj.CLF = map(float, list(self.model.clf))
         
         obj.ImpedanceFrom = map(float, list(self.model.impedance_from))
         obj.ImpedanceTo = map(float, list(self.model.impedance_to))
