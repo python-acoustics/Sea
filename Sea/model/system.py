@@ -116,7 +116,7 @@ class System(object):
                 if i==j:
                     #print 'i = j'
                     ## Total loss factor: sum of damping loss factor + loss factors for power transported from i elsewhere
-                    loss_factor = subsystem_i.component.material.loss_factor # Damping loss factor
+                    loss_factor = subsystem_i.component.material.loss_factor[f] # Damping loss factor
                     for coupling in subsystem_i.linked_couplings_from: # + all CLFs 'from' i elsewhere
                         loss_factor = loss_factor + coupling.clf[f] 
                 

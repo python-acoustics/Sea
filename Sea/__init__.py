@@ -5,3 +5,7 @@ This module extends :term:`FreeCAD` with classes and functions to perform a Stat
 import model
 import adapter
 import actions
+
+
+import numpy as np
+np.seterr(all='raise')

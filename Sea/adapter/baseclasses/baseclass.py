@@ -73,7 +73,14 @@ class BaseClass(object):
         """
         pass
 
-
+    @staticmethod
+    def toList(x):
+        """
+        Convert :attr:`x` to a list of floats.
+        """
+        return map(float, list(x))
+    
+    
 ###class ViewProviderBaseClass(object):
     ###"""
     ###Base class for SEA viewprovider

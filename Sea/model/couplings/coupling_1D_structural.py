@@ -4,7 +4,9 @@ from ..baseclasses import Coupling
 
 
 class Coupling1DStructural(Coupling):
-    
+    """
+    Model of a one-dimensional coupling between structural components.
+    """
 
     @property
     def impedance_from(self):
@@ -30,6 +32,8 @@ class Coupling1DStructural(Coupling):
         ##.. math:: \\overline{\\tau_{12}} = \\frac{8 \\pi \\langle \\overline{G_1} \\rangle f \\eta_1 M_1}{1 + \\frac{\\eta_1}{\\eta_2}} \\frac{\\eta_2 + \\eta_{21}}{\\eta_12}
         
         .. math:: \\tau_{12} = \\frac{4 R_1 R_2}{\\left| \\sum_{i=1}^m Z_i \\right|^2}
+        
+        See :cite:`1998:lyon`.
         """
         return 4.0 * self.resistance_from * self.resistance_to / self.connection.impedance**2.0
          

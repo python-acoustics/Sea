@@ -3,7 +3,9 @@ from ..baseclasses import Coupling
 
 
 class Coupling3DPlateCavity(Coupling):
-    
+    """
+    A model describing the coupling between a plate and a cavity.
+    """
     
     @property
     def impedance_from(self):
@@ -28,6 +30,9 @@ class Coupling3DPlateCavity(Coupling):
     def critical_wavelength(self):
         """
         Wavelength belonging to critical frequency.
+        
+        .. math:: \\lambda_c = c_{g} / f_c
+        
         """
         return self.soundspeed_group / self.critical_frequency
         
@@ -36,8 +41,34 @@ class Coupling3DPlateCavity(Coupling):
         """
         Radiation efficiency of a plate for bending waves.
         
+        Where:
+        
+        * area of plate :math:`S = L_x L_y`
+        * circumference of plate :math:`U = 2 (L_x + L_y)`
+        
+        * :math:`\\alpha  = \\sqrt{\\frac{f}{f_c}}`
+        
+        When :math:`f < 0.5 f_c`:
+        
+        .. math:: g_1 = \\frac{4}{\\pi^4} (1 - 2 \\alpha^2) (1 - \\alpha^2)^(-0.5) 
+        
+        When :math:`f > 0.5 f_c`:
+        
+        .. math:: g_1 = 0
+        
+        
+        .. math::
+        
+        
+        
+        
+        
+        
         See TA2 Radiation plateapp_ta2
         """      
+        
+        component = self.component_from
+        
         
         f = np.array(self.frequency, dtype=complex)
         """Cast to complex numbers to prevent errors with sqrt further down."""
@@ -45,10 +76,10 @@ class Coupling3DPlateCavity(Coupling):
         fc = self.critical_frequency
         lc = self.critical_wavelength
         
-        Lx = self.component.length
-        Ly = self.component.width
-        S = self.component.area
-        U = 2.0 * (self.length + self.width)
+        Lx = component.length
+        Ly = component.width
+        S = component.area
+        U = 2.0 * (Lx + Ly)
         
         fc_band = (fc > self.lower) * (fc < self.upper)
         f_lower = fc > self.upper
@@ -87,6 +118,6 @@ class Coupling3DPlateCavity(Coupling):
         """
         try:
             return self.subsystem_from.component.material.density * self.subsystem_to.soundspeed_group * \
-                   self.subsystem_from.radiation_efficiency / (self.omega * self.subsystem_from.component.mass_per_area)
+                   self.radiation_efficiency / (self.omega * self.subsystem_from.component.mass_per_area)
         except ZeroDivisionError:
             return np.zeros(len(self.frequency))

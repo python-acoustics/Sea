@@ -9,10 +9,10 @@ class SubsystemBend(baseclasses.Subsystem):
         baseclasses.Subsystem.__init__(self, obj, component, model)
         component.Proxy.model.subsystem_bend = obj.Proxy.model
         
-        obj.addProperty("App::PropertyFloat", "CriticalFrequency", "Bending", "Critical frequency.")
+        #obj.addProperty("App::PropertyFloat", "CriticalFrequency", "Bending", "Critical frequency.")
         
     def execute(self, obj):
         baseclasses.Subsystem.execute(self, obj)
         
-        obj.CriticalFrequency = self.model.critical_frequency
+        #obj.CriticalFrequency = self.model.critical_frequency
     

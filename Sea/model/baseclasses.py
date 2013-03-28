@@ -164,7 +164,9 @@ class Subsystem(BaseClass):
     This value is iteratively updated.
     """
     
-    
+    @property
+    def clf(self):
+        return np.zeros(len(self.frequency))
     
     @abc.abstractproperty                      
     def soundspeed_phase(self):
@@ -289,8 +291,11 @@ class Subsystem(BaseClass):
         
         .. math:: v = \\sqrt{\\frac{E}{m}}
         """
-        return np.sqrt(self.energy / self.component.mass)
-        
+        try:
+            return np.sqrt(self.energy / self.component.mass)
+        except FloatingPointError:
+            return np.zeros(len(self.frequency))
+            
     @property
     def velocity_level(self):
         """
@@ -298,8 +303,10 @@ class Subsystem(BaseClass):
         
         .. math:: L_v = 20 \\log_{10}{\\frac{v}{v_0}}
         """
-        return 20 * np.log10(self.velocity / (5 * 10**(-8)) ) 
-
+        try:
+            return 20 * np.log10(self.velocity / (5 * 10**(-8)) ) 
+        except FloatingPointError:
+            return np.zeros(len(self.frequency))
     
         
 class SubsystemStructural(Subsystem):
@@ -308,13 +315,13 @@ class SubsystemStructural(Subsystem):
     """
     __metaclass__ = abc.ABCMeta  
     
-    @property
-    def radiation_efficiency(self):
-        return np.zeros(len(self.frequency))
+    #@property
+    #def radiation_efficiency(self):
+        #return np.zeros(len(self.frequency))
     
-    @property
-    def critical_frequency(self):
-        return 0.0
+    #@property
+    #def critical_frequency(self):
+        #return 0.0
     
 class SubsystemCavity(Subsystem): 
     """
