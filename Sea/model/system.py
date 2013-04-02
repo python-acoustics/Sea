@@ -15,6 +15,7 @@ class System(object):
     """
     The System class contains methods for solving the model.
     """
+    object_sort = 'System'
     
     
     # update lists through connector

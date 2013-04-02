@@ -129,9 +129,7 @@ def create_system_from_structure(structure):
     :param structure: an instance of :class:`Part.MultiFuse`
     """ 
     system = Sea.actions.factory.makeSystem(structure)
-    
-    handler = Sea.actions.system.System(system)
-    handler.addComponentsStructural()
-    handler.addComponentsCavities()
-    handler.addConnections()
+    system.addComponentsStructural()
+    system.addComponentsCavities()
+    system.addConnections()
     return system

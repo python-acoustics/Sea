@@ -17,11 +17,8 @@ class Subsystem(BaseClass):
         :param obj: FreeCAD Python Feature object
         :param component: an instance of a child of :class:`Sea.adapter.baseclasses.Component`
         """
-        
-        self.model = model()
-        self.model.component = component.Proxy.model
-        
-        BaseClass.__init__(self, obj, 'Subsystem')
+        BaseClass.__init__(self, obj, model)
+        obj.Model.component = component.Model
         obj.Frequency = component.Frequency
         component.Subsystems = component.Subsystems + [obj]
         

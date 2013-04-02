@@ -13,8 +13,7 @@ class Component2DCavity(baseclasses.ComponentCavity):
     name = "Cavity 2D"
     description = "A component describing a two-dimensional cavity."
     
-    model = Sea.model.components.Component2DCavity()
-    
     def __init__(self, obj, material, structure, position):
-        baseclasses.ComponentCavity.__init__(self, obj, material, structure, position)
+        model = Sea.model.components.Component2DCavity()
+        baseclasses.ComponentCavity.__init__(self, obj, material, structure, position, model)
         

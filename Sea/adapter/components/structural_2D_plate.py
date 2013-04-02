@@ -8,18 +8,18 @@ from .. import baseclasses
 class Component2DPlate(baseclasses.ComponentStructural):
     """
     Plate structural component.
+    
+    This adapter describes a :class:`Sea.model.components.Component2DPlate`
     """
 
     name = 'Plate'
     description = 'A structural component with wave propagation along two dimensions.'
     
-    model = Sea.model.components.Component2DPlate()  
-    """
-    This adapter describes a :class:`Sea.model.components.Component2DPlate`
-    """
+    
     
     def __init__(self, obj, system, material, part):
-        baseclasses.ComponentStructural.__init__(self, obj, system, material, part)
+        model = Sea.model.components.Component2DPlate()  
+        baseclasses.ComponentStructural.__init__(self, obj, system, material, part, model)
         
         obj.addProperty("App::PropertyFloat", "Area", self.name, "Area of the plate.")
         obj.addProperty("App::PropertyFloat", "Thickness", self.name, "Thickness of the plate.")
@@ -27,25 +27,25 @@ class Component2DPlate(baseclasses.ComponentStructural):
         self.calc_area_and_thickness(obj)
         
         
-        obj.SubsystemLong = Sea.actions.factory.makeSubsystem(obj, 'SubsystemLong', Sea.model.components.structural_2D_plate.SubsystemLong)
-        obj.SubsystemBend = Sea.actions.factory.makeSubsystem(obj, 'SubsystemBend', Sea.model.components.structural_2D_plate.SubsystemBend) 
-        obj.SubsystemShear = Sea.actions.factory.makeSubsystem(obj, 'SubsystemShear', Sea.model.components.structural_2D_plate.SubsystemShear) 
+        obj.SubsystemLong = obj.makeSubsystem('SubsystemLong', Sea.model.components.structural_2D_plate.SubsystemLong)
+        obj.SubsystemBend = obj.makeSubsystem('SubsystemBend', Sea.model.components.structural_2D_plate.SubsystemBend) 
+        obj.SubsystemShear = obj.makeSubsystem('SubsystemShear', Sea.model.components.structural_2D_plate.SubsystemShear) 
         
         
     def onChanged(self, obj, prop):
         baseclasses.ComponentStructural.onChanged(self, obj, prop)
         
         if prop == 'Area':
-            self.model.area = obj.Area
+            obj.Model.area = obj.Area
         
         if prop == 'Thickness':
-            self.model.thickness = obj.Thickness
+            obj.Model.thickness = obj.Thickness
             
     def execute(self, obj):
         baseclasses.ComponentStructural.execute(self, obj)
         self.calc_area_and_thickness(obj)
         
-        obj.MassPerArea = self.model.mass_per_area
+        obj.MassPerArea = obj.Model.mass_per_area
         
     def calc_area_and_thickness(self, obj):
         """

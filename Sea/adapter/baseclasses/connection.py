@@ -12,11 +12,14 @@ class Connection(BaseClass):
     """
     __metaclass__ = abc.ABCMeta
     
-    model = Sea.model.connection.Connection
-    
     def __init__(self, obj, system, components):
-        BaseClass.__init__(self, obj, 'Connection')
+        
+        model = Sea.model.connection.Connection
+        
+        BaseClass.__init__(self, obj, model)
         system.Connections = system.Connections + [obj]
+        
+        obj.makeCoupling = self.makeCoupling
         
         obj.addProperty("App::PropertyLinkList", "Couplings", "Connection", "List of all couplings.")
         obj.addProperty("App::PropertyLinkList", "Components", "Connection", "Components that are connected via this connection.")
@@ -104,7 +107,7 @@ class Connection(BaseClass):
                 #print connection
                 #print 'From: ' + comp_from.ClassName + sub_from
                 #print 'To: ' + comp_to.ClassName + sub_to
-                Sea.actions.factory.makeCoupling(connection, comp_from, getattr(comp_from, 'Subsystem' + sub_from), comp_to, getattr(comp_to, 'Subsystem' + sub_to), coupling_sort)
+                connection.makeCoupling(comp_from, getattr(comp_from, 'Subsystem' + sub_from), comp_to, getattr(comp_to, 'Subsystem' + sub_to), coupling_sort)
     
     coupling_options = {        
             ('ConnectionPoint', 'Component1DBeam', 'Component1DBeam') : 'Coupling1DStructural',
@@ -137,4 +140,27 @@ class Connection(BaseClass):
                 txt = 'Could not determine the type of coupling for ' + component_from.ClassName + ' to ' + component_to.ClassName + ' with ' + connection_type +  '.\n'
                 App.Console.PrintWarning(txt)
                 return None
+        
+    
+    @staticmethod
+    def makeCoupling(connection, component_from, subsystem_from, component_to, subsystem_to, sort):
+        """
+        Add a coupling to system.
+        
+        :param connection: an instance of :class:`Sea.adapter.baseclasses.Connection`
+        :param component_from: an instance of a child of :class:`Sea.adapter.baseclasses.Component`
+        :param subsystem_from: string representing the type of subsystem
+        :param component_to: an instance of a child of :class:`Sea.adapter.baseclasses.Component`
+        :param subsystem_to: string representing the type of subsystem
+        :param sort: sort of coupling as specified in :class:`Sea.adapter.couplings.couplings_map`
+        
+        """
+        #if connection.System == component_from.System == component_to.System:
+        from Sea.adapter.object_maps import couplings_map
+        
+        obj = connection.newObject("App::FeaturePython", 'Coupling')
+        couplings_map[sort](obj, connection, component_from, subsystem_from, component_to, subsystem_to)
+        logging.info("Sea: Created %s.", obj.Name)
+        obj.Document.recompute()
+        return obj
     

@@ -10,7 +10,7 @@ class Component(BaseClass):
     """
     __metaclass__ = abc.ABCMeta
     
-    def __init__(self, obj, system, material):
+    def __init__(self, obj, system, material, model):
         """
         Constructor
         
@@ -20,9 +20,10 @@ class Component(BaseClass):
         :param material: FreeCAD part
         """
         
-        BaseClass.__init__(self, obj, 'Component')
+        BaseClass.__init__(self, obj, model)
         system.Components = system.Components + [obj]
         
+        obj.makeSubsystem = self.makeSubsystem
         
         #obj.addProperty("App::PropertyLink", "Material", "Component", "Material the component is made of.")
         obj.addProperty("Part::PropertyPartShape", "Shape", "Component", "Shape of Part.")
@@ -43,15 +44,13 @@ class Component(BaseClass):
         #obj.Material = material
         
         material.Components = material.Components + [obj]
-        self.model.material = material.Proxy.model
+        obj.Model.material = material.Model
         
-        obj.AvailableSubsystems = self.model.availableSubsystems
+        obj.AvailableSubsystems = obj.Model.availableSubsystems
         for sort in obj.AvailableSubsystems:   
             obj.addProperty("App::PropertyLink", "Subsystem" + sort.capitalize(), "Subsystems", "Subsystem of type " + sort)
         obj.EnabledSubsystems = obj.AvailableSubsystems
         obj.Frequency = system.Frequency
-        
-        
         
             
     def onChanged(self, obj, prop):
@@ -66,10 +65,10 @@ class Component(BaseClass):
             #obj.Volume = getattr(obj.Shape, 'Volume')
             
         if prop == 'Volume':
-            self.model.volume = obj.Volume
+            obj.Model.volume = obj.Volume
         
         #if prop == 'Material':
-            #self.model.material = obj.Material.Proxy.model
+            #obj.Model.material = obj.Material.Proxy.model
         
         if prop == 'Frequency':
             for sub in obj.Subsystems:
@@ -77,7 +76,23 @@ class Component(BaseClass):
         
     def execute(self, obj):
         BaseClass.execute(self, obj)
+    
+    @staticmethod
+    def makeSubsystem(component, sort, model):
+        """
+        Add a subsystem to a component.
         
+        :param component: an instance of a child of :class:`Sea.adapter.baseclasses.Component`.
+        :param sort: type of subsystem.
+        :param model: model of the subsysten belonging to :attr:`component` and specified in :mod:`Sea.model.components`
+        """
+        from Sea.adapter.object_maps import subsystems_map
+        
+        obj = component.newObject("App::FeaturePython", "Subsystem")
+        subsystems_map[sort](obj, component, model)
+        logging.info("Sea: Created %s.", obj.Name)
+        obj.Document.recompute()
+        return obj  
        
 class ComponentStructural(Component):
     """
@@ -85,8 +100,8 @@ class ComponentStructural(Component):
     """
     __metaclass__ = abc.ABCMeta
      
-    def __init__(self, obj, system, material, part):
-        Component.__init__(self, obj, system, material)
+    def __init__(self, obj, system, material, part, model):
+        Component.__init__(self, obj, system, material, model)
         #obj.addProperty("App::PropertyFloat", "BendingStiffness", "Component", "Bending stiffness of the Component")
         
         obj.addProperty("App::PropertyFloat", "AreaMomentOfInertia", "Structural", "Area moment of intertia.")
@@ -99,15 +114,14 @@ class ComponentStructural(Component):
         
         obj.Label = part.Label + '_' + obj.ClassName
         
-    
     def onChanged(self, obj, prop):
         Component.onChanged(self, obj, prop)
         
         if prop == 'Material':
             if obj.Material == None:
-                self.model.material = None
+                obj.Model.material = None
             #else:
-                #self.model.material = obj.Material.Proxy.model
+                #obj.Model.material = obj.Material.Proxy.model
         
         if prop == 'ShapeLink':
             obj.Shape = getattr(obj.Part, 'Shape')
@@ -115,8 +129,8 @@ class ComponentStructural(Component):
     def execute(self, obj):
         Component.execute(self, obj)
         
-        obj.AreaMomentOfInertia = self.model.area_moment_of_inertia
-        obj.RadiusOfGyration = self.model.radius_of_gyration
+        obj.AreaMomentOfInertia = obj.Model.area_moment_of_inertia
+        obj.RadiusOfGyration = obj.Model.radius_of_gyration
         
         
 class ComponentCavity(Component):
@@ -125,10 +139,8 @@ class ComponentCavity(Component):
     """
     __metaclass__ = abc.ABCMeta
     
-    
-    
-    def __init__(self, obj, system, material, position):
-        Component.__init__(self, obj, system, material)
+    def __init__(self, obj, system, material, position, model):
+        Component.__init__(self, obj, system, material, model)
         
         obj.addProperty("App::PropertyVector", "Position", "Cavity", "Position within the cavity.")
         obj.addProperty("App::PropertyLink", "Structure", "Structure", "Fused structure.")

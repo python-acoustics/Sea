@@ -10,8 +10,8 @@ class Excitation(BaseClass):
     """
     __metaclass__ = abc.ABCMeta
     
-    def __init___(self, obj, system, component, subsystem, **properties):
-        BaseClass.__init__(self, obj, 'Excitation')
+    def __init___(self, obj, system, component, subsystem, model):
+        BaseClass.__init__(self, obj, model)
         system.Excitations = system.Excitations + [obj]
         
         obj.addProperty("App::PropertyLink", "Component", "Excitation", "Component that is excited.")  

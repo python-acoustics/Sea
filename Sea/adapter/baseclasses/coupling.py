@@ -10,8 +10,8 @@ class Coupling(BaseClass):
     """
     __metaclass__ = abc.ABCMeta
     
-    def __init__(self, obj, connection, component_from, subsystem_from, component_to, subsystem_to):
-        BaseClass.__init__(self, obj, 'Coupling')
+    def __init__(self, obj, connection, component_from, subsystem_from, component_to, subsystem_to, model):
+        BaseClass.__init__(self, obj, model)
         
         #print connection.ClassName
         connection.Couplings = connection.Couplings + [obj]

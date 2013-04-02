@@ -23,9 +23,9 @@ class Material(BaseClass):
     """
     __metaclass__ = abc.ABCMeta
 
-    def __init__(self, obj, system):
+    def __init__(self, obj, system, model):
         obj.addProperty("App::PropertyLinkList", "Components", "Material", "Components that make use of this material.")
-        BaseClass.__init__(self, obj, 'Material')
+        BaseClass.__init__(self, obj, model)
         system.Materials = system.Materials + [obj]
         obj.Frequency = system.Frequency
         
@@ -34,9 +34,6 @@ class Material(BaseClass):
         obj.addProperty("App::PropertyFloat", "Temperature", "Material", "Temperature of the material.").Temperature=0.0
         obj.addProperty("App::PropertyFloat", "Pressure", "Material", "Pressure of the material.").Pressure=0.0
         obj.addProperty("App::PropertyFloat", "Bulk", "Material", "Bulk modulus of the material").Bulk=0.0
-
-        
-        
         
     def onChanged(self, obj, prop):
         BaseClass.onChanged(self, obj, prop)

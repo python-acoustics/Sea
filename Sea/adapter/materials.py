@@ -14,10 +14,11 @@ class MaterialSolid(baseclasses.Material):
     name = 'Solid'
     description = 'A material in solid state.'
     
-    model = Sea.model.materials.MaterialSolid()
+    
     
     def __init__(self, obj, system):
-        baseclasses.Material.__init__(self, obj, system)
+        model = Sea.model.materials.MaterialSolid()
+        baseclasses.Material.__init__(self, obj, system, model)
 
         obj.addProperty("App::PropertyFloat", "Young", "Solid", "Young's modulus").Young=0.0
         obj.addProperty("App::PropertyFloat", "Shear", "Solid", "Shear modulus").Shear=0.0
@@ -28,11 +29,11 @@ class MaterialSolid(baseclasses.Material):
         baseclasses.Material.onChanged(self, obj, prop)
         
         if prop == 'Young':
-            self.model.young = obj.Young
+            obj.Model.young = obj.Young
         elif prop == 'Shear':
-            self.model.shear = obj.Shear
+            obj.Model.shear = obj.Shear
         elif prop == 'Poisson':
-            self.model.poisson = obj.Poisson
+            obj.Model.poisson = obj.Poisson
             
     def execute(self, obj):
         baseclasses.Material.execute(self, obj)
@@ -42,7 +43,12 @@ class MaterialGas(baseclasses.Material):
     name = 'Gas'
     description = 'A material in gas state.'
     
-    model = Sea.model.materials.MaterialGas()
+    def __init__(self, obj, system):
+        model = Sea.model.materials.MaterialGas()
+        baseclasses.Material.__init__(self, obj, system, model)
+
+    
+    
     
     
 import inspect, sys

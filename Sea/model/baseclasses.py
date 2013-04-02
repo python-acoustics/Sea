@@ -50,6 +50,7 @@ class Component(BaseClass):
     Volume :math:`V` of the component.
     """
     
+    object_sort = 'Component'
     
     def _get_mass(self):
         if self._mass == None:
@@ -124,7 +125,7 @@ class Subsystem(BaseClass):
     List of excitations this subsystem experiences.
     """
 
-
+    object_sort = 'Subsystem'
         
     component = None
     """
@@ -387,6 +388,8 @@ class Coupling(BaseClass):
     Type of subsystem destination for coupling
     """
     
+    object_sort = 'Coupling'
+    
     size = None
     """
     Size of the coupling.
@@ -463,6 +466,8 @@ class Excitation(BaseClass):
     """
     Subsystem that is being excited by this excitation
     """
+    
+    object_sort = 'Excitation'
 
     _power = None
     
@@ -486,6 +491,8 @@ class Material(BaseClass):
     Abstract Material Class
     """
     __metaclass__ = abc.ABCMeta
+    
+    object_sort = 'Material'
     
     linked_components = None
     """
