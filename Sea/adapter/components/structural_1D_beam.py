@@ -15,7 +15,7 @@ class Component1DBeam(baseclasses.ComponentStructural):
     description = 'A structural component with wave propagation along one dimension.'
     
     def __init__(self, obj, material, part):
-        model = Sea.model.components.Component1DBeam()
+        model = Sea.model.components.Component1DBeam
         baseclasses.ComponentStructural.__init__(self, obj, material, part, model)
         
         obj.addProperty("App::PropertyLength", "Length", "Beam", "Length of the beam")
@@ -32,14 +32,14 @@ class Component1DBeam(baseclasses.ComponentStructural):
         baseclasses.ComponentStructural.onChanged(self, obj, prop)
         
         if prop == 'Length':
-            self.model.length = obj.Length
+            obj.Model.length = obj.Length
     
     def execute(self, obj):
         baseclasses.ComponentStructural.execute(self, obj)
         
-        obj.Length = self.model.length
-        obj.AreaMoment = self.model.area_moment_of_inertia
-        obj.CrossSection = self.model.cross_section
+        obj.Length = obj.Model.length
+        obj.AreaMoment = obj.Model.area_moment_of_inertia
+        obj.CrossSection = obj.Model.cross_section
         
     
  

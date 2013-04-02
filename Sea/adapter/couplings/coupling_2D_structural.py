@@ -11,7 +11,7 @@ class Coupling2DStructural(baseclasses.Coupling):
     
 
     def __init__(self, obj, connection, component_from, component_to, subsystem_from, subsystem_to):
-        model = Sea.model.couplings.Coupling2DStructural()
+        model = Sea.model.couplings.Coupling2DStructural
         baseclasses.Coupling.__init__(self, obj, connection, component_from, component_to, subsystem_from, subsystem_to, model)
 
     

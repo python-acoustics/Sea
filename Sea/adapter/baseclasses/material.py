@@ -44,23 +44,23 @@ class Material(BaseClass):
                 sub.touch()
         
         if prop == 'Density':
-            self.model.density = obj.Density
+            obj.Model.density = obj.Density
         elif prop == 'LossFactor':
             if len(obj.LossFactor) == 1:
-                self.model.loss_factor = np.ones(len(obj.Frequency)) * obj.LossFactor
+                obj.Model.loss_factor = np.ones(len(obj.Frequency)) * obj.LossFactor
             else:
-                self.model.loss_factor = obj.LossFactor
+                obj.Model.loss_factor = obj.LossFactor
         elif prop == 'Temperature':
-            self.model.temperature = obj.Temperature
+            obj.Model.temperature = obj.Temperature
         elif prop == 'Pressure':
-            self.model.pressure = obj.Pressure
+            obj.Model.pressure = obj.Pressure
         elif prop == 'Bulk':
-            self.model.bulk = obj.Bulk
+            obj.Model.bulk = obj.Bulk
         
     def execute(self, obj):
-        obj.Density = self.model.density
-        obj.LossFactor = self.toList(self.model.loss_factor)
-        obj.Temperature = self.model.temperature
-        obj.Pressure = self.model.pressure
-        obj.Bulk = self.model.bulk
+        obj.Density = obj.Model.density
+        obj.LossFactor = self.toList(obj.Model.loss_factor)
+        obj.Temperature = obj.Model.temperature
+        obj.Pressure = obj.Model.pressure
+        obj.Bulk = obj.Model.bulk
         

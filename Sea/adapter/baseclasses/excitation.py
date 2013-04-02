@@ -26,4 +26,4 @@ class Excitation(BaseClass):
         BaseClass.onChanged(self, obj, prop)  
         
         if prop == 'Subsystem':
-            self.model.subsystem = obj.Subsystem.Proxy.model
+            obj.Model.subsystem = obj.Subsystem.Model
