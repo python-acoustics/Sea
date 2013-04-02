@@ -73,9 +73,8 @@ class TaskPanelAddSystem(object):
         form.build = form.findChild(QtGui.QCheckBox, 'buildSystem')
         
         for item in App.ActiveDocument.Objects:
-            if item.isDerivedFrom('Part::MultiFuse'):
+            if Sea.actions.document.isFuse(item):
                 QtGui.QListWidgetItem(item.Name, form.part_list)
-           
         
         
         #form.groupbox.setTitle('Add ' + self.sort)

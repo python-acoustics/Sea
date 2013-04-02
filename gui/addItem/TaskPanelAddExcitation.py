@@ -36,10 +36,11 @@ class TaskPanelAddExcitation(object):
         sort = self.get_sort()
 
         system = self.getObjectFromList(self.form.system_list)
+        component = self.getObjectFromList(self.form.component_list)
         subsystem = self.getObjectFromList(self.form.subsystem_list)
         
-        if sort and system and subsystem:
-            Sea.actions.makeSubsystem(sort, system, material, part)
+        if system and component and subsystem and sort:
+            subsystem.makeExcitation(sort, system, material, part)
             return True
         else:
             App.Console.PrintError('Please check your selection.\n')
@@ -75,10 +76,10 @@ class TaskPanelAddExcitation(object):
         #form.title
         
         form.groupbox = form.findChild(QtGui.QGroupBox, 'groupBox')
-        form.sort_list = form.findChild(QtGui.QListWidget, "sortList")
         form.system_list = form.findChild(QtGui.QListWidget, "systemList")
+        form.component_list = form.findChild(QtGui.QListWidget, "componentList")
         form.subsystem_list = form.findChild(QtGui.QListWidget, "subsystemList")
-
+        form.sort_list = form.findChild(QtGui.QListWidget, "sortList")
         
         sort = dict()
         for key, item in Sea.adapter.subsystems_map.iteritems():
@@ -89,13 +90,14 @@ class TaskPanelAddExcitation(object):
         
         if App.ActiveDocument:   
             for item in App.ActiveDocument.Objects:
-                if 'IsSeaSystem' in item.PropertiesList:
-                    if getattr(item, 'IsSeaSystem') == True:
-                        QtGui.QListWidgetItem(item.Name, form.system_list)
+                if Sea.actions.isSystem(item):
+                    QtGui.QListWidgetItem(item.Name, form.system_list)
+                elif Sea.actions.isComponent(item):
+                    QtGui.QListWidgetItem(item.Name, form.component_list)
+
                 
-                elif 'IsSeaExcitation' in item.PropertiesList:
-                    if getattr(item, 'IsSeaSubsystem') == True:
-                        QtGui.QListWidgetItem(item.Name, form.subsystems_list)
+                elif Sea.actions.isSubsystem(item):
+                    QtGui.QListWidgetItem(item.Name, form.subsystems_list)
 
         #form.groupbox.setTitle('Add ' + self.sort)
         #form.setWindowTitle('Add ' + self.sort)

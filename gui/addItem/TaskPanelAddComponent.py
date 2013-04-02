@@ -40,7 +40,7 @@ class TaskPanelComponent(object):
         material = self.getObjectFromList(self.form.material_list)
         
         if sort and system and part and material:
-            Sea.actions.makeComponent(sort, system, material, part)
+            system.makeComponent(sort, material, part)
             return True
 
         else:
@@ -84,7 +84,7 @@ class TaskPanelComponent(object):
 
         
         sort = dict()
-        for key, item in Sea.adapter.components_map.iteritems():
+        for key, item in Sea.adapter.object_maps.components_map.iteritems():
             QtGui.QListWidgetItem(item.name, form.sort_list).setToolTip(item.description)
             sort[item.name] = key
  
@@ -97,7 +97,9 @@ class TaskPanelComponent(object):
                 elif Sea.actions.document.isMaterial(item):
                     QtGui.QListWidgetItem(item.Name, form.material_list)
                 else:
-                    QtGui.QListWidgetItem(item.Name, form.part_list)       
+                    if hasattr(item, 'Shape'):
+                        if item.Shape:
+                            QtGui.QListWidgetItem(item.Name, form.part_list)       
                     
 
             

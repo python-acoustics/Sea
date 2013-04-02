@@ -43,7 +43,7 @@ class BaseClass(object):
         obj.addProperty("App::PropertyString", "ClassName", "SEA", "Name of the class of this object.")
         obj.addProperty("App::PropertyString", "SeaObject", "SEA", "Type of SEA object.")
         obj.addProperty("App::PropertyFloatList", "Frequency", "SEA", "Frequency bands")
-        
+        obj.addProperty("App::PropertyFloatList", "AngularFrequency", "SEA", "Angular frequency bands")
         obj.addProperty("App::PropertyPythonObject", "Model", "SEA", "Model of the SEA object.")
         obj.Model = model() # here we create the instance of the model
         """
@@ -71,6 +71,7 @@ class BaseClass(object):
         
         if prop == 'Frequency':
             obj.Model.frequency = np.array(obj.Frequency)
+            obj.AngularFrequency = self.toList(obj.Model.omega)
             
     def execute(self, obj):
         """
@@ -78,6 +79,8 @@ class BaseClass(object):
         
         :param obj: Feature object
         """
+        obj.AngularFrequency = self.toList(obj.Model.omega)
+        
         pass
 
     @staticmethod

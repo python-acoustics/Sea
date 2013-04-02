@@ -38,7 +38,7 @@ class TaskPanelAddMaterial(object):
         system = self.getObjectFromList(self.form.system_list)
         
         if sort and system:
-            Sea.actions.makeMaterial(sort, system)
+            system.makeMaterial(sort)
             return True
         else:
             App.Console.PrintError('Please check your selection.\n')
@@ -78,7 +78,7 @@ class TaskPanelAddMaterial(object):
         form.system_list = form.findChild(QtGui.QListWidget, "systemList")
         
         sort = dict()
-        for key, item in Sea.adapter.materials_map.iteritems():
+        for key, item in Sea.adapter.object_maps.materials_map.iteritems():
             QtGui.QListWidgetItem(item.name, form.sort_list).setToolTip(item.description)
             sort[item.name] = key
  
@@ -86,9 +86,8 @@ class TaskPanelAddMaterial(object):
         
         if App.ActiveDocument:   
             for item in App.ActiveDocument.Objects:
-                if 'IsSeaSystem' in item.PropertiesList:
-                    if getattr(item, 'IsSeaSystem') == True:
-                        QtGui.QListWidgetItem(item.Name, form.system_list)            
+                if Sea.actions.document.isSystem(item):
+                    QtGui.QListWidgetItem(item.Name, form.system_list)            
             
         #form.groupbox.setTitle('Add ' + self.sort)
         #form.setWindowTitle('Add ' + self.sort)

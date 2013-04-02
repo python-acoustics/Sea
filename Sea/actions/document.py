@@ -52,6 +52,24 @@ def isExcitation(obj):
 def isMaterial(obj):
     return _isObject(obj, "Material")
 
+
+def isFuse(obj):
+    """
+    Is obj a Part.MultiFuse or not.
+    """
+    if item.isDerivedFrom('Part::MultiFuse'):
+        return True
+    
+def hasFuse(document):
+    """
+    Check whether the document has a Part.MultiFuse
+    """
+    if document:
+        for obj in document.Objects:
+            if isFuse(obj):
+                return True
+    
+    
 def _hasObject(document, sort):
     """
     Detect whether document has any :class:`Sea.adapter.system.System`
@@ -119,7 +137,7 @@ def create_empty_system(structure):
     
     :param structure: an instance of :class:`Part.MultiFuse`
     """          
-    system = Sea.actions.makeSystem(structure)
+    system = Sea.actions.factory.makeSystem(structure)
     return system
     
 def create_system_from_structure(structure):

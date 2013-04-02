@@ -98,7 +98,6 @@ class System(BaseClass):
         obj.makeComponent = self.makeComponent
         obj.makeMaterial = self.makeMaterial
         obj.makeConnection = self.makeConnection
-        obj.makeExcitation = self.makeExcitation
         obj.addComponentsStructural = self.addComponentsStructural
         obj.addComponentsCavities = self.addComponentsCavities
         obj.addConnections = self.addConnections
@@ -116,9 +115,8 @@ class System(BaseClass):
         :param obj: FeaturePython object
         :param prop: Name of property that has changed
         """
+        BaseClass.onChanged(self, obj, prop)
         
-        logging.info("Object %s - onChanged - Changing property %s.", obj.Name, prop)
-  
         if prop == 'Octaves':
             obj.Model.octaves = obj.Octaves
             
@@ -139,8 +137,7 @@ class System(BaseClass):
         
         :param obj: FeaturePython object
         """
-        logging.info("Object %s - execute - Executing..")
-
+        BaseClass.execute(self, obj)
         obj.Frequency = map(float, list(obj.Model.frequency))
         
         obj.Solved = obj.Model.solved
@@ -291,22 +288,6 @@ class System(BaseClass):
         obj.Document.recompute()
         return obj  
     
-    @staticmethod
-    def makeExcitation(system, component, subsystem, sort):
-        """
-        Add an excitation from :mod:`Sea.adapter.excitations` to the subsystem of component.
-        
-        :param component: an instance of a child of :class:`Sea.adapter.baseclasses.Component`
-        :param subsystem: Subsystem that is excited
-        :param sort: Type of excitation specified in :class:`Sea.adapter.excitations.excitations_map`
-        
-        """
-        obj = system.ExcitationsGroup.newObject("App::FeaturePython", 'Excitation')
-        #obj.Label = sort.capitalize()
-        excitations_map[sort](obj, component, subsystem)
-        logging.info("Sea: Created %s.", obj.Name)
-        obj.Document.recompute()
-        return obj    
     
     @staticmethod    
     def addComponentsStructural(obj):

@@ -37,9 +37,7 @@ class Subsystem(BaseClass):
         obj.addProperty("App::PropertyLinkList", "CouplingsFrom", "Couplings", "Couplings that originate from this subsystem.")
         obj.addProperty("App::PropertyLinkList", "CouplingsTo", "Couplings", "Couplings that end at this subsystem.")
         
-        
-        
-        #obj.ModalEnergy = 
+        obj.makeExcitation = self.makeExcitation
         
         
     def onChanged(self, obj, prop):
@@ -75,4 +73,20 @@ class Subsystem(BaseClass):
         obj.Velocity = self.toList(obj.Model.velocity)
         obj.VelocityLevel = self.toList(obj.Model.velocity_level)
         
+    @staticmethod
+    def makeExcitation(system, component, subsystem, sort):
+        """
+        Add an excitation from :mod:`Sea.adapter.excitations` to the subsystem of component.
+        
+        :param component: an instance of a child of :class:`Sea.adapter.baseclasses.Component`
+        :param subsystem: Subsystem that is excited
+        :param sort: Type of excitation specified in :class:`Sea.adapter.excitations.excitations_map`
+        
+        """
+        obj = system.ExcitationsGroup.newObject("App::FeaturePython", 'Excitation')
+        #obj.Label = sort.capitalize()
+        excitations_map[sort](obj, component, subsystem)
+        logging.info("Sea: Created %s.", obj.Name)
+        obj.Document.recompute()
+        return obj    
        
