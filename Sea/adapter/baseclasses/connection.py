@@ -20,6 +20,9 @@ class Connection(BaseClass):
         system.Connections = system.Connections + [obj]
         
         obj.makeCoupling = self.makeCoupling
+        obj.updateCouplings = self.updateCouplings
+        obj.addCouplings = self.addCouplings
+        
         
         obj.addProperty("App::PropertyLinkList", "Couplings", "Connection", "List of all couplings.")
         obj.addProperty("App::PropertyLinkList", "Components", "Connection", "Components that are connected via this connection.")
@@ -75,18 +78,19 @@ class Connection(BaseClass):
         
         #obj.Shape = shape
     
-    def updateCouplings(self, obj):
+    @staticmethod
+    def updateCouplings(connection):
         """
         The shape has changed, which means couplings might have to change, be added or removed.
         To be sure all couplings in this connection are deleted and then build up from scratch.
         """
         
         """Remove all old couplings."""
-        for coupling in obj.Couplings:
-            obj.Document.removeObject(coupling.Name)
+        for coupling in connection.Couplings:
+            connection.Document.removeObject(coupling.Name)
             
         """Add couplings for every shape."""
-        self.addCouplings(obj)
+        connection.addCouplings()
             
     @staticmethod
     def addCouplings(connection):

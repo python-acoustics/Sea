@@ -17,7 +17,7 @@ class MaterialSolid(baseclasses.Material):
     
     
     def __init__(self, obj, system):
-        model = Sea.model.materials.MaterialSolid()
+        model = Sea.model.materials.MaterialSolid
         baseclasses.Material.__init__(self, obj, system, model)
 
         obj.addProperty("App::PropertyFloat", "Young", "Solid", "Young's modulus").Young=0.0
@@ -44,7 +44,7 @@ class MaterialGas(baseclasses.Material):
     description = 'A material in gas state.'
     
     def __init__(self, obj, system):
-        model = Sea.model.materials.MaterialGas()
+        model = Sea.model.materials.MaterialGas
         baseclasses.Material.__init__(self, obj, system, model)
 
     

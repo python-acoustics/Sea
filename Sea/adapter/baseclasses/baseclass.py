@@ -45,7 +45,7 @@ class BaseClass(object):
         obj.addProperty("App::PropertyFloatList", "Frequency", "SEA", "Frequency bands")
         
         obj.addProperty("App::PropertyPythonObject", "Model", "SEA", "Model of the SEA object.")
-        obj.Model = model
+        obj.Model = model() # here we create the instance of the model
         """
         Physics :mod:`Sea.model` object of the respective class.
         """
@@ -70,7 +70,7 @@ class BaseClass(object):
         logging.info("Object %s - onChanged - Changing property %s.", obj.Name, prop)
         
         if prop == 'Frequency':
-            self.model.frequency = np.array(obj.Frequency)
+            obj.Model.frequency = np.array(obj.Frequency)
             
     def execute(self, obj):
         """

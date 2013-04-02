@@ -22,6 +22,6 @@ class ConnectionPoint(baseclasses.Connection):
             """
             There is indeed a point connection.
             """
-            self.model.components = obj.Components
-            self.updateCouplings(obj)
+            obj.Model.components = obj.Components
+            obj.updateCouplings()
     

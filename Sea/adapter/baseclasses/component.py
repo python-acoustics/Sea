@@ -68,7 +68,7 @@ class Component(BaseClass):
             obj.Model.volume = obj.Volume
         
         #if prop == 'Material':
-            #obj.Model.material = obj.Material.Proxy.model
+            #obj.Model.material = obj.Material.Model
         
         if prop == 'Frequency':
             for sub in obj.Subsystems:
@@ -121,7 +121,7 @@ class ComponentStructural(Component):
             if obj.Material == None:
                 obj.Model.material = None
             #else:
-                #obj.Model.material = obj.Material.Proxy.model
+                #obj.Model.material = obj.Material.Model
         
         if prop == 'ShapeLink':
             obj.Shape = getattr(obj.Part, 'Shape')

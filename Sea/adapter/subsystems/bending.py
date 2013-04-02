@@ -14,5 +14,5 @@ class SubsystemBend(baseclasses.Subsystem):
     def execute(self, obj):
         baseclasses.Subsystem.execute(self, obj)
         
-        #obj.CriticalFrequency = self.model.critical_frequency
+        
     

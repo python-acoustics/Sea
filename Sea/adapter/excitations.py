@@ -17,7 +17,7 @@ class ExcitationPoint(baseclasses.Excitation):
     description = 'An excitation of a single point.'
     
     def __init__(self, obj, system, subsystem):
-        model = Sea.model.excitations.ExcitationPoint()
+        model = Sea.model.excitations.ExcitationPoint
         baseclasses.Excitation.__init__(self, obj, system, subsystem, model)
         
         
@@ -32,7 +32,7 @@ class ExcitationRain(baseclasses.Excitation):
     description = 'An excitation averaged over space and time.'
     
     def __init__(self, obj, system, subsystem):
-        model = Sea.model.excitations.ExcitationRain()
+        model = Sea.model.excitations.ExcitationRain
         baseclasses.Excitation.__init__(self, obj, system, subsystem, model)
         
         

@@ -9,7 +9,7 @@ class Coupling1DStructural(baseclasses.Coupling):
     description = 'A coupling describing a connection of a single point.'
     
     def __init__(self, obj, connection, component_from, subsystem_from, component_to, subsystem_to):
-        model = Sea.model.couplings.Coupling1DStructural()
+        model = Sea.model.couplings.Coupling1DStructural
         baseclasses.Coupling.__init__(self, obj, connection, component_from, subsystem_from, component_to, subsystem_to, model)
     
     

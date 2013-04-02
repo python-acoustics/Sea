@@ -133,6 +133,7 @@ class System(object):
                         coupling = x[0]
                         loss_factor = - coupling.clf[f]
                     del x        
+                
                 LF[j,i] = loss_factor * subsystem_i.modal_density[f]
                 i+=1
             j+=1

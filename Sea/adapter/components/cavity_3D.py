@@ -16,7 +16,7 @@ class Component3DCavity(baseclasses.ComponentCavity):
     
     
     def __init__(self, obj, system, material, position):
-        model = Sea.model.components.Component3DCavity()
+        model = Sea.model.components.Component3DCavity
         baseclasses.ComponentCavity.__init__(self, obj, system, material, position, model)
         
         obj.SubsystemLong = Sea.actions.factory.makeSubsystem(obj, 'SubsystemLong', Sea.model.components.cavity_3D.SubsystemLong) 

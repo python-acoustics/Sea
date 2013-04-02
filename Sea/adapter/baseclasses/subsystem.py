@@ -33,7 +33,6 @@ class Subsystem(BaseClass):
         obj.addProperty("App::PropertyFloatList", "Energy", "Subsystem", "Energy.")
         obj.addProperty("App::PropertyFloatList", "Velocity", "Subsystem", "Mean velocity.")
         obj.addProperty("App::PropertyFloatList", "VelocityLevel", "Subsystem", "Velocity level.")
-        obj.addProperty("App::PropertyFloatList", "CLF", "Subsystem", "Coupling loss factor.")
         
         obj.addProperty("App::PropertyLinkList", "CouplingsFrom", "Couplings", "Couplings that originate from this subsystem.")
         obj.addProperty("App::PropertyLinkList", "CouplingsTo", "Couplings", "Couplings that end at this subsystem.")
@@ -48,32 +47,32 @@ class Subsystem(BaseClass):
         
         if prop == 'CouplingsFrom':
             #for coupling in obj.CouplingsFrom:
-                #coupling.Proxy.model.subsystem_from = self.model
-            self.model.linked_couplings_from = [coupling.Proxy.model for coupling in obj.CouplingsFrom]
+                #coupling.Model.subsystem_from = obj.Model
+            obj.Model.linked_couplings_from = [coupling.Model for coupling in obj.CouplingsFrom]
         if prop == 'CouplingsTo':
             #for coupling in obj.CouplingsTo:
-                #coupling.Proxy.model.subsystem_to = self.model        
-            self.model.linked_couplings_to = [coupling.Proxy.model for coupling in obj.CouplingsTo]
+                #coupling.Model.subsystem_to = obj.Model        
+            obj.Model.linked_couplings_to = [coupling.Model for coupling in obj.CouplingsTo]
         
         if prop =='Frequency':
-            self.model.modal_energy = np.zeros(len(obj.Frequency))
+            obj.Model.modal_energy = np.zeros(len(obj.Frequency))
         
     def execute(self, obj):
         BaseClass.execute(self, obj)
         
-        #obj.Impedance = self.toList(self.model.impedance)
-        #obj.Resistance  = self.toList(self.model.resistance)
-        #obj.Mobility = self.toList(self.model.mobility)
+        #obj.Impedance = self.toList(obj.Model.impedance)
+        #obj.Resistance  = self.toList(obj.Model.resistance)
+        #obj.Mobility = self.toList(obj.Model.mobility)
         
         
         
-        obj.ModalDensity = self.toList(self.model.modal_density)
-        obj.ModalEnergy = self.toList(self.model.modal_energy)
-        obj.SoundspeedGroup = self.toList(self.model.soundspeed_group)
-        obj.SoundspeedPhase = self.toList(self.model.soundspeed_phase)
-        obj.AverageFrequencySpacing = self.toList(self.model.average_frequency_spacing)
-        obj.Energy = self.toList(self.model.energy)
-        obj.Velocity = self.toList(self.model.velocity)
-        obj.VelocityLevel = self.toList(self.model.velocity_level)
-        obj.CLF = self.toList(self.model.clf)
+        obj.ModalDensity = self.toList(obj.Model.modal_density)
+        obj.ModalEnergy = self.toList(obj.Model.modal_energy)
+        obj.SoundspeedGroup = self.toList(obj.Model.soundspeed_group)
+        obj.SoundspeedPhase = self.toList(obj.Model.soundspeed_phase)
+        obj.AverageFrequencySpacing = self.toList(obj.Model.average_frequency_spacing)
+        obj.Energy = self.toList(obj.Model.energy)
+        obj.Velocity = self.toList(obj.Model.velocity)
+        obj.VelocityLevel = self.toList(obj.Model.velocity_level)
+        
        

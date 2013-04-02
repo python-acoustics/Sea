@@ -18,7 +18,7 @@ class Component2DPlate(baseclasses.ComponentStructural):
     
     
     def __init__(self, obj, system, material, part):
-        model = Sea.model.components.Component2DPlate()  
+        model = Sea.model.components.Component2DPlate  
         baseclasses.ComponentStructural.__init__(self, obj, system, material, part, model)
         
         obj.addProperty("App::PropertyFloat", "Area", self.name, "Area of the plate.")

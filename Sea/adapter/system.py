@@ -32,7 +32,7 @@ class System(BaseClass):
         :param group: DocumentObjectGroup that System is part of.
         :param structure: the fused structure which the SEA model will describe.
         """
-        model = Sea.model.system.System()
+        model = Sea.model.system.System
         BaseClass.__init__(self, obj, model)
         
         obj.addProperty("App::PropertyPythonObject", "Model", "Base", "Model describing the object.")
@@ -174,18 +174,18 @@ class System(BaseClass):
         #for item in obj.InList:
             #if Sea.actions.document.isComponent(item):
                 #components.append(item)
-                #components_proxy.append(item.Proxy.model)
+                #components_proxy.append(item.Model)
             #elif Sea.actions.document.isConnection(item):
                 #connections.append(item)
-                #connections_proxy.append(item.Proxy.model)
+                #connections_proxy.append(item.Model)
             #elif Sea.actions.document.isCoupling(item):
                 #couplings.append(item)
-                #couplings_proxy.append(item.Proxy.model)
+                #couplings_proxy.append(item.Model)
             #elif Sea.actions.document.isExcitation(item):
                 #excitations.append(item)
-                #excitations_proxy.append(item.Proxy.model)
+                #excitations_proxy.append(item.Model)
             #elif Sea.actions.document.isMaterial(item):
-                #couplings.append(item.Proxy.model)
+                #couplings.append(item.Model)
                     
         #obj.Model.components = components_proxy
         #obj.Model.connections = connections_proxy
