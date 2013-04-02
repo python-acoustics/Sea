@@ -32,7 +32,7 @@ sys.path.append(os.path.join(os.getcwd(), '..'))
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.pngmath', 'sphinx.ext.inheritance_diagram', 'sphinxcontrib.blockdiag', 'sphinx.ext.intersphinx']
+extensions = ['sphinx.ext.autodoc', 'sphinx.ext.pngmath', 'sphinx.ext.inheritance_diagram', 'sphinxcontrib.blockdiag', 'sphinx.ext.intersphinx', 'sphinxcontrib.bibtex']
 
 intersphinx_mapping = {
     'FreeCAD': ('http://free-cad.sourceforge.net/api/', None),

@@ -8,10 +8,9 @@ class Coupling3DPlateCavity(baseclasses.Coupling):
     name = "PlateToCavity"
     description = "A coupling describing the relation between a plate and a cavity."
     
-    model = Sea.model.couplings.Coupling3DPlateCavity()
-    
     def __init__(self, obj, connection, component_from, subsystem_from, component_to, subsystem_to):
-        baseclasses.Coupling.__init__(self, obj, connection, component_from, subsystem_from, component_to, subsystem_to)
+        model = Sea.model.couplings.Coupling3DPlateCavity()
+        baseclasses.Coupling.__init__(self, obj, connection, component_from, subsystem_from, component_to, subsystem_to, model)
        
         obj.addProperty("App::PropertyFloat", "Area", "Surface", "Area of the connecting surface.")
         self.calc_area(obj)

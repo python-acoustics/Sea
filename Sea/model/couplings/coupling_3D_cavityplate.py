@@ -4,6 +4,9 @@ from ..baseclasses import Coupling
 
 
 class Coupling3DCavityPlate(Coupling):
+    """
+    A model describing the coupling between a cavity and a plate.
+    """
     
     
     @property
@@ -14,6 +17,9 @@ class Coupling3DCavityPlate(Coupling):
     def impedance_to(self):
         return self.subsystem_to.impedance
     
+    #@property
+    #def critical_frequency(self):
+        #pass
     
     @property
     def clf(self):

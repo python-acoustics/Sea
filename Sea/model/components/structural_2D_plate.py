@@ -21,7 +21,7 @@ class SubsystemLong(SubsystemStructural):
         See Lyon, above eq 8.2.5 
         """
         try:
-            return np.sqrt(self.component.material.young / (self.component.material.density * (1.0 - self.component.material.poisson**2.0)))
+            return np.ones(len(self.frequency)) * np.sqrt(self.component.material.young / (self.component.material.density * (1.0 - self.component.material.poisson**2.0)))
         except ZeroDivisionError:
             return np.zeros(len(self.frequency))
             

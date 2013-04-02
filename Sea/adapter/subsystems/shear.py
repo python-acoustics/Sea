@@ -6,7 +6,7 @@ class SubsystemShear(baseclasses.Subsystem):
     """
     def __init__(self, obj, component, model):
         baseclasses.Subsystem.__init__(self, obj, component, model)
-        component.Proxy.model.subsystem_shear = obj.Proxy.model
+        component.Model.subsystem_shear = obj.Model
         
         
     

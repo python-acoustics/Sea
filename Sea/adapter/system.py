@@ -2,20 +2,22 @@
 The following System class encapsulates its respective class in :mod:`Sea.model.system`.
 """
 
-import Sea
-
-import logging
 import FreeCAD as App
+import Part
+import Sea
+from baseclasses.baseclass import BaseClass
 
+
+import itertools
+import logging
 import numpy as np
 
-class System(object):
+
+
+class System(BaseClass):
     """
     A class that contains the SEA model
     """
-    
-    model = Sea.model.system.System()
-    
     
     _components = list()
     _connections = list()
@@ -30,8 +32,10 @@ class System(object):
         :param group: DocumentObjectGroup that System is part of.
         :param structure: the fused structure which the SEA model will describe.
         """
-
-        self.model = Sea.model.system.System()
+        model = Sea.model.system.System()
+        BaseClass.__init__(self, obj, model)
+        
+        obj.addProperty("App::PropertyPythonObject", "Model", "Base", "Model describing the object.")
         
         #obj.addProperty("App::PropertyLinkList","Objects","Objects", "Objects linked to SEA System")
         obj.addProperty("App::PropertyLinkList","Parts","Objects", "Parts linked to SEA System")
@@ -56,7 +60,6 @@ class System(object):
         
         obj.Proxy = self
                
-        obj.SeaObject = 'System'
         
         """
         Create DocumentGroups for SEA objects
@@ -91,6 +94,21 @@ class System(object):
         
         self.execute(obj)
         
+        """Add methods to object"""
+        obj.makeComponent = self.makeComponent
+        obj.makeMaterial = self.makeMaterial
+        obj.makeConnection = self.makeConnection
+        obj.makeExcitation = self.makeExcitation
+        obj.addComponentsStructural = self.addComponentsStructural
+        obj.addComponentsCavities = self.addComponentsCavities
+        obj.addConnections = self.addConnections
+        obj.solve = self.solve
+        obj.stop = self.stop
+        obj.clear = self.clear
+        obj.getCavity = self.getCavity
+        
+        
+        
     def onChanged(self, obj, prop):
         """
         Do something when a property has changed.
@@ -102,16 +120,16 @@ class System(object):
         logging.info("Object %s - onChanged - Changing property %s.", obj.Name, prop)
   
         if prop == 'Octaves':
-            self.model.octaves = obj.Octaves
+            obj.Model.octaves = obj.Octaves
             
-            self.model.enabled_bands = map(bool, np.array(obj.EnabledBands))
-            obj.EnabledBands = map(int, list(self.model.enabled_bands))
+            obj.Model.enabled_bands = map(bool, np.array(obj.EnabledBands))
+            obj.EnabledBands = map(int, list(obj.Model.enabled_bands))
 
         elif prop == 'EnabledBands':
-            self.model.enabled_bands = map(bool, np.array(obj.EnabledBands))
+            obj.Model.enabled_bands = map(bool, np.array(obj.EnabledBands))
     
         elif prop == 'Frequency':
-            self.model.frequency = np.array(obj.Frequency)
+            obj.Model.frequency = np.array(obj.Frequency)
             for item in obj.Components + obj.Connections:
                 item.Frequency = obj.Frequency
         
@@ -123,11 +141,11 @@ class System(object):
         """
         logging.info("Object %s - execute - Executing..")
 
-        obj.Frequency = map(float, list(self.model.frequency))
+        obj.Frequency = map(float, list(obj.Model.frequency))
         
-        obj.Solved = self.model.solved
-        obj.Octaves = self.model.octaves
-        obj.EnabledBands = map(int, list(self.model.enabled_bands))
+        obj.Solved = obj.Model.solved
+        obj.Octaves = obj.Model.octaves
+        obj.EnabledBands = map(int, list(obj.Model.enabled_bands))
         
         #self.update_objects_lists(obj)
 
@@ -169,12 +187,12 @@ class System(object):
             #elif Sea.actions.document.isMaterial(item):
                 #couplings.append(item.Proxy.model)
                     
-        #self.model.components = components_proxy
-        #self.model.connections = connections_proxy
-        #self.model.couplings = couplings_proxy
-        #self.model.excitations = excitations_proxy
-        #self.model.materials = materials_proxy
-        #self.model.objects = components_proxy + connections_proxy + couplings_proxy + excitations_proxy + materials_proxy
+        #obj.Model.components = components_proxy
+        #obj.Model.connections = connections_proxy
+        #obj.Model.couplings = couplings_proxy
+        #obj.Model.excitations = excitations_proxy
+        #obj.Model.materials = materials_proxy
+        #obj.Model.objects = components_proxy + connections_proxy + couplings_proxy + excitations_proxy + materials_proxy
         
         #obj.Components = components
         #obj.Connections = connections
@@ -215,3 +233,226 @@ class System(object):
         
     #def connections_list(self):
         #return _objects_list('Connection')    
+        
+
+    @staticmethod
+    def makeComponent(system, sort, material, part):
+        """
+        Add a component from :mod:`Sea.adapter.components` to an SEA model.
+        
+        For structural components, part is a :class:`Freecad.Part` that the component is based on.
+        For cavities, part is a :class:`FreeCAD.Vector` describing the position in the cavity.    
+        
+        :param system: a instance of :class:`Sea.adapter.system.System` to which the component will be added.
+        :param sort: type of component as specified in :class:`Sea.adapter.components.components_map`
+        :param material: an instance of a child of :class:`Sea.adapter.baseclasses.Material` that the component is made of.
+        :param part: an instance of :class:`Freecad.Part` that the component is based on.
+        :param position: a :class:`FreeCAD.Vector` describing the position in the cavity.    
+        """
+        from Sea.adapter.object_maps import components_map
+        
+        obj = system.ComponentsGroup.newObject("App::DocumentObjectGroupPython", 'Component')
+        components_map[sort](obj, system, material, part)
+        logging.info("Sea: Created %s.", obj.Name)
+        obj.Document.recompute()
+        return obj 
+
+    @staticmethod
+    def makeMaterial(system, sort):
+        """
+        Add a material from :mod:`Sea.adapter.materials` to SEA system.
+        
+        :param system: :class:`Sea.adapter.system.System` to which the component will be added
+        :param sort: Type of material specified in :class:`Sea.adapter.materials.materials_map`
+        """ 
+        from Sea.adapter.object_maps import materials_map
+        
+        obj = system.MaterialsGroup.newObject("App::FeaturePython", 'Material')
+        #obj.Label = sort
+        materials_map[sort](obj, system)
+        logging.info("Sea: Created %s.", obj.Name)
+        obj.Document.recompute()
+        return obj
+
+    @staticmethod
+    def makeConnection(system, sort, components):
+        """
+        Add a connection to system.
+        
+        :param system: :class:`Sea.adapter.system.System` to which the connection will be added
+        :param sort: sort
+        :param components: list of components
+        """
+        from Sea.adapter.object_maps import connections_map
+        
+        obj = system.ConnectionsGroup.newObject("App::DocumentObjectGroupPython", "Connection")
+        connections_map[sort](obj, system, components)
+        logging.info("Sea: Created %s.", obj.Name)
+        obj.Document.recompute()
+        return obj  
+    
+    @staticmethod
+    def makeExcitation(system, component, subsystem, sort):
+        """
+        Add an excitation from :mod:`Sea.adapter.excitations` to the subsystem of component.
+        
+        :param component: an instance of a child of :class:`Sea.adapter.baseclasses.Component`
+        :param subsystem: Subsystem that is excited
+        :param sort: Type of excitation specified in :class:`Sea.adapter.excitations.excitations_map`
+        
+        """
+        obj = system.ExcitationsGroup.newObject("App::FeaturePython", 'Excitation')
+        #obj.Label = sort.capitalize()
+        excitations_map[sort](obj, component, subsystem)
+        logging.info("Sea: Created %s.", obj.Name)
+        obj.Document.recompute()
+        return obj    
+    
+    @staticmethod    
+    def addComponentsStructural(obj):
+        """
+        Add all structural components to system.
+        
+        :param system: an instance of :class:`Sea.adapter.Model.System`
+        """
+        
+        App.Console.PrintMessage("Adding structural components to the model.\n")
+        for part in obj.Structure.Shapes:
+            if isinstance(part, Part.Feature):
+                sort = Sea.actions.component.determine_structural_sort(part)
+                if sort:
+                    material = obj.makeMaterial('MaterialSolid')
+                    obj.makeComponent(sort, material, part)
+    
+        obj.Document.recompute()
+        App.Console.PrintMessage("Finished adding structural components to the model.\n")
+        
+    @staticmethod
+    def addComponentsCavities(obj):
+        """
+        Add all cavity components to system.
+        
+        :param system: an instance of :class:`Sea.adapter.Model.System.`
+
+        """
+        
+        """Add cavity components"""
+        """These are given by every negative shell volume in the structure."""
+        App.Console.PrintMessage("Adding cavity components to the model.\n")
+        for shape in obj.Structure.Shape.Shells:
+            if shape.Volume < 0.0:
+                pos = shape.BoundBox.Center
+                sort = Sea.actions.component.determine_cavity_sort(shape)
+                if sort:
+                    material = obj.makeMaterial('MaterialGas')
+                    makeComponent(sort, material, pos)
+    
+        obj.Document.recompute()
+        App.Console.PrintMessage("Finished adding cavity components to the model.\n")
+    
+    #connection_options = {
+        ## Component from and component to
+        #('Component1DBeam', 'Component1DBeam') : {  # How are they connected
+                                                  #('Short', 'Short') : 'Point',   # Which connection type
+                                                  #('Long', 'Long') : 'Line',
+                                                    #}
+        #('Component2DPlate', 'Component2DPlate') : {  # How are they connected
+                                                  #('Short', 'Short') : 'Line',   # Which connection type
+                                                  #('Long', 'Long') : 'Surface',
+                                                    #}
+        
+        
+        #}
+    
+    @staticmethod
+    def determineConnectionSort(comp_from, comp_to):
+        
+        if Sea.actions.connection.ShapeConnection(comp_from.Shape, comp_to.Shape).commons():
+            try:
+                options = {
+                    ('Component2DPlate', 'Component2DPlate') : ['ConnectionLine'],
+                    ('Component2DPlate', 'Component3DCavity') : ['ConnectionSurface'],
+                    ('Component3DCavity', 'Component2DPlate') : ['ConnectionSurface'],
+                    
+                    }
+                
+                return options[(comp_from.ClassName, comp_to.ClassName)]
+            except KeyError:
+                return []
+        return []
+    
+    @staticmethod
+    def addConnections(obj):
+        """
+        Detect whether connections exist between the Components in the System. If so, add the Connections and Couplings.
+        
+        :param obj.system: an instance of :class:`Sea.adapter.obj.Model.System`
+        """
+        App.Console.PrintMessage("Adding connections and couplings to the model. This might take a while.\n")
+        for component_from, component_to in itertools.combinations(obj.Components, 2):
+            connections = System.determineConnectionSort(component_from, component_to)
+            
+            for sort in connections:
+                obj.makeConnection(sort, [component_from, component_to])
+        obj.Document.recompute()    
+        App.Console.PrintMessage("Finished adding connections and couplings to the model.\n")
+               
+    @staticmethod
+    def solve(obj):
+        """
+        Perform the SEA analysis.
+        
+        :param obj: Perform SEA analysis on this model.
+        """
+        
+        subsystems = list()
+        for comp in obj.Components:
+            for sub in comp.Subsystems:
+                subsystems.append(sub.Model)
+        obj.Model.subsystems = subsystems
+        
+        couplings = list()
+        for con in obj.Connections:
+            for coupling in con.Couplings:
+                couplings.append(coupling.Model)
+        obj.Model.couplings = couplings
+        
+        obj.Model.solveSystem()
+        
+    @staticmethod
+    def stop(obj):
+        """
+        Terminate or interrupt the SEA analysis
+        
+        :param obj: Interrupt calculation of this analysis.
+        """
+        obj.Model.Proxy.stop()
+    
+    @staticmethod
+    def clear(obj):
+        """
+        Clear results of the SEA analysis
+        
+        :param obj: SEA model
+        """
+        obj.Model.Proxy.clearResults()
+        
+    @staticmethod
+    def getCavity(obj, position):
+        """
+        Return shape of cavity in structure for a certain position.
+        
+        :param structure: a :class:`Part.MultiFuse`
+        :param position: a :class:`FreeCAD.Vector`
+        """
+        structure = obj.Structure
+        tolerance = 0.01
+        allowface = False
+            
+        for shape in structure.Shape.Shells:
+            if shape.isInside(position, tolerance, allowface) and shape.Volume < 0.0:
+                shape.complement() # Reverse the shape to obtain positive volume
+                return shape
+            #else:
+                #App.Console.PrintWarning("No cavity at this position.\n")
+    

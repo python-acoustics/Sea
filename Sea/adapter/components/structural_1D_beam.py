@@ -8,19 +8,16 @@ from .. import baseclasses
 class Component1DBeam(baseclasses.ComponentStructural):
     """
     Beam structural component.
+    
+    This adapter describes a :class:`Sea.model.components.Component1DBeam`
     """
     name = 'Beam'
     description = 'A structural component with wave propagation along one dimension.'
     
-    model = Sea.model.components.Component1DBeam()
-    """
-    This adapter describes a :class:`Sea.model.components.Component1DBeam`
-    """
-    
     def __init__(self, obj, material, part):
-        baseclasses.ComponentStructural.__init__(self, obj, material, part)
+        model = Sea.model.components.Component1DBeam()
+        baseclasses.ComponentStructural.__init__(self, obj, material, part, model)
         
-
         obj.addProperty("App::PropertyLength", "Length", "Beam", "Length of the beam")
         obj.setEditorMode("MaxLength", 2)
         

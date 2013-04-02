@@ -16,10 +16,9 @@ class ExcitationPoint(baseclasses.Excitation):
     name = 'Point'
     description = 'An excitation of a single point.'
     
-    model = Sea.model.excitations.ExcitationPoint()
-    
-    def __init__(self, obj, system, subsystem, **properties):
-        baseclasses.Excitation.__init__(self, obj, system, subsystem, **properties)
+    def __init__(self, obj, system, subsystem):
+        model = Sea.model.excitations.ExcitationPoint()
+        baseclasses.Excitation.__init__(self, obj, system, subsystem, model)
         
         
         
@@ -32,18 +31,12 @@ class ExcitationRain(baseclasses.Excitation):
     name = 'Rain'
     description = 'An excitation averaged over space and time.'
     
-    model = Sea.model.excitations.ExcitationRain()
+    def __init__(self, obj, system, subsystem):
+        model = Sea.model.excitations.ExcitationRain()
+        baseclasses.Excitation.__init__(self, obj, system, subsystem, model)
+        
+        
     
-    def __init__(self, obj, system, subsystem, **properties):
-        baseclasses.Excitation.__init__(self, obj, system, subsystem, **properties)
-        
-        
-        
-        
-        
-        
-        
-
 import inspect, sys
 excitations_map = {item[0]: item[1] for item in inspect.getmembers(sys.modules[__name__], inspect.isclass)}
 """

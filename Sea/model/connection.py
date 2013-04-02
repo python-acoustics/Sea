@@ -15,6 +15,8 @@ class Connection(BaseClass):
     """Class for connections between components."""
     #__metaclass__ = abc.ABCMeta
     
+    object_sort = 'Connection'
+    
     components = list()
     """
     List of components that are connected through this connection. Every list item is a tuple (component, mount) where mount is a string describing whether the component is mounted at an edge or far from the edge.
