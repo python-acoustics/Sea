@@ -88,7 +88,7 @@ class Component(BaseClass):
         """
         from Sea.adapter.object_maps import subsystems_map
         
-        obj = component.newObject("App::FeaturePython", "Subsystem")
+        obj = component.newObject("App::DocumentObjectGroupPython", "Subsystem")
         subsystems_map[sort](obj, component, model)
         logging.info("Sea: Created %s.", obj.Name)
         obj.Document.recompute()
@@ -160,6 +160,26 @@ class ComponentCavity(Component):
         """
         Update the Shape of the Cavity.
         """
-        obj.Shape = Sea.actions.system.getCavity(obj.Structure, obj.Position)
+        obj.Shape = self.getCavityShape(obj.Structure, obj.Position)
         obj.Volume = obj.Shape.Volume
+    
+    @staticmethod
+    def getCavityShape(structure, position):
+        """
+        Return shape of cavity in structure for a certain position.
         
+        :param structure: a :class:`Part.MultiFuse`
+        :param position: a :class:`FreeCAD.Vector`
+        """
+        #structure = obj.Structure
+        tolerance = 0.01
+        allowface = False
+            
+        for shape in structure.Shape.Shells:
+            if shape.isInside(position, tolerance, allowface) and shape.Volume < 0.0:
+                shape.complement() # Reverse the shape to obtain positive volume
+                return shape
+            #else:
+                #App.Console.PrintWarning("No cavity at this position.\n")
+    
+    

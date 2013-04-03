@@ -88,21 +88,19 @@ class TaskPanelCoupling(object):
         form.reverse = form.findChild(QtGui.QCheckBox, 'addReverse')
         
         sort = dict()
-        for key, item in Sea.adapter.couplings_map.iteritems():
+        for key, item in Sea.adapter.object_maps.couplings_map.iteritems():
             QtGui.QListWidgetItem(item.name, form.sort_list).setToolTip(item.description)
             sort[item.name] = key
         self.sort = sort
         
         if App.ActiveDocument:   
             for item in App.ActiveDocument.Objects:
-                if 'IsSeaSystem' in item.PropertiesList:
-                    if getattr(item, 'IsSeaSystem') == True:
-                        QtGui.QListWidgetItem(item.Name, form.system_list)
+                if Sea.actions.document.isSystem(item):
+                    QtGui.QListWidgetItem(item.Name, form.system_list)
                 
-                elif 'IsSeaSubsystem' in item.PropertiesList:
-                    if getattr(item, 'IsSeaSubsystem') == True:
-                        QtGui.QListWidgetItem(item.Name, form.subsystem_from_list)
-                        QtGui.QListWidgetItem(item.Name, form.subsystem_to_list)     
+                elif Sea.actions.document.isSubsystem(item):
+                    QtGui.QListWidgetItem(item.Name, form.subsystem_from_list)
+                    QtGui.QListWidgetItem(item.Name, form.subsystem_to_list)     
 
             
         #form.groupbox.setTitle('Add ' + self.sort)

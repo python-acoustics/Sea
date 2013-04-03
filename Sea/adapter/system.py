@@ -98,15 +98,12 @@ class System(BaseClass):
         obj.makeComponent = self.makeComponent
         obj.makeMaterial = self.makeMaterial
         obj.makeConnection = self.makeConnection
-        obj.makeExcitation = self.makeExcitation
         obj.addComponentsStructural = self.addComponentsStructural
         obj.addComponentsCavities = self.addComponentsCavities
         obj.addConnections = self.addConnections
         obj.solve = self.solve
         obj.stop = self.stop
         obj.clear = self.clear
-        obj.getCavity = self.getCavity
-        
         
         
     def onChanged(self, obj, prop):
@@ -116,9 +113,8 @@ class System(BaseClass):
         :param obj: FeaturePython object
         :param prop: Name of property that has changed
         """
+        BaseClass.onChanged(self, obj, prop)
         
-        logging.info("Object %s - onChanged - Changing property %s.", obj.Name, prop)
-  
         if prop == 'Octaves':
             obj.Model.octaves = obj.Octaves
             
@@ -139,8 +135,7 @@ class System(BaseClass):
         
         :param obj: FeaturePython object
         """
-        logging.info("Object %s - execute - Executing..")
-
+        BaseClass.execute(self, obj)
         obj.Frequency = map(float, list(obj.Model.frequency))
         
         obj.Solved = obj.Model.solved
@@ -291,22 +286,6 @@ class System(BaseClass):
         obj.Document.recompute()
         return obj  
     
-    @staticmethod
-    def makeExcitation(system, component, subsystem, sort):
-        """
-        Add an excitation from :mod:`Sea.adapter.excitations` to the subsystem of component.
-        
-        :param component: an instance of a child of :class:`Sea.adapter.baseclasses.Component`
-        :param subsystem: Subsystem that is excited
-        :param sort: Type of excitation specified in :class:`Sea.adapter.excitations.excitations_map`
-        
-        """
-        obj = system.ExcitationsGroup.newObject("App::FeaturePython", 'Excitation')
-        #obj.Label = sort.capitalize()
-        excitations_map[sort](obj, component, subsystem)
-        logging.info("Sea: Created %s.", obj.Name)
-        obj.Document.recompute()
-        return obj    
     
     @staticmethod    
     def addComponentsStructural(obj):
@@ -345,7 +324,7 @@ class System(BaseClass):
                 sort = Sea.actions.component.determine_cavity_sort(shape)
                 if sort:
                     material = obj.makeMaterial('MaterialGas')
-                    makeComponent(sort, material, pos)
+                    obj.makeComponent(sort, material, pos)
     
         obj.Document.recompute()
         App.Console.PrintMessage("Finished adding cavity components to the model.\n")
@@ -417,7 +396,15 @@ class System(BaseClass):
                 couplings.append(coupling.Model)
         obj.Model.couplings = couplings
         
+        
+        App.Console.PrintMessage("Solving for modal powers.\n")
         obj.Model.solveSystem()
+        App.Console.PrintMessage("Finished solving for the modal powers.\n")
+        
+        for component in obj.Components:
+            for subsystem in component.Subsystems:
+                subsystem.touch()
+        obj.Document.recompute()
         
     @staticmethod
     def stop(obj):
@@ -437,22 +424,4 @@ class System(BaseClass):
         """
         obj.Model.Proxy.clearResults()
         
-    @staticmethod
-    def getCavity(obj, position):
-        """
-        Return shape of cavity in structure for a certain position.
-        
-        :param structure: a :class:`Part.MultiFuse`
-        :param position: a :class:`FreeCAD.Vector`
-        """
-        structure = obj.Structure
-        tolerance = 0.01
-        allowface = False
-            
-        for shape in structure.Shape.Shells:
-            if shape.isInside(position, tolerance, allowface) and shape.Volume < 0.0:
-                shape.complement() # Reverse the shape to obtain positive volume
-                return shape
-            #else:
-                #App.Console.PrintWarning("No cavity at this position.\n")
     

@@ -47,9 +47,9 @@ class Material(BaseClass):
             obj.Model.density = obj.Density
         elif prop == 'LossFactor':
             if len(obj.LossFactor) == 1:
-                obj.Model.loss_factor = np.ones(len(obj.Frequency)) * obj.LossFactor
+                obj.Model.loss_factor = np.ones(len(obj.Frequency)) * np.array(obj.LossFactor)
             else:
-                obj.Model.loss_factor = obj.LossFactor
+                obj.Model.loss_factor = np.array(obj.LossFactor)
         elif prop == 'Temperature':
             obj.Model.temperature = obj.Temperature
         elif prop == 'Pressure':
@@ -59,7 +59,7 @@ class Material(BaseClass):
         
     def execute(self, obj):
         obj.Density = obj.Model.density
-        obj.LossFactor = self.toList(obj.Model.loss_factor)
+        obj.LossFactor = obj.Model.loss_factor.tolist()
         obj.Temperature = obj.Model.temperature
         obj.Pressure = obj.Model.pressure
         obj.Bulk = obj.Model.bulk

@@ -39,8 +39,10 @@ class Subsystem(BaseClass):
         
         
         
-        #obj.ModalEnergy = 
+        obj.addProperty("App::PropertyLinkList", "Excitations", "Excitation", "Excitations the subsystem experiences.")
+        obj.Excitations = []
         
+        obj.makeExcitation = self.makeExcitation
         
     def onChanged(self, obj, prop):
         BaseClass.onChanged(self, obj, prop)
@@ -49,10 +51,12 @@ class Subsystem(BaseClass):
             #for coupling in obj.CouplingsFrom:
                 #coupling.Model.subsystem_from = obj.Model
             obj.Model.linked_couplings_from = [coupling.Model for coupling in obj.CouplingsFrom]
-        if prop == 'CouplingsTo':
+        elif prop == 'CouplingsTo':
             #for coupling in obj.CouplingsTo:
                 #coupling.Model.subsystem_to = obj.Model        
             obj.Model.linked_couplings_to = [coupling.Model for coupling in obj.CouplingsTo]
+        elif prop == 'Excitations':
+            obj.Model.linked_excitations = [excitation.Model for excitation in obj.Excitations]
         
         if prop =='Frequency':
             obj.Model.modal_energy = np.zeros(len(obj.Frequency))
@@ -60,19 +64,35 @@ class Subsystem(BaseClass):
     def execute(self, obj):
         BaseClass.execute(self, obj)
         
-        #obj.Impedance = self.toList(obj.Model.impedance)
-        #obj.Resistance  = self.toList(obj.Model.resistance)
-        #obj.Mobility = self.toList(obj.Model.mobility)
+        #obj.Impedance = obj.Model.impedance.tolist()
+        #obj.Resistance  = obj.Model.resistance.tolist()
+        #obj.Mobility = obj.Model.mobility.tolist()
         
         
         
-        obj.ModalDensity = self.toList(obj.Model.modal_density)
-        obj.ModalEnergy = self.toList(obj.Model.modal_energy)
-        obj.SoundspeedGroup = self.toList(obj.Model.soundspeed_group)
-        obj.SoundspeedPhase = self.toList(obj.Model.soundspeed_phase)
-        obj.AverageFrequencySpacing = self.toList(obj.Model.average_frequency_spacing)
-        obj.Energy = self.toList(obj.Model.energy)
-        obj.Velocity = self.toList(obj.Model.velocity)
-        obj.VelocityLevel = self.toList(obj.Model.velocity_level)
+        obj.ModalDensity = obj.Model.modal_density.tolist()
+        obj.ModalEnergy = obj.Model.modal_energy.tolist()
+        obj.SoundspeedGroup = obj.Model.soundspeed_group.tolist()
+        obj.SoundspeedPhase = obj.Model.soundspeed_phase.tolist()
+        obj.AverageFrequencySpacing = obj.Model.average_frequency_spacing.tolist()
+        obj.Energy = obj.Model.energy.tolist()
+        obj.Velocity = obj.Model.velocity.tolist()
+        obj.VelocityLevel = obj.Model.velocity_level.tolist()
         
+    @staticmethod
+    def makeExcitation(subsystem, sort):
+        """
+        Add an excitation from :mod:`Sea.adapter.excitations` to the subsystem of component.
+        
+        :param subsystem: Subsystem that is excited
+        :param sort: Type of excitation specified in :class:`Sea.adapter.excitations.excitations_map`
+        
+        """
+        from Sea.adapter.object_maps import excitations_map
+        
+        obj = subsystem.newObject("App::FeaturePython", 'Excitation')
+        excitations_map[sort](obj, subsystem)
+        logging.info("Sea: Created %s.", obj.Name)
+        obj.Document.recompute()
+        return obj    
        
