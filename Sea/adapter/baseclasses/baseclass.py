@@ -44,17 +44,19 @@ class BaseClass(object):
         obj.addProperty("App::PropertyString", "SeaObject", "SEA", "Type of SEA object.")
         obj.addProperty("App::PropertyFloatList", "Frequency", "SEA", "Frequency bands")
         obj.addProperty("App::PropertyFloatList", "AngularFrequency", "SEA", "Angular frequency bands")
-        obj.addProperty("App::PropertyPythonObject", "Model", "SEA", "Model of the SEA object.")
-        obj.Model = model() # here we create the instance of the model
+        #obj.addProperty("App::PropertyPythonObject", "Model", "SEA", "Model of the SEA object.")
+        obj.Proxy.model = model() # here we create the instance of the model
         """
         Physics :mod:`Sea.model` object of the respective class.
         """
    
         
-        obj.SeaObject = obj.Model.object_sort      
+        obj.SeaObject = obj.Proxy.model.object_sort      
         obj.ClassName = self.__class__.__name__
         
         obj.Label = obj.ClassName
+        
+        obj.delete = self.delete
         
     def __del__(self):
         logging.info("Object - Destructor - Deleting this object")     
@@ -70,8 +72,8 @@ class BaseClass(object):
         logging.info("Object %s - onChanged - Changing property %s.", obj.Name, prop)
         
         if prop == 'Frequency':
-            obj.Model.frequency = np.array(obj.Frequency)
-            obj.AngularFrequency = obj.Model.omega.tolist()
+            obj.Proxy.model.frequency = np.array(obj.Frequency)
+            obj.AngularFrequency = obj.Proxy.model.omega.tolist()
             
     def execute(self, obj):
         """
@@ -79,9 +81,17 @@ class BaseClass(object):
         
         :param obj: Feature object
         """
-        obj.AngularFrequency = obj.Model.omega.tolist()
+        obj.AngularFrequency = obj.Proxy.model.omega.tolist()
         
 
+    @staticmethod
+    def delete(obj):
+        """
+        Remove object from the document.
+        """
+        import FreeCAD as App
+        App.ActiveDocument.removeObject(obj.Name)
+        
     #@staticmethod
     #def toList(x):
         #"""

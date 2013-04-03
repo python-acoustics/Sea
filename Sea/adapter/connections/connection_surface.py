@@ -23,7 +23,7 @@ class ConnectionSurface(baseclasses.Connection):
             """
             There is indeed a surface connection.
             """
-            obj.Model.components = obj.Components
+            obj.Proxy.model.components = obj.Components
             obj.updateCouplings()
         
 

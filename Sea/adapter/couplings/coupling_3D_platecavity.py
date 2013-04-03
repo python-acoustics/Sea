@@ -19,7 +19,7 @@ class Coupling3DPlateCavity(baseclasses.Coupling):
         baseclasses.Coupling.onChanged(self, obj, prop)
         
         if prop == 'Area':
-            obj.Model.area = obj.Area
+            obj.Proxy.model.area = obj.Area
         
     def execute(self, obj):
         baseclasses.Coupling.execute(self, obj)

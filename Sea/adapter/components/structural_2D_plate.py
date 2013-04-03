@@ -36,16 +36,16 @@ class Component2DPlate(baseclasses.ComponentStructural):
         baseclasses.ComponentStructural.onChanged(self, obj, prop)
         
         if prop == 'Area':
-            obj.Model.area = obj.Area
+            obj.Proxy.model.area = obj.Area
         
         if prop == 'Thickness':
-            obj.Model.thickness = obj.Thickness
+            obj.Proxy.model.thickness = obj.Thickness
             
     def execute(self, obj):
         baseclasses.ComponentStructural.execute(self, obj)
         self.calc_area_and_thickness(obj)
         
-        obj.MassPerArea = obj.Model.mass_per_area
+        obj.MassPerArea = obj.Proxy.model.mass_per_area
         
     def calc_area_and_thickness(self, obj):
         """

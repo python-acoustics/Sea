@@ -21,6 +21,6 @@ class ConnectionLine(baseclasses.Connection):
             """
             There is indeed a line connection.
             """
-            obj.Model.components = obj.Components
+            obj.Proxy.model.components = obj.Components
             obj.updateCouplings()
     

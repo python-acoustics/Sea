@@ -35,6 +35,9 @@ class Material(BaseClass):
         obj.addProperty("App::PropertyFloat", "Pressure", "Material", "Pressure of the material.").Pressure=0.0
         obj.addProperty("App::PropertyFloat", "Bulk", "Material", "Bulk modulus of the material").Bulk=0.0
         
+        obj.reassignMaterials = self.reassignMaterials
+        obj.replaceWith = self.replaceWith
+        
     def onChanged(self, obj, prop):
         BaseClass.onChanged(self, obj, prop)
         
@@ -44,23 +47,42 @@ class Material(BaseClass):
                 sub.touch()
         
         if prop == 'Density':
-            obj.Model.density = obj.Density
+            obj.Proxy.model.density = obj.Density
         elif prop == 'LossFactor':
             if len(obj.LossFactor) == 1:
-                obj.Model.loss_factor = np.ones(len(obj.Frequency)) * np.array(obj.LossFactor)
+                obj.Proxy.model.loss_factor = np.ones(len(obj.Frequency)) * np.array(obj.LossFactor)
             else:
-                obj.Model.loss_factor = np.array(obj.LossFactor)
+                obj.Proxy.model.loss_factor = np.array(obj.LossFactor)
         elif prop == 'Temperature':
-            obj.Model.temperature = obj.Temperature
+            obj.Proxy.model.temperature = obj.Temperature
         elif prop == 'Pressure':
-            obj.Model.pressure = obj.Pressure
+            obj.Proxy.model.pressure = obj.Pressure
         elif prop == 'Bulk':
-            obj.Model.bulk = obj.Bulk
+            obj.Proxy.model.bulk = obj.Bulk
+        
         
     def execute(self, obj):
-        obj.Density = obj.Model.density
-        obj.LossFactor = obj.Model.loss_factor.tolist()
-        obj.Temperature = obj.Model.temperature
-        obj.Pressure = obj.Model.pressure
-        obj.Bulk = obj.Model.bulk
+        obj.Density = obj.Proxy.model.density
+        obj.LossFactor = obj.Proxy.model.loss_factor.tolist()
+        obj.Temperature = obj.Proxy.model.temperature
+        obj.Pressure = obj.Proxy.model.pressure
+        obj.Bulk = obj.Proxy.model.bulk
+    
+    @staticmethod
+    def reassignMaterials(material, materials):
+        """
+        Assign :attr:`material` to all components making use of :attr:`materials`.
+        """
+        materials = [materials] if not isinstance(materials, list) else materials
+        
+        for mat in materials:
+            mat.replaceWith(material)
+        
+    @staticmethod
+    def replaceWith(material, new_material):
+        """
+        Replace all objects that use :attr:`material` with :attr:`new_material`.
+        """
+        for comp in material.Components:
+            comp.changeMaterial(new_material)
         

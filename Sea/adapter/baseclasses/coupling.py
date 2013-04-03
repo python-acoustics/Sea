@@ -52,19 +52,19 @@ class Coupling(BaseClass):
         
         
         if prop == 'SubsystemFrom':
-            obj.Model.subsystem_from = obj.Document.getObject(obj.SubsystemFrom).Model
+            obj.Proxy.model.subsystem_from = obj.Document.getObject(obj.SubsystemFrom).Proxy.model
         elif prop == 'SubsystemTo':
-            obj.Model.subsystem_to = obj.Document.getObject(obj.SubsystemTo).Model
+            obj.Proxy.model.subsystem_to = obj.Document.getObject(obj.SubsystemTo).Proxy.model
             
 
     def execute(self, obj):
         BaseClass.execute(self, obj)
         
-        obj.CLF = obj.Model.clf.tolist()
-        obj.ImpedanceFrom = obj.Model.impedance_from.tolist()
-        obj.ImpedanceTo = obj.Model.impedance_to.tolist()
-        obj.ResistanceFrom = obj.Model.resistance_from.tolist()
-        obj.ResistanceTo = obj.Model.resistance_to.tolist()
+        obj.CLF = obj.Proxy.model.clf.tolist()
+        obj.ImpedanceFrom = obj.Proxy.model.impedance_from.tolist()
+        obj.ImpedanceTo = obj.Proxy.model.impedance_to.tolist()
+        obj.ResistanceFrom = obj.Proxy.model.resistance_from.tolist()
+        obj.ResistanceTo = obj.Proxy.model.resistance_to.tolist()
     
     
     #@abc.abstractmethod

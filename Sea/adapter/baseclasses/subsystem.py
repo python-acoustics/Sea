@@ -18,7 +18,7 @@ class Subsystem(BaseClass):
         :param component: an instance of a child of :class:`Sea.adapter.baseclasses.Component`
         """
         BaseClass.__init__(self, obj, model)
-        obj.Model.component = component.Model
+        obj.Proxy.model.component = component.Proxy.model
         obj.Frequency = component.Frequency
         component.Subsystems = component.Subsystems + [obj]
         
@@ -49,35 +49,35 @@ class Subsystem(BaseClass):
         
         if prop == 'CouplingsFrom':
             #for coupling in obj.CouplingsFrom:
-                #coupling.Model.subsystem_from = obj.Model
-            obj.Model.linked_couplings_from = [coupling.Model for coupling in obj.CouplingsFrom]
+                #coupling.Proxy.model.subsystem_from = obj.Proxy.model
+            obj.Proxy.model.linked_couplings_from = [coupling.Proxy.model for coupling in obj.CouplingsFrom]
         elif prop == 'CouplingsTo':
             #for coupling in obj.CouplingsTo:
-                #coupling.Model.subsystem_to = obj.Model        
-            obj.Model.linked_couplings_to = [coupling.Model for coupling in obj.CouplingsTo]
+                #coupling.Proxy.model.subsystem_to = obj.Proxy.model        
+            obj.Proxy.model.linked_couplings_to = [coupling.Proxy.model for coupling in obj.CouplingsTo]
         elif prop == 'Excitations':
-            obj.Model.linked_excitations = [excitation.Model for excitation in obj.Excitations]
+            obj.Proxy.model.linked_excitations = [excitation.Proxy.model for excitation in obj.Excitations]
         
         if prop =='Frequency':
-            obj.Model.modal_energy = np.zeros(len(obj.Frequency))
+            obj.Proxy.model.modal_energy = np.zeros(len(obj.Frequency))
         
     def execute(self, obj):
         BaseClass.execute(self, obj)
         
-        #obj.Impedance = obj.Model.impedance.tolist()
-        #obj.Resistance  = obj.Model.resistance.tolist()
-        #obj.Mobility = obj.Model.mobility.tolist()
+        #obj.Impedance = obj.Proxy.model.impedance.tolist()
+        #obj.Resistance  = obj.Proxy.model.resistance.tolist()
+        #obj.Mobility = obj.Proxy.model.mobility.tolist()
         
         
         
-        obj.ModalDensity = obj.Model.modal_density.tolist()
-        obj.ModalEnergy = obj.Model.modal_energy.tolist()
-        obj.SoundspeedGroup = obj.Model.soundspeed_group.tolist()
-        obj.SoundspeedPhase = obj.Model.soundspeed_phase.tolist()
-        obj.AverageFrequencySpacing = obj.Model.average_frequency_spacing.tolist()
-        obj.Energy = obj.Model.energy.tolist()
-        obj.Velocity = obj.Model.velocity.tolist()
-        obj.VelocityLevel = obj.Model.velocity_level.tolist()
+        obj.ModalDensity = obj.Proxy.model.modal_density.tolist()
+        obj.ModalEnergy = obj.Proxy.model.modal_energy.tolist()
+        obj.SoundspeedGroup = obj.Proxy.model.soundspeed_group.tolist()
+        obj.SoundspeedPhase = obj.Proxy.model.soundspeed_phase.tolist()
+        obj.AverageFrequencySpacing = obj.Proxy.model.average_frequency_spacing.tolist()
+        obj.Energy = obj.Proxy.model.energy.tolist()
+        obj.Velocity = obj.Proxy.model.velocity.tolist()
+        obj.VelocityLevel = obj.Proxy.model.velocity_level.tolist()
         
     @staticmethod
     def makeExcitation(subsystem, sort):

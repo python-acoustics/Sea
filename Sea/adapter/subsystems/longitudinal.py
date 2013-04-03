@@ -6,7 +6,7 @@ class SubsystemLong(baseclasses.Subsystem):
     """
     def __init__(self, obj, component, model):
         baseclasses.Subsystem.__init__(self, obj, component, model)
-        component.Model.subsystem_long = obj.Model
+        component.Proxy.model.subsystem_long = obj.Proxy.model
         
         
     

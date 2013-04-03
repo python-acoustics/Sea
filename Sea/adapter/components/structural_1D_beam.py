@@ -32,14 +32,14 @@ class Component1DBeam(baseclasses.ComponentStructural):
         baseclasses.ComponentStructural.onChanged(self, obj, prop)
         
         if prop == 'Length':
-            obj.Model.length = obj.Length
+            obj.Proxy.model.length = obj.Length
     
     def execute(self, obj):
         baseclasses.ComponentStructural.execute(self, obj)
         
-        obj.Length = obj.Model.length
-        obj.AreaMoment = obj.Model.area_moment_of_inertia
-        obj.CrossSection = obj.Model.cross_section
+        obj.Length = obj.Proxy.model.length
+        obj.AreaMoment = obj.Proxy.model.area_moment_of_inertia
+        obj.CrossSection = obj.Proxy.model.cross_section
         
     
  

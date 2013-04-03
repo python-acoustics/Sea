@@ -29,11 +29,11 @@ class MaterialSolid(baseclasses.Material):
         baseclasses.Material.onChanged(self, obj, prop)
         
         if prop == 'Young':
-            obj.Model.young = obj.Young
+            obj.Proxy.model.young = obj.Young
         elif prop == 'Shear':
-            obj.Model.shear = obj.Shear
+            obj.Proxy.model.shear = obj.Shear
         elif prop == 'Poisson':
-            obj.Model.poisson = obj.Poisson
+            obj.Proxy.model.poisson = obj.Poisson
             
     def execute(self, obj):
         baseclasses.Material.execute(self, obj)
