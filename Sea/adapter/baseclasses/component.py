@@ -40,8 +40,8 @@ class Component(BaseClass):
         
         obj.addProperty("App::PropertyLinkList", "Subsystems", "Subsystems", "List of subsystems.")
         
-        
-        #obj.Material = material
+        obj.addProperty("App::PropertyFloatList", "Velocity", "Subsystem", "Mean velocity.")
+        obj.addProperty("App::PropertyFloatList", "VelocityLevel", "Subsystem", "Velocity level.")
         
         material.Components = material.Components + [obj]
         obj.Model.material = material.Model
@@ -74,9 +74,15 @@ class Component(BaseClass):
             for sub in obj.Subsystems:
                 sub.Frequency = obj.Frequency
         
+        if prop == 'Subsystems':
+            obj.Model.linked_subsystems = [subsystem.Model for subsystem in obj.Subsystems]
+        
     def execute(self, obj):
         BaseClass.execute(self, obj)
     
+        obj.Velocity = obj.Model.velocity.tolist()
+        obj.VelocityLevel = obj.Model.velocity_level.tolist()
+        
     @staticmethod
     def makeSubsystem(component, sort, model):
         """
