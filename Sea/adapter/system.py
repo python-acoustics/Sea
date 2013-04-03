@@ -116,16 +116,16 @@ class System(BaseClass):
         BaseClass.onChanged(self, obj, prop)
         
         if prop == 'Octaves':
-            obj.Model.octaves = obj.Octaves
+            obj.Proxy.model.octaves = obj.Octaves
             
-            obj.Model.enabled_bands = map(bool, np.array(obj.EnabledBands))
-            obj.EnabledBands = map(int, list(obj.Model.enabled_bands))
+            obj.Proxy.model.enabled_bands = map(bool, np.array(obj.EnabledBands))
+            obj.EnabledBands = map(int, list(obj.Proxy.model.enabled_bands))
 
         elif prop == 'EnabledBands':
-            obj.Model.enabled_bands = map(bool, np.array(obj.EnabledBands))
+            obj.Proxy.model.enabled_bands = map(bool, np.array(obj.EnabledBands))
     
         elif prop == 'Frequency':
-            obj.Model.frequency = np.array(obj.Frequency)
+            obj.Proxy.model.frequency = np.array(obj.Frequency)
             for item in obj.Components + obj.Connections:
                 item.Frequency = obj.Frequency
         
@@ -136,11 +136,11 @@ class System(BaseClass):
         :param obj: FeaturePython object
         """
         BaseClass.execute(self, obj)
-        obj.Frequency = map(float, list(obj.Model.frequency))
+        obj.Frequency = map(float, list(obj.Proxy.model.frequency))
         
-        obj.Solved = obj.Model.solved
-        obj.Octaves = obj.Model.octaves
-        obj.EnabledBands = map(int, list(obj.Model.enabled_bands))
+        obj.Solved = obj.Proxy.model.solved
+        obj.Octaves = obj.Proxy.model.octaves
+        obj.EnabledBands = map(int, list(obj.Proxy.model.enabled_bands))
         
         #self.update_objects_lists(obj)
 
@@ -169,25 +169,25 @@ class System(BaseClass):
         #for item in obj.InList:
             #if Sea.actions.document.isComponent(item):
                 #components.append(item)
-                #components_proxy.append(item.Model)
+                #components_proxy.append(item.Proxy.model)
             #elif Sea.actions.document.isConnection(item):
                 #connections.append(item)
-                #connections_proxy.append(item.Model)
+                #connections_proxy.append(item.Proxy.model)
             #elif Sea.actions.document.isCoupling(item):
                 #couplings.append(item)
-                #couplings_proxy.append(item.Model)
+                #couplings_proxy.append(item.Proxy.model)
             #elif Sea.actions.document.isExcitation(item):
                 #excitations.append(item)
-                #excitations_proxy.append(item.Model)
+                #excitations_proxy.append(item.Proxy.model)
             #elif Sea.actions.document.isMaterial(item):
-                #couplings.append(item.Model)
+                #couplings.append(item.Proxy.model)
                     
-        #obj.Model.components = components_proxy
-        #obj.Model.connections = connections_proxy
-        #obj.Model.couplings = couplings_proxy
-        #obj.Model.excitations = excitations_proxy
-        #obj.Model.materials = materials_proxy
-        #obj.Model.objects = components_proxy + connections_proxy + couplings_proxy + excitations_proxy + materials_proxy
+        #obj.Proxy.model.components = components_proxy
+        #obj.Proxy.model.connections = connections_proxy
+        #obj.Proxy.model.couplings = couplings_proxy
+        #obj.Proxy.model.excitations = excitations_proxy
+        #obj.Proxy.model.materials = materials_proxy
+        #obj.Proxy.model.objects = components_proxy + connections_proxy + couplings_proxy + excitations_proxy + materials_proxy
         
         #obj.Components = components
         #obj.Connections = connections
@@ -292,7 +292,7 @@ class System(BaseClass):
         """
         Add all structural components to system.
         
-        :param system: an instance of :class:`Sea.adapter.Model.System`
+        :param system: an instance of :class:`Sea.adapter.Proxy.model.System`
         """
         
         App.Console.PrintMessage("Adding structural components to the model.\n")
@@ -311,7 +311,7 @@ class System(BaseClass):
         """
         Add all cavity components to system.
         
-        :param system: an instance of :class:`Sea.adapter.Model.System.`
+        :param system: an instance of :class:`Sea.adapter.Proxy.model.System.`
 
         """
         
@@ -365,7 +365,7 @@ class System(BaseClass):
         """
         Detect whether connections exist between the Components in the System. If so, add the Connections and Couplings.
         
-        :param obj.system: an instance of :class:`Sea.adapter.obj.Model.System`
+        :param obj.system: an instance of :class:`Sea.adapter.obj.Proxy.model.System`
         """
         App.Console.PrintMessage("Adding connections and couplings to the model. This might take a while.\n")
         for component_from, component_to in itertools.combinations(obj.Components, 2):
@@ -387,18 +387,18 @@ class System(BaseClass):
         subsystems = list()
         for comp in obj.Components:
             for sub in comp.Subsystems:
-                subsystems.append(sub.Model)
-        obj.Model.subsystems = subsystems
+                subsystems.append(sub.Proxy.model)
+        obj.Proxy.model.subsystems = subsystems
         
         couplings = list()
         for con in obj.Connections:
             for coupling in con.Couplings:
-                couplings.append(coupling.Model)
-        obj.Model.couplings = couplings
+                couplings.append(coupling.Proxy.model)
+        obj.Proxy.model.couplings = couplings
         
         
         App.Console.PrintMessage("Solving for modal powers.\n")
-        obj.Model.solveSystem()
+        obj.Proxy.model.solveSystem()
         App.Console.PrintMessage("Finished solving for the modal powers.\n")
         
         for component in obj.Components:
@@ -413,7 +413,7 @@ class System(BaseClass):
         
         :param obj: Interrupt calculation of this analysis.
         """
-        obj.Model.Proxy.stop()
+        obj.Proxy.model.Proxy.stop()
     
     @staticmethod
     def clear(obj):
@@ -422,7 +422,7 @@ class System(BaseClass):
         
         :param obj: SEA model
         """
-        obj.Model.Proxy.clearResults()
+        obj.Proxy.model.Proxy.clearResults()
         
     @staticmethod
     def purgeUnusedMaterials(obj):

@@ -46,10 +46,10 @@ class Component(BaseClass):
         obj.addProperty("App::PropertyFloatList", "VelocityLevel", "Subsystem", "Velocity level.")
         
         material.Components = material.Components + [obj]
-        obj.Model.material = material.Model
+        obj.Proxy.model.material = material.Proxy.model
         obj.Material = material.Name
         
-        obj.AvailableSubsystems = obj.Model.availableSubsystems
+        obj.AvailableSubsystems = obj.Proxy.model.availableSubsystems
         for sort in obj.AvailableSubsystems:   
             obj.addProperty("App::PropertyLink", "Subsystem" + sort.capitalize(), "Subsystems", "Subsystem of type " + sort)
         obj.EnabledSubsystems = obj.AvailableSubsystems
@@ -70,23 +70,23 @@ class Component(BaseClass):
             #obj.Volume = getattr(obj.Shape, 'Volume')
             
         if prop == 'Volume':
-            obj.Model.volume = obj.Volume
+            obj.Proxy.model.volume = obj.Volume
         
         #if prop == 'Material':
-            #obj.Model.material = obj.Material.Model
+            #obj.Proxy.model.material = obj.Material.Proxy.model
         
         if prop == 'Frequency':
             for sub in obj.Subsystems:
                 sub.Frequency = obj.Frequency
         
         if prop == 'Subsystems':
-            obj.Model.linked_subsystems = [subsystem.Model for subsystem in obj.Subsystems]
+            obj.Proxy.model.linked_subsystems = [subsystem.Proxy.model for subsystem in obj.Subsystems]
         
     def execute(self, obj):
         BaseClass.execute(self, obj)
     
-        obj.Velocity = obj.Model.velocity.tolist()
-        obj.VelocityLevel = obj.Model.velocity_level.tolist()
+        obj.Velocity = obj.Proxy.model.velocity.tolist()
+        obj.VelocityLevel = obj.Proxy.model.velocity_level.tolist()
         
     @staticmethod
     def makeSubsystem(component, sort, model):
@@ -116,7 +116,7 @@ class Component(BaseClass):
         old_components.remove(component)
         old_material.Components = old_components
         material.Components = material.Components + [component]
-        component.Model.material = material.Model
+        component.Proxy.model.material = material.Proxy.model
         component.Material = material.Name
         
     
@@ -146,9 +146,9 @@ class ComponentStructural(Component):
         
         if prop == 'Material':
             if obj.Material == None:
-                obj.Model.material = None
+                obj.Proxy.model.material = None
             #else:
-                #obj.Model.material = obj.Material.Model
+                #obj.Proxy.model.material = obj.Material.Proxy.model
         
         if prop == 'ShapeLink':
             obj.Shape = getattr(obj.Part, 'Shape')
@@ -156,8 +156,8 @@ class ComponentStructural(Component):
     def execute(self, obj):
         Component.execute(self, obj)
         
-        obj.AreaMomentOfInertia = obj.Model.area_moment_of_inertia
-        obj.RadiusOfGyration = obj.Model.radius_of_gyration
+        obj.AreaMomentOfInertia = obj.Proxy.model.area_moment_of_inertia
+        obj.RadiusOfGyration = obj.Proxy.model.radius_of_gyration
         
         
 class ComponentCavity(Component):

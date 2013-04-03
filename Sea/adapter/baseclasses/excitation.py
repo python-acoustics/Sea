@@ -14,7 +14,7 @@ class Excitation(BaseClass):
         BaseClass.__init__(self, obj, model)
         subsystem.Excitations = subsystem.Excitations + [obj]
         
-        obj.Model.subsystem = subsystem.Model
+        obj.Proxy.model.subsystem = subsystem.Proxy.model
         
         obj.addProperty("App::PropertyFloatList", "Power", "Excitation", "Input power with which the subsystem is excited.")
         
@@ -26,12 +26,12 @@ class Excitation(BaseClass):
         BaseClass.onChanged(self, obj, prop)  
         
         if prop == 'Frequency':
-            obj.Model.power = np.zeros(len(obj.Frequency))
+            obj.Proxy.model.power = np.zeros(len(obj.Frequency))
         
         if prop == 'Power':
-            obj.Model.power = np.array(obj.Power)
+            obj.Proxy.model.power = np.array(obj.Power)
         
     def execute(self, obj):
         BaseClass.execute(self, obj)
         
-        obj.Power = obj.Model.power.tolist()
+        obj.Power = obj.Proxy.model.power.tolist()
