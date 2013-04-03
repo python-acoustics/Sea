@@ -57,7 +57,7 @@ def isFuse(obj):
     """
     Is obj a Part.MultiFuse or not.
     """
-    if item.isDerivedFrom('Part::MultiFuse'):
+    if obj.isDerivedFrom('Part::MultiFuse'):
         return True
     
 def hasFuse(document):

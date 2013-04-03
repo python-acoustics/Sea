@@ -104,8 +104,6 @@ class System(BaseClass):
         obj.solve = self.solve
         obj.stop = self.stop
         obj.clear = self.clear
-        obj.getCavity = self.getCavity
-        
         
         
     def onChanged(self, obj, prop):
@@ -326,7 +324,7 @@ class System(BaseClass):
                 sort = Sea.actions.component.determine_cavity_sort(shape)
                 if sort:
                     material = obj.makeMaterial('MaterialGas')
-                    makeComponent(sort, material, pos)
+                    obj.makeComponent(sort, material, pos)
     
         obj.Document.recompute()
         App.Console.PrintMessage("Finished adding cavity components to the model.\n")
@@ -418,22 +416,4 @@ class System(BaseClass):
         """
         obj.Model.Proxy.clearResults()
         
-    @staticmethod
-    def getCavity(obj, position):
-        """
-        Return shape of cavity in structure for a certain position.
-        
-        :param structure: a :class:`Part.MultiFuse`
-        :param position: a :class:`FreeCAD.Vector`
-        """
-        structure = obj.Structure
-        tolerance = 0.01
-        allowface = False
-            
-        for shape in structure.Shape.Shells:
-            if shape.isInside(position, tolerance, allowface) and shape.Volume < 0.0:
-                shape.complement() # Reverse the shape to obtain positive volume
-                return shape
-            #else:
-                #App.Console.PrintWarning("No cavity at this position.\n")
     

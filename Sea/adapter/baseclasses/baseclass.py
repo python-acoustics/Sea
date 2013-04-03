@@ -81,15 +81,13 @@ class BaseClass(object):
         """
         obj.AngularFrequency = self.toList(obj.Model.omega)
         
-        pass
 
     @staticmethod
     def toList(x):
         """
         Convert :attr:`x` to a list of floats.
         """
-        return map(float, list(x))
-    
+        return x.tolist()   # remove this static method, and use x.tolist() directly
     
 ###class ViewProviderBaseClass(object):
     ###"""
