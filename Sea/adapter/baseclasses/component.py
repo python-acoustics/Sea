@@ -88,7 +88,7 @@ class Component(BaseClass):
         """
         from Sea.adapter.object_maps import subsystems_map
         
-        obj = component.newObject("App::FeaturePython", "Subsystem")
+        obj = component.newObject("App::DocumentObjectGroupPython", "Subsystem")
         subsystems_map[sort](obj, component, model)
         logging.info("Sea: Created %s.", obj.Name)
         obj.Document.recompute()

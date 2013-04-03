@@ -37,8 +37,12 @@ class Subsystem(BaseClass):
         obj.addProperty("App::PropertyLinkList", "CouplingsFrom", "Couplings", "Couplings that originate from this subsystem.")
         obj.addProperty("App::PropertyLinkList", "CouplingsTo", "Couplings", "Couplings that end at this subsystem.")
         
-        obj.makeExcitation = self.makeExcitation
         
+        
+        obj.addProperty("App::PropertyLinkList", "Excitations", "Excitation", "Excitations the subsystem experiences.")
+        obj.Excitations = []
+        
+        obj.makeExcitation = self.makeExcitation
         
     def onChanged(self, obj, prop):
         BaseClass.onChanged(self, obj, prop)
@@ -47,10 +51,12 @@ class Subsystem(BaseClass):
             #for coupling in obj.CouplingsFrom:
                 #coupling.Model.subsystem_from = obj.Model
             obj.Model.linked_couplings_from = [coupling.Model for coupling in obj.CouplingsFrom]
-        if prop == 'CouplingsTo':
+        elif prop == 'CouplingsTo':
             #for coupling in obj.CouplingsTo:
                 #coupling.Model.subsystem_to = obj.Model        
             obj.Model.linked_couplings_to = [coupling.Model for coupling in obj.CouplingsTo]
+        elif prop == 'Excitations':
+            obj.Model.linked_excitations = [excitation.Model for excitation in obj.Excitations]
         
         if prop =='Frequency':
             obj.Model.modal_energy = np.zeros(len(obj.Frequency))
@@ -74,18 +80,18 @@ class Subsystem(BaseClass):
         obj.VelocityLevel = obj.Model.velocity_level.tolist()
         
     @staticmethod
-    def makeExcitation(system, component, subsystem, sort):
+    def makeExcitation(subsystem, sort):
         """
         Add an excitation from :mod:`Sea.adapter.excitations` to the subsystem of component.
         
-        :param component: an instance of a child of :class:`Sea.adapter.baseclasses.Component`
         :param subsystem: Subsystem that is excited
         :param sort: Type of excitation specified in :class:`Sea.adapter.excitations.excitations_map`
         
         """
-        obj = system.ExcitationsGroup.newObject("App::FeaturePython", 'Excitation')
-        #obj.Label = sort.capitalize()
-        excitations_map[sort](obj, component, subsystem)
+        from Sea.adapter.object_maps import excitations_map
+        
+        obj = subsystem.newObject("App::FeaturePython", 'Excitation')
+        excitations_map[sort](obj, subsystem)
         logging.info("Sea: Created %s.", obj.Name)
         obj.Document.recompute()
         return obj    

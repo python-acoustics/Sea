@@ -9,6 +9,6 @@ class ExcitationRain(baseclasses.Excitation):
     name = 'Rain'
     description = 'An excitation averaged over space and time.'
     
-    def __init__(self, obj, system, subsystem):
+    def __init__(self, obj, subsystem):
         model = Sea.model.excitations.ExcitationRain
-        baseclasses.Excitation.__init__(self, obj, system, subsystem, model)
+        baseclasses.Excitation.__init__(self, obj, subsystem, model)

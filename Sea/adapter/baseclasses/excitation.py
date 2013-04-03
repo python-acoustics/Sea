@@ -10,20 +10,28 @@ class Excitation(BaseClass):
     """
     __metaclass__ = abc.ABCMeta
     
-    def __init___(self, obj, system, component, subsystem, model):
+    def __init__(self, obj, subsystem, model):
         BaseClass.__init__(self, obj, model)
-        system.Excitations = system.Excitations + [obj]
+        subsystem.Excitations = subsystem.Excitations + [obj]
         
-        obj.addProperty("App::PropertyLink", "Component", "Excitation", "Component that is excited.")  
-        obj.addProperty("App::PropertyString", "Subsystem", "Excitation", "Subsystem that is excited.")  
+        obj.Model.subsystem = subsystem.Model
+        
         obj.addProperty("App::PropertyFloatList", "Power", "Excitation", "Input power with which the subsystem is excited.")
         
-        obj.Frequency = system.Frequency
-        obj.Component = component
-        obj.Subsystem = subsystem
+        obj.Frequency = subsystem.Frequency
+        
+        
         
     def onChanged(self, obj, prop):
         BaseClass.onChanged(self, obj, prop)  
         
-        if prop == 'Subsystem':
-            obj.Model.subsystem = obj.Subsystem.Model
+        if prop == 'Frequency':
+            obj.Model.power = np.zeros(len(obj.Frequency))
+        
+        if prop == 'Power':
+            obj.Model.power = np.array(obj.Power)
+        
+    def execute(self, obj):
+        BaseClass.execute(self, obj)
+        
+        obj.Power = obj.Model.power.tolist()

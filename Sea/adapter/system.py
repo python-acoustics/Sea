@@ -396,7 +396,15 @@ class System(BaseClass):
                 couplings.append(coupling.Model)
         obj.Model.couplings = couplings
         
+        
+        App.Console.PrintMessage("Solving for modal powers.\n")
         obj.Model.solveSystem()
+        App.Console.PrintMessage("Finished solving for the modal powers.\n")
+        
+        for component in obj.Components:
+            for subsystem in component.Subsystems:
+                subsystem.touch()
+        obj.Document.recompute()
         
     @staticmethod
     def stop(obj):
