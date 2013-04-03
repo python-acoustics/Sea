@@ -60,11 +60,11 @@ class Coupling(BaseClass):
     def execute(self, obj):
         BaseClass.execute(self, obj)
         
-        obj.CLF = self.toList(obj.Model.clf)
-        obj.ImpedanceFrom = self.toList(obj.Model.impedance_from)
-        obj.ImpedanceTo = self.toList(obj.Model.impedance_to)
-        obj.ResistanceFrom = self.toList(obj.Model.resistance_from)
-        obj.ResistanceTo = self.toList(obj.Model.resistance_to)
+        obj.CLF = obj.Model.clf.tolist()
+        obj.ImpedanceFrom = obj.Model.impedance_from.tolist()
+        obj.ImpedanceTo = obj.Model.impedance_to.tolist()
+        obj.ResistanceFrom = obj.Model.resistance_from.tolist()
+        obj.ResistanceTo = obj.Model.resistance_to.tolist()
     
     
     #@abc.abstractmethod

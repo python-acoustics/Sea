@@ -59,7 +59,7 @@ class Material(BaseClass):
         
     def execute(self, obj):
         obj.Density = obj.Model.density
-        obj.LossFactor = self.toList(obj.Model.loss_factor)
+        obj.LossFactor = obj.Model.loss_factor.tolist()
         obj.Temperature = obj.Model.temperature
         obj.Pressure = obj.Model.pressure
         obj.Bulk = obj.Model.bulk

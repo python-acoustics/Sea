@@ -71,7 +71,7 @@ class BaseClass(object):
         
         if prop == 'Frequency':
             obj.Model.frequency = np.array(obj.Frequency)
-            obj.AngularFrequency = self.toList(obj.Model.omega)
+            obj.AngularFrequency = obj.Model.omega.tolist()
             
     def execute(self, obj):
         """
@@ -79,15 +79,15 @@ class BaseClass(object):
         
         :param obj: Feature object
         """
-        obj.AngularFrequency = self.toList(obj.Model.omega)
+        obj.AngularFrequency = obj.Model.omega.tolist()
         
 
-    @staticmethod
-    def toList(x):
-        """
-        Convert :attr:`x` to a list of floats.
-        """
-        return x.tolist()   # remove this static method, and use x.tolist() directly
+    #@staticmethod
+    #def toList(x):
+        #"""
+        #Convert :attr:`x` to a list of floats.
+        #"""
+        #return x.tolist()   # remove this static method, and use x.tolist() directly
     
 ###class ViewProviderBaseClass(object):
     ###"""
