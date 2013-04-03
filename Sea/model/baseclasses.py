@@ -77,7 +77,7 @@ class Component(BaseClass):
         
         velocity = np.zeros(len(self.omega))
         for subsystem in self.linked_subsystems:
-            velocity = velocity + subsystem.velocity()
+            velocity = velocity + subsystem.velocity
         return velocity    
         
     
@@ -88,8 +88,10 @@ class Component(BaseClass):
         
         .. math:: L_v = 20 \\log_{10}{\\frac{v}{v_0}}
         """
-        return 20 * np.log10(self.velocity() / (5 * 10**(-8)) ) 
-        
+        try:
+            return 20 * np.log10(self.velocity / (5 * 10**(-8)) ) 
+        except FloatingPointError:
+            return np.zeros(len(self.frequency))
         
 
 class ComponentStructural(Component):

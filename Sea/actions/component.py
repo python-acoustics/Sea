@@ -23,12 +23,14 @@ def determine_structural_sort(part):
         
         length = len(pairs)
         
-        if length == 4:
-            return "Component1DBeam"
-        elif length == 2:
-            return "Component2DPlate"
-        elif length == 0:
-            return "Component3DBox"
+        return "Component2DPlate"
+        
+        #if length == 4:
+            #return "Component1DBeam"
+        #elif length == 2:
+            #return "Component2DPlate"
+        #elif length == 0:
+            #return "Component3DBox"
     
 def determine_cavity_sort(shape):
     """
