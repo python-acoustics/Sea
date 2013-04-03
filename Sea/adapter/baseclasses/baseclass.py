@@ -56,6 +56,8 @@ class BaseClass(object):
         
         obj.Label = obj.ClassName
         
+        obj.delete = self.delete
+        
     def __del__(self):
         logging.info("Object - Destructor - Deleting this object")     
         
@@ -82,6 +84,14 @@ class BaseClass(object):
         obj.AngularFrequency = obj.Model.omega.tolist()
         
 
+    @staticmethod
+    def delete(obj):
+        """
+        Remove object from the document.
+        """
+        import FreeCAD as App
+        App.ActiveDocument.removeObject(obj.Name)
+        
     #@staticmethod
     #def toList(x):
         #"""

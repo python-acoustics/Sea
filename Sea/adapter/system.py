@@ -104,7 +104,7 @@ class System(BaseClass):
         obj.solve = self.solve
         obj.stop = self.stop
         obj.clear = self.clear
-        
+        obj.purgeUnusedMaterials = self.purgeUnusedMaterials
         
     def onChanged(self, obj, prop):
         """
@@ -424,4 +424,12 @@ class System(BaseClass):
         """
         obj.Model.Proxy.clearResults()
         
-    
+    @staticmethod
+    def purgeUnusedMaterials(obj):
+        """
+        Remove all the materials that are not used.
+        """
+        for material in obj.Materials:
+            if not material.Components:
+                material.delete()
+                

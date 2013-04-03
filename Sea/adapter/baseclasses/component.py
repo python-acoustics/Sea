@@ -23,9 +23,11 @@ class Component(BaseClass):
         BaseClass.__init__(self, obj, model)
         system.Components = system.Components + [obj]
         
-        obj.makeSubsystem = self.makeSubsystem
         
-        #obj.addProperty("App::PropertyLink", "Material", "Component", "Material the component is made of.")
+        obj.makeSubsystem = self.makeSubsystem
+        obj.changeMaterial = self.changeMaterial
+        
+        obj.addProperty("App::PropertyString", "Material", "Component", "Material the component is made of.")
         obj.addProperty("Part::PropertyPartShape", "Shape", "Component", "Shape of Part.")
        
         obj.addProperty("App::PropertyLinkSub", "VolumeLink", "Component", "Link to volume of component")
@@ -45,12 +47,15 @@ class Component(BaseClass):
         
         material.Components = material.Components + [obj]
         obj.Model.material = material.Model
+        obj.Material = material.Name
         
         obj.AvailableSubsystems = obj.Model.availableSubsystems
         for sort in obj.AvailableSubsystems:   
             obj.addProperty("App::PropertyLink", "Subsystem" + sort.capitalize(), "Subsystems", "Subsystem of type " + sort)
         obj.EnabledSubsystems = obj.AvailableSubsystems
         obj.Frequency = system.Frequency
+        
+        
         
             
     def onChanged(self, obj, prop):
@@ -99,7 +104,23 @@ class Component(BaseClass):
         logging.info("Sea: Created %s.", obj.Name)
         obj.Document.recompute()
         return obj  
-       
+    
+    @staticmethod
+    def changeMaterial(component, material):
+        """
+        Change material of :attr:`component` to :attr:`material`.
+        """
+        import FreeCAD as App
+        old_material = App.ActiveDocument.getObject(component.Material)
+        old_components = old_material.Components
+        old_components.remove(component)
+        old_material.Components = old_components
+        material.Components = material.Components + [component]
+        component.Model.material = material.Model
+        component.Material = material.Name
+        
+    
+    
 class ComponentStructural(Component):
     """
     Abstract base class for all structural component adapter classes.
