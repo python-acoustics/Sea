@@ -10,12 +10,16 @@ class Coupling(BaseClass):
     """
     __metaclass__ = abc.ABCMeta
     
-    def __init__(self, obj, connection, component_from, subsystem_from, component_to, subsystem_to, model):
-        BaseClass.__init__(self, obj, model)
+    def __init__(self, obj, connection, component_from, subsystem_from, component_to, subsystem_to):
+        BaseClass.__init__(self, obj)
         
         #print connection.ClassName
-        connection.Couplings = connection.Couplings + [obj]
+        #connection.Couplings = connection.Couplings + [obj]
         obj.Frequency = connection.Frequency
+        
+        
+        obj.addProperty("App::PropertyString", "Connection", "Coupling", "Connection this coupling is part of.")
+        obj.Connection = connection.Name
         
         obj.Label = obj.ClassName + '_' + subsystem_from.ClassName.replace('Subsystem', '') + '_to_' + subsystem_to.ClassName.replace('Subsystem', '')
         

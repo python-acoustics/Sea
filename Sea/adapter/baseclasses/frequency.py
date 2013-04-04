@@ -37,6 +37,7 @@ class Frequency(object):
         elif prop == 'Enabled':
             obj.Proxy.model.enabled = np.array(obj.Enabled)
         
+        
     def execute(self, obj):
         
         obj.Center = obj.Proxy.model.center.tolist()

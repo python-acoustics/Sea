@@ -10,7 +10,7 @@ class Component(BaseClass):
     """
     __metaclass__ = abc.ABCMeta
     
-    def __init__(self, obj, system, material, model):
+    def __init__(self, obj, system, material):
         """
         Constructor
         
@@ -20,7 +20,7 @@ class Component(BaseClass):
         :param material: FreeCAD part
         """
         
-        BaseClass.__init__(self, obj, model)
+        BaseClass.__init__(self, obj)
         system.Components = system.Components + [obj]
         
         
@@ -28,6 +28,8 @@ class Component(BaseClass):
         obj.changeMaterial = self.changeMaterial
         
         obj.addProperty("App::PropertyString", "Material", "Component", "Material the component is made of.")
+        obj.Material = material.Name
+        
         obj.addProperty("Part::PropertyPartShape", "Shape", "Component", "Shape of Part.")
        
         obj.addProperty("App::PropertyLinkSub", "VolumeLink", "Component", "Link to volume of component")
@@ -91,7 +93,7 @@ class Component(BaseClass):
         obj.VelocityLevel = obj.Proxy.model.velocity_level.tolist()
         
     @staticmethod
-    def makeSubsystem(component, sort, model):
+    def makeSubsystem(component, adapter):
         """
         Add a subsystem to a component.
         
@@ -99,10 +101,10 @@ class Component(BaseClass):
         :param sort: type of subsystem.
         :param model: model of the subsysten belonging to :attr:`component` and specified in :mod:`Sea.model.components`
         """
-        from Sea.adapter.object_maps import subsystems_map
-        
+                
         obj = component.newObject("App::DocumentObjectGroupPython", "Subsystem")
-        subsystems_map[sort](obj, component, model)
+        
+        adapter(obj, component)
         logging.info("Sea: Created %s.", obj.Name)
         obj.Document.recompute()
         return obj  
@@ -129,8 +131,8 @@ class ComponentStructural(Component):
     """
     __metaclass__ = abc.ABCMeta
      
-    def __init__(self, obj, system, material, part, model):
-        Component.__init__(self, obj, system, material, model)
+    def __init__(self, obj, system, material, part):
+        Component.__init__(self, obj, system, material)
         #obj.addProperty("App::PropertyFloat", "BendingStiffness", "Component", "Bending stiffness of the Component")
         
         obj.addProperty("App::PropertyFloat", "AreaMomentOfInertia", "Structural", "Area moment of intertia.")
@@ -168,8 +170,8 @@ class ComponentCavity(Component):
     """
     __metaclass__ = abc.ABCMeta
     
-    def __init__(self, obj, system, material, position, model):
-        Component.__init__(self, obj, system, material, model)
+    def __init__(self, obj, system, material, position):
+        Component.__init__(self, obj, system, material)
         
         obj.addProperty("App::PropertyVector", "Position", "Cavity", "Position within the cavity.")
         obj.addProperty("App::PropertyLink", "Structure", "Structure", "Fused structure.")

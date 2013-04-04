@@ -10,18 +10,20 @@ class Subsystem(BaseClass):
     """
     __metaclass__ = abc.ABCMeta
     
-    def __init__(self, obj, component, model):
+    def __init__(self, obj, component):
         """
         Constructor
         
         :param obj: FreeCAD Python Feature object
         :param component: an instance of a child of :class:`Sea.adapter.baseclasses.Component`
         """
-        BaseClass.__init__(self, obj, model)
+        BaseClass.__init__(self, obj)
         obj.Proxy.model.component = component.Proxy.model
         obj.Frequency = component.Frequency
         component.Subsystems = component.Subsystems + [obj]
+        obj.addProperty("App::PropertyString", "Component", "Subsystem", "Component this subsystem belongs to.")
         
+        obj.Component = component.Name
         obj.addProperty("App::PropertyFloatList", "Impedance", "Subsystem", "Impedance.")
         obj.addProperty("App::PropertyFloatList", "Resistance", "Subsystem", "Resistance.")
         obj.addProperty("App::PropertyFloatList", "Mobility", "Subsystem", "Mobility.")
@@ -94,3 +96,34 @@ class Subsystem(BaseClass):
         obj.Document.recompute()
         return obj    
        
+       
+       
+class SubsystemLong(Subsystem):
+    """
+    Adapter class for longitudinal wave subsystems.
+    """
+    __metaclass__ = abc.ABCMeta
+    
+    def __init__(self, obj, component):
+        Subsystem.__init__(self, obj, component)
+        component.Proxy.model.subsystem_long = obj.Proxy.model
+        
+class SubsystemBend(Subsystem):
+    """
+    Adapter class for bending wave subsystems.
+    """
+    __metaclass__ = abc.ABCMeta
+    
+    def __init__(self, obj, component):
+        Subsystem.__init__(self, obj, component)
+        component.Proxy.model.subsystem_bend = obj.Proxy.model
+
+class SubsystemShear(Subsystem):
+    """
+    Adapter class for shear wave subsystems.
+    """
+    def __init__(self, obj, component):
+        Subsystem.__init__(self, obj, component)
+        component.Proxy.model.subsystem_shear = obj.Proxy.model
+        
+                   

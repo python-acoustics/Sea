@@ -9,8 +9,9 @@ class ExcitationPoint(baseclasses.Excitation):
     name = 'Point'
     description = 'An excitation of a single point.'
     
+    model = Sea.model.excitations.ExcitationPoint
+    
     def __init__(self, obj, system, subsystem):
-        model = Sea.model.excitations.ExcitationPoint
-        baseclasses.Excitation.__init__(self, obj, system, subsystem, model)
+        baseclasses.Excitation.__init__(self, obj, system, subsystem)
         
         

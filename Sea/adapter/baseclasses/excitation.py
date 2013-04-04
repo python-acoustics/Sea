@@ -10,8 +10,8 @@ class Excitation(BaseClass):
     """
     __metaclass__ = abc.ABCMeta
     
-    def __init__(self, obj, subsystem, model):
-        BaseClass.__init__(self, obj, model)
+    def __init__(self, obj, subsystem):
+        BaseClass.__init__(self, obj)
         subsystem.Excitations = subsystem.Excitations + [obj]
         
         obj.Proxy.model.subsystem = subsystem.Proxy.model

@@ -8,11 +8,10 @@ class Coupling2DStructural(baseclasses.Coupling):
     name = 'Line'
     description = 'A coupling describing a connection along a line.'
 
-    
+    model = Sea.model.couplings.Coupling2DStructural()
 
     def __init__(self, obj, connection, component_from, component_to, subsystem_from, subsystem_to):
-        model = Sea.model.couplings.Coupling2DStructural
-        baseclasses.Coupling.__init__(self, obj, connection, component_from, component_to, subsystem_from, subsystem_to, model)
+        baseclasses.Coupling.__init__(self, obj, connection, component_from, component_to, subsystem_from, subsystem_to)
 
     
     def onChanged(self, obj, prop):

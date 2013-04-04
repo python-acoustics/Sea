@@ -23,12 +23,12 @@ class BaseClass(object):
     """
     Description of the object.
     """
-    #model = None
-    #"""
-    #Physics :mod:`Sea.model` object of the respective class.
-    #"""
+    model = None
+    """
+    Physics :mod:`Sea.model` object of the respective class.
+    """
     
-    def __init__(self, obj, model):
+    def __init__(self, obj):
         """
         Constructor
         
@@ -46,11 +46,7 @@ class BaseClass(object):
         #obj.addProperty("App::PropertyFloatList", "Frequency", "SEA", "Centerfrequencies.")
         #obj.addProperty("App::PropertyFloatList", "AngularFrequency", "SEA", "Angular frequency bands")
         #obj.addProperty("App::PropertyPythonObject", "Model", "SEA", "Model of the SEA object.")
-        obj.Proxy.model = model() # here we create the instance of the model
-        """
-        Physics :mod:`Sea.model` object of the respective class.
-        """
-   
+        
         
         obj.SeaObject = obj.Proxy.model.object_sort      
         obj.ClassName = self.__class__.__name__

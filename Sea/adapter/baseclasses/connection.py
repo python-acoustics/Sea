@@ -12,11 +12,13 @@ class Connection(BaseClass):
     """
     __metaclass__ = abc.ABCMeta
     
+    model = Sea.model.connection.Connection()
+    
     def __init__(self, obj, system, components):
         
-        model = Sea.model.connection.Connection
         
-        BaseClass.__init__(self, obj, model)
+        
+        BaseClass.__init__(self, obj)
         system.Connections = system.Connections + [obj]
         
         obj.makeCoupling = self.makeCoupling

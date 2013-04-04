@@ -25,6 +25,7 @@ class System(BaseClass):
     _excitations = list()
     _materials = list()
     
+    model = Sea.model.system.System()
     
     def __init__(self, obj, structure):
         """
@@ -32,8 +33,8 @@ class System(BaseClass):
         :param group: DocumentObjectGroup that System is part of.
         :param structure: the fused structure which the SEA model will describe.
         """
-        model = Sea.model.system.System
-        BaseClass.__init__(self, obj, model)
+        
+        BaseClass.__init__(self, obj)
         
         obj.addProperty("App::PropertyPythonObject", "Model", "Base", "Model describing the object.")
         

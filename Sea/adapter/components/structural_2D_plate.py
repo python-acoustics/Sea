@@ -5,6 +5,17 @@ Adapter classes for :class:`Sea.model.components.Component2DPlate`
 import Sea
 from .. import baseclasses
 
+
+class SubsystemLong(baseclasses.SubsystemLong):
+    model = Sea.model.components.structural_2D_plate.SubsystemLong()
+
+class SubsystemBend(baseclasses.SubsystemBend):
+    model = Sea.model.components.structural_2D_plate.SubsystemBend()
+
+class SubsystemShear(baseclasses.SubsystemShear):
+    model = Sea.model.components.structural_2D_plate.SubsystemShear()
+
+    
 class Component2DPlate(baseclasses.ComponentStructural):
     """
     Plate structural component.
@@ -15,14 +26,14 @@ class Component2DPlate(baseclasses.ComponentStructural):
     name = 'Plate'
     description = 'A structural component with wave propagation along two dimensions.'
     
-    
+    model = Sea.model.components.Component2DPlate()
     
     def __init__(self, obj, system, material, part):
-        model = Sea.model.components.Component2DPlate  
+        
         obj.addProperty("App::PropertyFloat", "Length", self.name, "Length of the plate.")
         obj.addProperty("App::PropertyFloat", "Width", self.name, "Width of the plate.")
         
-        baseclasses.ComponentStructural.__init__(self, obj, system, material, part, model)
+        baseclasses.ComponentStructural.__init__(self, obj, system, material, part)
         
         
         obj.addProperty("App::PropertyFloat", "Area", self.name, "Area of the plate.")
@@ -31,10 +42,10 @@ class Component2DPlate(baseclasses.ComponentStructural):
         self.calc_area_and_thickness(obj)
         
         
-        obj.SubsystemLong = obj.makeSubsystem('SubsystemLong', Sea.model.components.structural_2D_plate.SubsystemLong)
-        obj.SubsystemBend = obj.makeSubsystem('SubsystemBend', Sea.model.components.structural_2D_plate.SubsystemBend) 
-        obj.SubsystemShear = obj.makeSubsystem('SubsystemShear', Sea.model.components.structural_2D_plate.SubsystemShear) 
-        
+        obj.SubsystemLong = obj.makeSubsystem(SubsystemLong)
+        obj.SubsystemBend = obj.makeSubsystem(SubsystemBend) 
+        obj.SubsystemShear = obj.makeSubsystem(SubsystemShear) 
+
         
     def onChanged(self, obj, prop):
         baseclasses.ComponentStructural.onChanged(self, obj, prop)

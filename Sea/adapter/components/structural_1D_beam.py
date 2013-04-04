@@ -5,6 +5,16 @@ Adapter class for :class:`Sea.model.components.Component1DBeam`
 import Sea
 from .. import baseclasses
 
+class SubsystemLong(baseclasses.SubsystemLong):
+    model = Sea.model.components.structural_1D_beam.SubsystemLong()
+
+class SubsystemBend(baseclasses.SubsystemBend):
+    model = Sea.model.components.structural_1D_beam.SubsystemBend()
+
+class SubsystemShear(baseclasses.SubsystemShear):
+    model = Sea.model.components.structural_1D_beam.SubsystemShear()
+
+
 class Component1DBeam(baseclasses.ComponentStructural):
     """
     Beam structural component.
@@ -14,9 +24,10 @@ class Component1DBeam(baseclasses.ComponentStructural):
     name = 'Beam'
     description = 'A structural component with wave propagation along one dimension.'
     
+    model = Sea.model.components.Component1DBeam()
+    
     def __init__(self, obj, material, part):
-        model = Sea.model.components.Component1DBeam
-        baseclasses.ComponentStructural.__init__(self, obj, material, part, model)
+        baseclasses.ComponentStructural.__init__(self, obj, material, part)
         
         obj.addProperty("App::PropertyLength", "Length", "Beam", "Length of the beam")
         obj.setEditorMode("MaxLength", 2)
@@ -27,6 +38,9 @@ class Component1DBeam(baseclasses.ComponentStructural):
         obj.addProperty("App::PropertyFloat", "MassPerArea", "Beam", "Mass per unit area")
         obj.addProperty("App::PropertyFloat", "AreaMoment", "Beam", "Area moment of inertia")
 
+        obj.SubsystemLong = obj.makeSubsystem(SubsystemLong())
+        obj.SubsystemBend = obj.makeSubsystem(SubsystemBend()) 
+        obj.SubsystemShear = obj.makeSubsystem(SubsystemShear()) 
 
     def onChanged(self, obj, prop):
         baseclasses.ComponentStructural.onChanged(self, obj, prop)

@@ -23,9 +23,9 @@ class Material(BaseClass):
     """
     __metaclass__ = abc.ABCMeta
 
-    def __init__(self, obj, system, model):
+    def __init__(self, obj, system):
         obj.addProperty("App::PropertyLinkList", "Components", "Material", "Components that make use of this material.")
-        BaseClass.__init__(self, obj, model)
+        BaseClass.__init__(self, obj)
         system.Materials = system.Materials + [obj]
         obj.Frequency = system.Frequency
         
