@@ -23,7 +23,7 @@ class Coupling3DCavityPlate(baseclasses.Coupling):
         
     def execute(self, obj):
         baseclasses.Coupling.execute(self, obj)
-        self.calc_area(self, obj)
+        self.calc_area(obj)
     
     def calc_area(self, obj):
         """

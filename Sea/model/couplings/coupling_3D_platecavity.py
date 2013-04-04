@@ -35,19 +35,20 @@ def radiation_efficiency(coupling, component):
     
     fc = coupling.critical_frequency
     lc = coupling.critical_wavelength
-    
+        
     Lx = component.length
     Ly = component.width
     S = component.area
     U = 2.0 * (Lx + Ly)
     
-    fc_band = (fc > coupling.lower) * (fc < coupling.upper)
-    f_lower = fc > coupling.upper
-    f_upper = fc < coupling.lower
+    fc_band = (fc > coupling.frequency.lower) * (fc < coupling.frequency.upper)
+    f_lower = fc > coupling.frequency.upper
+    f_upper = fc < coupling.frequency.lower
     
     alpha = np.sqrt(f/fc)
     g1 =  ( 4.0 / np.pi**4.0 * (1.0 - 2.0 * alpha**2.0) / np.sqrt(1.0 - alpha**2.0) ) * (f < 0.5 * fc)
     g2 = 1.0 / (4.0 * np.pi**4.0) * (  (1.0 - alpha**2) * np.log((1.0+alpha)/(1.0-alpha)) + 2.0 * alpha ) / (1.0-alpha**2.0)**1.5
+    
     sigma1 = lc**2.0 / S * (2.0 * g1 + U / lc * g2)
     sigma2 = np.sqrt(Lx/lc) + np.sqrt(Ly/lc)
     sigma3 = (1.0 - fc/f)**(-0.5)
@@ -73,7 +74,7 @@ def critical_frequency(subsystem_plate, subsystem_cavity):
     try:
         return subsystem_cavity.soundspeed_group**2.0 / (1.8 * subsystem_plate.soundspeed_group * subsystem_plate.component.thickness)
     except FloatingPointError:
-        return np.zeros(self.frequency.amount)
+        return np.zeros(subsystem_plate.frequency.amount)
     
 class Coupling3DPlateCavity(Coupling):
     """
@@ -133,6 +134,6 @@ class Coupling3DPlateCavity(Coupling):
         """
         try:
             return self.subsystem_from.component.material.density * self.subsystem_to.soundspeed_group * \
-                   self.radiation_efficiency / (self.omega * self.subsystem_from.component.mass_per_area)
-        except ZeroDivisionError:
+                   self.radiation_efficiency / (self.frequency.angular * self.subsystem_from.component.mass_per_area)
+        except (ZeroDivisionError, FloatingPointError):
             return np.zeros(self.frequency.amount)
