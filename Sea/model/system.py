@@ -7,7 +7,6 @@ import cmath
 import numpy as np
 
 import warnings
-import weakref
 import logging
 
 
