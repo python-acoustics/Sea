@@ -32,7 +32,7 @@ class SubsystemLong(SubsystemStructural):
         
         .. math:: c_{L,\\phi}^{1D} = \\frac{E}{\\rho}
         """
-        return np.repeat(self.component.material.young / self.component.material.density, len(self.omega))
+        return np.repeat(self.component.material.young / self.component.material.density, self.frequency.amount)
 
     @property
     def soundspeed_group(self):
@@ -79,7 +79,7 @@ class SubsystemBend(SubsystemStructural):
         
         See Lyon, above eq. 8.1.10
         """
-        return np.sqrt(self.omega * self.component.radius_of_gyration * self.component.subsystem_long.soundspeed_phase)
+        return np.sqrt(self.frequency.angular * self.component.radius_of_gyration * self.component.subsystem_long.soundspeed_phase)
                 
     @property
     def soundspeed_group(self):

@@ -45,6 +45,8 @@ class Component(BaseClass):
         obj.addProperty("App::PropertyFloatList", "Velocity", "Subsystem", "Mean velocity.")
         obj.addProperty("App::PropertyFloatList", "VelocityLevel", "Subsystem", "Velocity level.")
         
+        obj.Frequency = system.Frequency
+        
         material.Components = material.Components + [obj]
         obj.Proxy.model.material = material.Proxy.model
         obj.Material = material.Name
@@ -53,7 +55,7 @@ class Component(BaseClass):
         for sort in obj.AvailableSubsystems:   
             obj.addProperty("App::PropertyLink", "Subsystem" + sort.capitalize(), "Subsystems", "Subsystem of type " + sort)
         obj.EnabledSubsystems = obj.AvailableSubsystems
-        obj.Frequency = system.Frequency
+        
         
         
         

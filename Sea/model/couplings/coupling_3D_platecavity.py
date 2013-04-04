@@ -30,7 +30,7 @@ def radiation_efficiency(coupling, component):
     #component = self.subsystem_from.component
     
     
-    f = np.array(component.frequency, dtype=complex)
+    f = np.array(component.frequency.center, dtype=complex)
     """Cast to complex numbers to prevent errors with sqrt further down."""
     
     fc = coupling.critical_frequency
@@ -73,7 +73,7 @@ def critical_frequency(subsystem_plate, subsystem_cavity):
     try:
         return subsystem_cavity.soundspeed_group**2.0 / (1.8 * subsystem_plate.soundspeed_group * subsystem_plate.component.thickness)
     except FloatingPointError:
-        return np.zeros(len(subsystem_plate.frequency))
+        return np.zeros(self.frequency.amount)
     
 class Coupling3DPlateCavity(Coupling):
     """
@@ -110,7 +110,7 @@ class Coupling3DPlateCavity(Coupling):
         try:
             return self.subsystem_to.soundspeed_group / self.critical_frequency
         except FloatingPointError:
-            return np.zeros(len(self.frequency))
+            return np.zeros(self.frequency.amount)
             
     @property
     def radiation_efficiency(self):
@@ -135,4 +135,4 @@ class Coupling3DPlateCavity(Coupling):
             return self.subsystem_from.component.material.density * self.subsystem_to.soundspeed_group * \
                    self.radiation_efficiency / (self.omega * self.subsystem_from.component.mass_per_area)
         except ZeroDivisionError:
-            return np.zeros(len(self.frequency))
+            return np.zeros(self.frequency.amount)

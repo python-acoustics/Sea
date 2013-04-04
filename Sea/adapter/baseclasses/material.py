@@ -50,7 +50,7 @@ class Material(BaseClass):
             obj.Proxy.model.density = obj.Density
         elif prop == 'LossFactor':
             if len(obj.LossFactor) == 1:
-                obj.Proxy.model.loss_factor = np.ones(len(obj.Frequency)) * np.array(obj.LossFactor)
+                obj.Proxy.model.loss_factor = np.ones(obj.Frequency.Amount) * np.array(obj.LossFactor)
             else:
                 obj.Proxy.model.loss_factor = np.array(obj.LossFactor)
         elif prop == 'Temperature':

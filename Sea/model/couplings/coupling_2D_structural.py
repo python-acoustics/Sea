@@ -13,7 +13,7 @@ class Coupling2DStructural(Coupling):
         if self.subsystem_from.impedance:
             return self.subsystem_from.impedance
         else:
-            return np.zeros(len(self.frequency))
+            return np.zeros(self.frequency.amount)
             
     @property
     def impedance_to(self):
@@ -24,10 +24,10 @@ class Coupling2DStructural(Coupling):
         if self.subsystem_to.impedance:
             return self.subsystem_to.impedance
         else:
-            return np.zeros(len(self.frequency))
+            return np.zeros(self.frequency.amount)
             
     
     
     @property
     def clf(self):
-        return np.ones(len(self.frequency)) * 0.5
+        return np.ones(self.frequency.amount) * 0.5

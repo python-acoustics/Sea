@@ -13,13 +13,8 @@ class BaseClass(object):
     """
 
     frequency = None
-    
-    @property
-    def omega(self):
-        """
-        Angular frequency
-        """
-        return self.frequency * 2.0 * np.pi 
-        
+    """
+    Frequency object
+    """
     
     

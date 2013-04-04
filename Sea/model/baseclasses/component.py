@@ -49,7 +49,7 @@ class Component(BaseClass):
         Velocity of the component :math:`v_{component}`. This is the sum of all subsystems velocities.
         """
         
-        velocity = np.zeros(len(self.omega))
+        velocity = np.zeros(self.frequency.amount)
         for subsystem in self.linked_subsystems:
             velocity = velocity + subsystem.velocity
         return velocity    
@@ -65,7 +65,7 @@ class Component(BaseClass):
         try:
             return 20 * np.log10(self.velocity / (5 * 10**(-8)) ) 
         except FloatingPointError:
-            return np.zeros(len(self.frequency))
+            return np.zeros(self.frequency.amount)
         
 
 class ComponentStructural(Component):

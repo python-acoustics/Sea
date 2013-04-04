@@ -1,4 +1,6 @@
 
+from frequency import Frequency
+
 from baseclass import BaseClass
 from component import ComponentStructural, ComponentCavity
 from subsystem import SubsystemStructural, SubsystemCavity

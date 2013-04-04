@@ -37,8 +37,6 @@ class Subsystem(BaseClass):
         obj.addProperty("App::PropertyLinkList", "CouplingsFrom", "Couplings", "Couplings that originate from this subsystem.")
         obj.addProperty("App::PropertyLinkList", "CouplingsTo", "Couplings", "Couplings that end at this subsystem.")
         
-        
-        
         obj.addProperty("App::PropertyLinkList", "Excitations", "Excitation", "Excitations the subsystem experiences.")
         obj.Excitations = []
         
@@ -59,7 +57,7 @@ class Subsystem(BaseClass):
             obj.Proxy.model.linked_excitations = [excitation.Proxy.model for excitation in obj.Excitations]
         
         if prop =='Frequency':
-            obj.Proxy.model.modal_energy = np.zeros(len(obj.Frequency))
+            obj.Proxy.model.modal_energy = np.zeros(len(obj.Frequency.Center))
         
     def execute(self, obj):
         BaseClass.execute(self, obj)

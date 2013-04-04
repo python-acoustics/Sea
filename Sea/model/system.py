@@ -26,23 +26,26 @@ class System(object):
     #materials = list()
     #parts = list()
 
-    _frequency = np.array([1000, 2000, 4000, 8000])
+    #_frequency = np.array([1000, 2000, 4000, 8000])
     
+    frequency = None
+ 
+     
      
     solved = False
     """
     Switch indicating whether the system (modal energies) were solved or not.
     """
     
-    _octave_true = np.array([
-        0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 
-        0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0])
-    """
-    Which frequency bands should be used when calculating in 1/1-octave bands.
-    """
-    _third_true = np.array([
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
+    #_octave_true = np.array([
+        #0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 
+        #0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0])
+    #"""
+    #Which frequency bands should be used when calculating in 1/1-octave bands.
+    #"""
+    #_third_true = np.array([
+        #1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
+        #1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
     """
     Which frequency bands should be used when calculating in 1/3-octave bands.
     """
@@ -52,51 +55,39 @@ class System(object):
      
     """
 
-    frequency = np.array([
-        25, 31.5, 40, 50, 63, 80, 100, 125, 160, 200, 250, 315, 
-        400, 500, 630, 800, 1000, 1250, 1600, 2000, 2500, 3150, 
-        4000, 5000, 6300, 8000, 10000, 12500, 16000, 20000])
+    #frequency = np.array([
+        #25, 31.5, 40, 50, 63, 80, 100, 125, 160, 200, 250, 315, 
+        #400, 500, 630, 800, 1000, 1250, 1600, 2000, 2500, 3150, 
+        #4000, 5000, 6300, 8000, 10000, 12500, 16000, 20000])
     """
     Frequency is an array of centerfrequencies.
     """
  
     
-    octaves = False
-    """
-    Switch to indicate whether 1/1-octaves (True) are used or 1/3-octaves (False).
-    """
+    #octaves = False
+    #"""
+    #Switch to indicate whether 1/1-octaves (True) are used or 1/3-octaves (False).
+    #"""
     
     
-    def _set_enabled_bands(self, x):
-        if len(x) == len(self.frequency):
-            if self.octaves:
-                self._enabled_bands = np.array(x * self._octave_true) 
-            else:
-                self._enabled_bands = np.array(x)
+    #def _set_enabled_bands(self, x):
+        #if len(x) == self.frequency.amount:
+            #if self.octaves:
+                #self._enabled_bands = np.array(x * self._octave_true) 
+            #else:
+                #self._enabled_bands = np.array(x)
                 
     
-    def _get_enabled_bands(self):
-        return self._enabled_bands
+    #def _get_enabled_bands(self):
+        #return self._enabled_bands
 
-    _enabled_bands = np.ones(len(frequency))
-    enabled_bands = property(fget=_get_enabled_bands, fset=_set_enabled_bands)
+    #_enabled_bands = np.ones(frequency.amount)
+    #enabled_bands = property(fget=_get_enabled_bands, fset=_set_enabled_bands)
     """"
     Specify with booleans which :attr:`frequency` are used. 
     Checks on assignment whether 1/1-octaves should be used or 1/3-octaves.
     """
     
-
-    
-    @property
-    def omega(self):
-        """
-        Angular frequency.
-        
-        .. math:: \\omega = 2 \\pi f
-        
-        """
-        return 2.0 * np.pi * self.frequency  
-
 
     def createMatrix(self, subsystems, f):
         """
@@ -105,7 +96,7 @@ class System(object):
         :param subsystems: is a list of subsystems. Reason to give the list as argument instead of using self.subsystems is that that list might change during execution.
         :param f: is the index of the center frequency of the frequency band
         """
-        logging.info('Creating matrix for centerfrequency %s', str(self.frequency[f]))
+        logging.info('Creating matrix for centerfrequency %s', str(self.frequency.center[f]))
         
         LF = np.zeros((len(subsystems), len(subsystems)), dtype=float)
         j = 0
@@ -166,16 +157,18 @@ class System(object):
 
         subsystems = self.subsystems
         
-       
-        for f in xrange(0, len(self.frequency), 1): # For every frequency band
-            if self.enabled_bands[f]:               # If it is enabled
+        print self.frequency.amount
+        print self.frequency.enabled
+        
+        for f in xrange(0, self.frequency.amount, 1): # For every frequency band
+            if self.frequency.enabled[f]:               # If it is enabled
                 LF = self.createMatrix(subsystems, f)   # Create a loss factor matrix.
                 
                 input_power = np.zeros(len(subsystems))     # Create input power vector
                 
                 i=0
                 for subsystem in subsystems:
-                    input_power[i] = subsystem.input_power[f] / self.omega[f]   # Retrieve the power for the right frequency
+                    input_power[i] = subsystem.input_power[f] / self.frequency.angular[f]   # Retrieve the power for the right frequency
                     i=i+1
                     
                 try:
