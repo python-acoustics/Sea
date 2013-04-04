@@ -20,8 +20,10 @@ class SubsystemLong(SubsystemCavity):
         
         See Lyon, eq 8.3.7
         """
-        return self.soundspeed_phase**2.0 / (4.0 * np.pi * self.component.volume * self.frequency.center**2.0)
-    
+        try:
+            return self.soundspeed_phase**2.0 / (4.0 * np.pi * self.component.volume * self.frequency.center**2.0)
+        except FloatingPointError:
+            return np.zeros(self.frequency.amount)
     @property
     def impedance(self):
         """
@@ -34,7 +36,7 @@ class SubsystemLong(SubsystemCavity):
         try:
             return np.pi * self.component.material.density * self.frequency.center**2.0 / self.soundspeed_phase * (1.0 + 1.0j / (self.wavenumber * self.excitation.radius)) 
         except FloatingPointError:
-            return np.zeros(len(self.frequency.center))
+            return np.zeros(self.frequency.amount)
 
         
 class Component3DCavity(ComponentCavity):

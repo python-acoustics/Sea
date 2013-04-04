@@ -186,7 +186,7 @@ class SubsystemShear(SubsystemStructural):
         
     @property
     def impedance(self):
-        return 0.0
+        return np.zeros(self.frequency.amount)
         
 class Component1DBeam(ComponentStructural):
     """

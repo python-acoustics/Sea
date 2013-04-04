@@ -60,7 +60,11 @@ class SubsystemLong(SubsystemStructural):
         See Lyon, equation 8.2.1.
         """
         return np.sqrt( ( ( m - delta1) * np.pi / self.component.length) + ( ( m - delta2) * np.pi / self.component.width) )
-        
+    
+    
+    @property
+    def impedance(self):
+        return np.zeros(self.frequency.amount)    
         
     #@property
     #def wavenumber(self):
@@ -137,6 +141,11 @@ class SubsystemBend(SubsystemStructural):
         return self.thickness**3.0 / (12.0 * (1.0 - self.poisson()**2.0))
     
     
+    @property
+    def impedance(self):
+        return np.zeros(self.frequency.amount)
+    
+    
 class SubsystemShear(SubsystemStructural):
     """
     Subsystem for shear waves in a 2D isotopic component.
@@ -193,6 +202,9 @@ class SubsystemShear(SubsystemStructural):
         return self.component.material.density * self.frequency.angular * (1.0 + self.component.material.poisson) / (self.component.material.young * self.component.thickness) 
         
     
+    @property
+    def impedance(self):
+        return np.zeros(self.frequency.amount)
    
 class Component2DPlate(ComponentStructural):
     """
