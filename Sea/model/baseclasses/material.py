@@ -23,7 +23,7 @@ class Material(BaseClass):
     Density :math:`\\rho` of the material.
     """
     
-    loss_factor = 0.0
+    loss_factor = np.array([0.0])
     """
     Loss factor :math:`\\eta` of the material.
     """

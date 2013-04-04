@@ -40,4 +40,4 @@ class Coupling2DCavities3D(Coupling):
         See BAC, equation 3.14
         
         """
-        return self.subsystem_from.soundspeed_group * self.area / (8.0 * np.pi * self.frequency * self.subsystem_from.volume) * self.tau
+        return self.subsystem_from.soundspeed_group * self.area / (8.0 * np.pi * self.frequency.center * self.subsystem_from.volume) * self.tau

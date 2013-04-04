@@ -32,7 +32,7 @@ class Subsystem(BaseClass):
     """        
     
     def _set_modal_energy(self, x):
-        if len(x) == len(self.omega):
+        if len(x) == self.frequency.amount:
             self._modal_energy = np.array(x)
         
     def _get_modal_energy(self):
@@ -66,7 +66,7 @@ class Subsystem(BaseClass):
     
     @property
     def clf(self):
-        return np.zeros(len(self.frequency))
+        return np.zeros(self.frequency.amount)
     
     @abc.abstractproperty                      
     def soundspeed_phase(self):
@@ -101,7 +101,7 @@ class Subsystem(BaseClass):
         try:
             return 1.0 / (2.0 * np.pi * self.average_frequency_spacing)
         except FloatingPointError:
-            return np.zeros(len(self.frequency))
+            return np.zeros(self.frequency.amount)
         
     #@abc.abstractproperty                      
     #def wavenumber(self):
@@ -137,7 +137,7 @@ class Subsystem(BaseClass):
         try:
             return 1.0 / self.impedance
         except FloatingPointError:
-            return np.zeros(len(self.frequency))
+            return np.zeros(self.frequency.amount)
             
     @property
     def damping_term(self):
@@ -149,9 +149,9 @@ class Subsystem(BaseClass):
         See Lyon, above equation 12.1.4
         """
         try:
-            return self.frequency * self.component.material.loss_factor / self.average_frequency_spacing
+            return self.frequency.center * self.component.material.loss_factor / self.average_frequency_spacing
         except FloatingPointError:
-            return np.zeros(len(self.frequency))
+            return np.zeros(self.frequency.amount)
         
     @property
     def modal_overlap_factor(self):
@@ -170,7 +170,7 @@ class Subsystem(BaseClass):
         """
         Total input power due to excitations.
         """
-        power = np.zeros(len(self.omega))
+        power = np.zeros(self.frequency.amount)
         for excitation in self.linked_excitations:
             power = power + excitation.power
         return power    
@@ -194,7 +194,7 @@ class Subsystem(BaseClass):
         try:
             return np.sqrt(self.energy / self.component.mass)
         except FloatingPointError:
-            return np.zeros(len(self.frequency))
+            return np.zeros(self.frequency.amount)
             
     @property
     def velocity_level(self):
@@ -206,7 +206,7 @@ class Subsystem(BaseClass):
         try:
             return 20 * np.log10(self.velocity / (5 * 10**(-8)) ) 
         except FloatingPointError:
-            return np.zeros(len(self.frequency))
+            return np.zeros(self.frequency.amount)
     
         
 class SubsystemStructural(Subsystem):
@@ -215,13 +215,6 @@ class SubsystemStructural(Subsystem):
     """
     __metaclass__ = abc.ABCMeta  
     
-    #@property
-    #def radiation_efficiency(self):
-        #return np.zeros(len(self.frequency))
-    
-    #@property
-    #def critical_frequency(self):
-        #return 0.0
     
 class SubsystemCavity(Subsystem): 
     """
@@ -251,8 +244,8 @@ class SubsystemCavity(Subsystem):
         See Lyon, above eq 8.1.9.
         """
         try:
-            return np.ones(len(self.frequency)) * np.sqrt(self.component.material.bulk / self.component.material.density)
+            return np.ones(self.frequency.amount) * np.sqrt(self.component.material.bulk / self.component.material.density)
         except ZeroDivisionError:
-            return np.zeros(len(self.frequency))
+            return np.zeros(self.frequency.amount)
         
         

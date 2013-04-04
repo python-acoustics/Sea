@@ -42,8 +42,9 @@ class BaseClass(object):
         
         obj.addProperty("App::PropertyString", "ClassName", "SEA", "Name of the class of this object.")
         obj.addProperty("App::PropertyString", "SeaObject", "SEA", "Type of SEA object.")
-        obj.addProperty("App::PropertyFloatList", "Frequency", "SEA", "Centerfrequencies of frequency bands")
-        obj.addProperty("App::PropertyFloatList", "AngularFrequency", "SEA", "Angular frequency bands")
+        obj.addProperty("App::PropertyLink", "Frequency", "SEA", "Link to current frequency settings.")
+        #obj.addProperty("App::PropertyFloatList", "Frequency", "SEA", "Centerfrequencies.")
+        #obj.addProperty("App::PropertyFloatList", "AngularFrequency", "SEA", "Angular frequency bands")
         #obj.addProperty("App::PropertyPythonObject", "Model", "SEA", "Model of the SEA object.")
         obj.Proxy.model = model() # here we create the instance of the model
         """
@@ -72,8 +73,8 @@ class BaseClass(object):
         logging.info("Object %s - onChanged - Changing property %s.", obj.Name, prop)
         
         if prop == 'Frequency':
-            obj.Proxy.model.frequency = np.array(obj.Frequency)
-            obj.AngularFrequency = obj.Proxy.model.omega.tolist()
+            obj.Proxy.model.frequency = obj.Frequency.Proxy.model
+            #obj.AngularFrequency = obj.Proxy.model.omega.tolist()
             
     def execute(self, obj):
         """
@@ -81,7 +82,8 @@ class BaseClass(object):
         
         :param obj: Feature object
         """
-        obj.AngularFrequency = obj.Proxy.model.omega.tolist()
+        pass
+        #obj.AngularFrequency = obj.Proxy.model.omega.tolist()
         
 
     @staticmethod

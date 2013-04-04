@@ -27,7 +27,7 @@ class Coupling2DCavities2D(Coupling):
         """
         Transmission coefficient.
         """
-        return np.zeros(len(self.frequency))
+        return np.zeros(self.frequency.amount)
     
     
     @property

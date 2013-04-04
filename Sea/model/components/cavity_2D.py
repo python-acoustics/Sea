@@ -20,7 +20,7 @@ class SubsystemLong(SubsystemCavity):
         
         See Lyon, eq 8.2.12
         """
-        return self.soundspeed / (self.omega * self.A)
+        return self.soundspeed / (self.frequency.angular * self.A)
     
     
     

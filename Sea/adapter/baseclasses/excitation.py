@@ -26,7 +26,7 @@ class Excitation(BaseClass):
         BaseClass.onChanged(self, obj, prop)  
         
         if prop == 'Frequency':
-            obj.Proxy.model.power = np.zeros(len(obj.Frequency))
+            obj.Proxy.model.power = np.zeros(obj.Frequency.Amount)
         
         if prop == 'Power':
             obj.Proxy.model.power = np.array(obj.Power)

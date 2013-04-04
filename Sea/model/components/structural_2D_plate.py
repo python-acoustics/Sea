@@ -21,9 +21,9 @@ class SubsystemLong(SubsystemStructural):
         See Lyon, above eq 8.2.5 
         """
         try:
-            return np.ones(len(self.frequency)) * np.sqrt(self.component.material.young / (self.component.material.density * (1.0 - self.component.material.poisson**2.0)))
+            return np.ones(self.frequency.amount) * np.sqrt(self.component.material.young / (self.component.material.density * (1.0 - self.component.material.poisson**2.0)))
         except ZeroDivisionError:
-            return np.zeros(len(self.frequency))
+            return np.zeros(self.frequency.amount)
             
     @property
     def soundspeed_phase(self):
@@ -45,8 +45,10 @@ class SubsystemLong(SubsystemStructural):
         
         See Lyon, equation 8.2.8
         """
-        return  self.soundspeed_group**2.0 / (self.omega * self.component.area)
-
+        try:
+            return  self.soundspeed_group**2.0 / (self.frequency.angular * self.component.area)
+        except FloatingPointError:
+            return np.zeros(self.frequency.amount)
 
     @property
     def wavenumber(self, m, n, delta1, delta2):
@@ -86,7 +88,7 @@ class SubsystemBend(SubsystemStructural):
         
         See Lyon, above eq. 8.2.5
         """
-        return np.sqrt(self.omega * self.component.radius_of_gyration * self.component.subsystem_long.soundspeed_phase)
+        return np.sqrt(self.frequency.angular * self.component.radius_of_gyration * self.component.subsystem_long.soundspeed_phase)
                 
     @property
     def soundspeed_group(self):
@@ -121,7 +123,7 @@ class SubsystemBend(SubsystemStructural):
         
         See Langley and Heron, 1990, eq 18.
         """
-        return np.power(self.component.material.density * self.omega / self.flexural_rigidity, 0.25)
+        return np.power(self.component.material.density * self.frequency.angular / self.flexural_rigidity, 0.25)
     
     @property
     def flexural_rigidity(self):
@@ -150,9 +152,9 @@ class SubsystemShear(SubsystemStructural):
         See Lyon, above eq. 8.2.5
         """
         try:
-            return np.ones(len(self.frequency)) * np.sqrt(self.component.material.shear / self.component.material.density)
+            return np.ones(self.frequency.amount) * np.sqrt(self.component.material.shear / self.component.material.density)
         except ZeroDivisionError:
-            return np.zeros(len(self.frequency))
+            return np.zeros(self.frequency.amount)
         
     @property
     def soundspeed_group(self):
@@ -174,8 +176,10 @@ class SubsystemShear(SubsystemStructural):
         
         See Lyon, eq 8.2.5
         """
-        return self.soundspeed_group**2.0 / (self.omega * self.component.area)
-   
+        try:
+            return self.soundspeed_group**2.0 / (self.frequency.angular * self.component.area)
+        except FloatingPointError:
+            return np.zeros(self.frequency.amount)
     
     @property
     def wavenumber(self):
@@ -186,7 +190,7 @@ class SubsystemShear(SubsystemStructural):
         
         Langley and Heron, 1990, eq 25
         """
-        return self.component.material.density * self.omega * (1.0 + self.component.material.poisson) / (self.component.material.young * self.component.thickness) 
+        return self.component.material.density * self.frequency.angular * (1.0 + self.component.material.poisson) / (self.component.material.young * self.component.thickness) 
         
     
    

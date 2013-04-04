@@ -101,5 +101,5 @@ class Coupling(BaseClass):
         
         See Lyon, above equation 12.1.4
         """
-        return self.frequency * self.clf / self.subsystem_from.average_frequency_spacing
+        return self.frequency.center * self.clf / self.subsystem_from.average_frequency_spacing
         
