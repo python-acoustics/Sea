@@ -19,7 +19,11 @@ class Component2DPlate(baseclasses.ComponentStructural):
     
     def __init__(self, obj, system, material, part):
         model = Sea.model.components.Component2DPlate  
+        obj.addProperty("App::PropertyFloat", "Length", self.name, "Length of the plate.")
+        obj.addProperty("App::PropertyFloat", "Width", self.name, "Width of the plate.")
+        
         baseclasses.ComponentStructural.__init__(self, obj, system, material, part, model)
+        
         
         obj.addProperty("App::PropertyFloat", "Area", self.name, "Area of the plate.")
         obj.addProperty("App::PropertyFloat", "Thickness", self.name, "Thickness of the plate.")
@@ -38,9 +42,26 @@ class Component2DPlate(baseclasses.ComponentStructural):
         if prop == 'Area':
             obj.Proxy.model.area = obj.Area
         
-        if prop == 'Thickness':
+        elif prop == 'Thickness':
             obj.Proxy.model.thickness = obj.Thickness
+        
+        elif prop == 'Length':
+            obj.Proxy.model.length = obj.Length
+        
+        elif prop == 'Width':
+            obj.Proxy.model.width = obj.Width
+        
+        if prop == 'Shape':
+            box = obj.Shape.BoundBox
+            dim = [box.XLength, box.YLength, box.ZLength]
+            smallest = min(dim)
+            largest = max(dim)
             
+            obj.Length = largest
+            dim.remove(smallest)
+            dim.remove(largest)
+            obj.Width = dim[0]
+        
     def execute(self, obj):
         baseclasses.ComponentStructural.execute(self, obj)
         self.calc_area_and_thickness(obj)

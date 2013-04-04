@@ -1,13 +1,12 @@
 import numpy as np
 from ..baseclasses import Coupling
 
-
+import coupling_3D_platecavity
 
 class Coupling3DCavityPlate(Coupling):
     """
     A model describing the coupling between a cavity and a plate.
     """
-    
     
     @property
     def impedance_from(self):
@@ -17,9 +16,32 @@ class Coupling3DCavityPlate(Coupling):
     def impedance_to(self):
         return self.subsystem_to.impedance
     
-    #@property
-    #def critical_frequency(self):
-        #pass
+    @property
+    def critical_frequency(self):
+        """
+        Critical frequency
+        """
+        return coupling_3D_platecavity.critical_frequency(self.subsystem_to, self.subsystem_from)
+    
+    @property
+    def critical_wavelength(self):
+        """
+        Wavelength belonging to critical frequency.
+        
+        .. math:: \\lambda_c = c_{g} / f_c
+        
+        """
+        try:
+            return self.subsystem_from.soundspeed_group / self.critical_frequency
+        except FloatingPointError:
+            return np.zeros(len(self.frequency))
+        
+    @property
+    def radiation_efficiency(self):
+        """
+        Radiation efficiency.
+        """
+        return coupling_3D_platecavity.radiation_efficiency(self, self.subsystem_to.component)
     
     @property
     def clf(self):
@@ -32,7 +54,7 @@ class Coupling3DCavityPlate(Coupling):
         """        
         try:
             return self.subsystem_from.component.material.density * \
-                   self.subsystem_from.soundspeed_group**2.0 *self.area * self.subsystem_to.radiation_efficiency * \
+                   self.subsystem_from.soundspeed_group**2.0 *self.area * self.radiation_efficiency * \
                    self.subsystem_to.critical_frequency / (8.0 * np.pi * self.frequency**3.0 * \
                    self.subsystem_to.component.mass_per_area * self.subsystem_from.component.volume) 
         except ZeroDivisionError:

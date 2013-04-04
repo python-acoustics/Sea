@@ -42,7 +42,7 @@ class BaseClass(object):
         
         obj.addProperty("App::PropertyString", "ClassName", "SEA", "Name of the class of this object.")
         obj.addProperty("App::PropertyString", "SeaObject", "SEA", "Type of SEA object.")
-        obj.addProperty("App::PropertyFloatList", "Frequency", "SEA", "Frequency bands")
+        obj.addProperty("App::PropertyFloatList", "Frequency", "SEA", "Centerfrequencies of frequency bands")
         obj.addProperty("App::PropertyFloatList", "AngularFrequency", "SEA", "Angular frequency bands")
         #obj.addProperty("App::PropertyPythonObject", "Model", "SEA", "Model of the SEA object.")
         obj.Proxy.model = model() # here we create the instance of the model
