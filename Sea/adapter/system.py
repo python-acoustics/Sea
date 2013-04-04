@@ -26,7 +26,7 @@ class System(BaseClass):
     _materials = list()
     
     
-    def __init__(self, obj, group, structure):
+    def __init__(self, obj, structure):
         """
         :param obj: FeaturePython object 
         :param group: DocumentObjectGroup that System is part of.
@@ -74,7 +74,7 @@ class System(BaseClass):
         #obj.addProperty("App::PropertyLink", "ComponentsStructuralGroupGroup", "Groups", "Structural components that are part of System.")
         #obj.addProperty("App::PropertyLink", "ComponentsCavityGroup", "Groups", "Cavity components that are part of System.")
         
-        obj.ComponentsGroup = group.newObject("App::DocumentObjectGroup", "GroupComponents")
+        obj.ComponentsGroup = obj.newObject("App::DocumentObjectGroup", "GroupComponents")
         obj.ComponentsGroup.Label = "Components"
         
         #obj.ComponentsStructuralGroup = obj.ComponentsGroup.newObject("App::DocumentObjectGroup", "GroupComponentsStructural")
@@ -83,13 +83,13 @@ class System(BaseClass):
         #obj.ComponentsCavityGroup = obj.ComponentsGroup.newObject("App::DocumentObjectGroup", "GroupComponentsCavity")
         #obj.ComponentsStructuralGroup.Label = "Cavities"
         
-        obj.ConnectionsGroup = group.newObject("App::DocumentObjectGroup", "GroupConnections")
+        obj.ConnectionsGroup = obj.newObject("App::DocumentObjectGroup", "GroupConnections")
         obj.ConnectionsGroup.Label = "Connections"
         
-        obj.ExcitationsGroup = group.newObject("App::DocumentObjectGroup", "GroupExcitations")
+        obj.ExcitationsGroup = obj.newObject("App::DocumentObjectGroup", "GroupExcitations")
         obj.ExcitationsGroup.Label = "Excitations"    
         
-        obj.MaterialsGroup = group.newObject("App::DocumentObjectGroup", "GroupMaterials")
+        obj.MaterialsGroup = obj.newObject("App::DocumentObjectGroup", "GroupMaterials")
         obj.MaterialsGroup.Label = "Materials"    
         
         self.execute(obj)
@@ -229,7 +229,12 @@ class System(BaseClass):
     #def connections_list(self):
         #return _objects_list('Connection')    
         
-
+    @staticmethod
+    def makeFrequency(system):
+        pass
+        #obj = system.newObject("App::
+        
+        
     @staticmethod
     def makeComponent(system, sort, material, part):
         """

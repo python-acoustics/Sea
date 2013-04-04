@@ -124,11 +124,10 @@ def makeSystem(structure):
     :param structure: fused structure the SEA model will describe
     
     """    
-    sea = structure.Document.addObject("App::DocumentObjectGroup", "SEA")
-    
-    sea.Label = "SEA model"
-    obj = sea.newObject("App::FeaturePython", "System")
-    Sea.adapter.system.System(obj, sea, structure)
+    obj = structure.Document.addObject("App::DocumentObjectGroupPython", "SEA")
+    obj.Label = "SEA model"
+    #obj = sea.newObject("App::FeaturePython", "System")
+    Sea.adapter.system.System(obj, structure)
     obj.Document.recompute()
     return obj
     
