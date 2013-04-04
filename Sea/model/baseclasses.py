@@ -11,6 +11,11 @@ import warnings # Handling of warnings
 import abc      # Abstract base classes
 import logging  # Add logging functionality
 
+
+
+
+
+
 class BaseClass(object):
     """Abstract Base Class for all materials, components, subsystems, couplings and excitations."""
     __metaclass__ = abc.ABCMeta
