@@ -49,10 +49,14 @@ def isCoupling(obj):
 
 def isExcitation(obj):
     return _isObject(obj, "Excitation")
+
 def isMaterial(obj):
     return _isObject(obj, "Material")
 
+def isSubsystem(obj):
+    return _isObject(obj, "Subsystem")
 
+    
 def isFuse(obj):
     """
     Is obj a Part.MultiFuse or not.
@@ -146,7 +150,7 @@ def create_system_from_structure(structure):
     
     :param structure: an instance of :class:`Part.MultiFuse`
     """ 
-    system = Sea.actions.factory.makeSystem(structure)
+    system = Sea.adapter.system.System.makeSystem(structure)
     system.addComponentsStructural()
     system.addComponentsCavities()
     system.addConnections()

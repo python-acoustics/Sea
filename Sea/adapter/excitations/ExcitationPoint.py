@@ -1,7 +1,7 @@
 import Sea
-from .. import baseclasses
+from Excitation import Excitation
 
-class ExcitationPoint(baseclasses.Excitation):
+class ExcitationPoint(Excitation, Sea.model.excitations.ExcitationPoint):
     """
     Rain on the roof excitation
     """
@@ -9,9 +9,7 @@ class ExcitationPoint(baseclasses.Excitation):
     name = 'Point'
     description = 'An excitation of a single point.'
     
-    model = Sea.model.excitations.ExcitationPoint
-    
     def __init__(self, obj, system, subsystem):
-        baseclasses.Excitation.__init__(self, obj, system, subsystem)
+        Excitation.__init__(self, obj, system, subsystem)
         
         

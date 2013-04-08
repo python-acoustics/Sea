@@ -11,8 +11,9 @@ The :class:`Sea.model.system.System` class contains methods for solving the SEA 
 """
 
 import system
-import connection
+import connections
 import components
+import subsystems
 import couplings
 import excitations
 import materials
