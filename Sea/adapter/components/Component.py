@@ -36,23 +36,23 @@ class Component(Base):
         obj.Material = material
         
         obj.addProperty("Part::PropertyPartShape", "Shape", "Component", "Shape of Part.")
-       
+        obj.setEditorMode("Shape", 1)
+        
         obj.addProperty("App::PropertyLinkSub", "VolumeLink", "Component", "Link to volume of component")
         obj.addProperty("App::PropertyFloat", "Volume", "Component", "Volume of component.")
+        obj.setEditorMode('Volume', 1)
         obj.addProperty("App::PropertyFloat", "Mass", "Component", "Mass of component.")
-       
-        #obj.addProperty("App::PropertyBool", "EnableLong", "Subsystems", "Enable the subsystem describing longitudinal waves.")
-        #obj.addProperty("App::PropertyBool", "EnableBend", "Subsystems",, "Enable the subsystem describing bending waves.")
-        #obj.addProperty("App::PropertyBool", "EnableShear", "Subsystems", "Enable the subsystem describing shear waves.")
+        obj.setEditorMode('Mass', 1)
         
         obj.addProperty("App::PropertyStringList", "AvailableSubsystems", "Subsystems", "List of available subsystems for this component.")
+        obj.setEditorMode('AvailableSubsystems', 2)
         obj.addProperty("App::PropertyStringList", "EnabledSubsystems", "Subsystems", "List of enabled subsystems for this component.")
-        
-        obj.addProperty("App::PropertyLinkList", "Subsystems", "Subsystems", "List of subsystems.")
+        obj.setEditorMode('EnabledSubsystems', 1)
         
         obj.addProperty("App::PropertyFloatList", "Velocity", "Subsystem", "Mean velocity.")
+        obj.setEditorMode('Velocity', 1)
         obj.addProperty("App::PropertyFloatList", "VelocityLevel", "Subsystem", "Velocity level.")
-        
+        obj.setEditorMode('VelocityLevel', 1)
         obj.Frequency = system.Frequency
         
         
@@ -89,7 +89,7 @@ class Component(Base):
             #obj.Proxy.material = obj.Material.Proxy.model
         
         if prop == 'Frequency':
-            for sub in obj.Subsystems:
+            for sub in obj.subsystems():
                 sub.Frequency = obj.Frequency
             
 

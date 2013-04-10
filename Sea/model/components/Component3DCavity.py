@@ -34,10 +34,10 @@ class SubsystemLong(SubsystemCavity):
         
         See Lyon, table 10.1, last row.
         """
-        try:
-            return np.pi * self.component.material.density * self.frequency.center**2.0 / self.soundspeed_phase * (1.0 + 1.0j / (self.wavenumber * self.excitation.radius)) 
-        except FloatingPointError:
-            return np.zeros(self.frequency.amount)
+        #try:
+            #return np.pi * self.component.material.density * self.frequency.center**2.0 / self.soundspeed_phase * (1.0 + 1.0j / (self.wavenumber * self.excitation.radius)) 
+        #except FloatingPointError:
+        return np.zeros(self.frequency.amount)
 
         
 class Component3DCavity(ComponentCavity):

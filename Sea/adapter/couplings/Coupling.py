@@ -16,22 +16,28 @@ class Coupling(Base):
         
         obj.addProperty("App::PropertyLink", "Connection", "Coupling", "Connection this coupling is part of.")
         obj.Connection = connection
+        obj.setEditorMode("Connection", 1)
         
         obj.Frequency = connection.Frequency
         
         obj.Label = obj.ClassName + '_' + subsystem_from.ClassName.replace('Subsystem', '') + '_to_' + subsystem_to.ClassName.replace('Subsystem', '')
         
         obj.addProperty("App::PropertyFloatList", "CLF", "Coupling", "Coupling loss factor.")
+        obj.setEditorMode("CLF", 1)
         
         obj.addProperty("App::PropertyLink", "SubsystemFrom", "Coupling", "Subsystem from")
+        obj.setEditorMode("SubsystemFrom", 1)
         obj.addProperty("App::PropertyLink", "SubsystemTo", "Coupling", "Subsystem to")
+        obj.setEditorMode("SubsystemTo", 1)
         
         obj.addProperty("App::PropertyFloatList", "ImpedanceFrom", "Subsystem From", "Impedance of connection corrected From subsystem.")     
+        obj.setEditorMode("ImpedanceFrom", 1)
         obj.addProperty("App::PropertyFloatList", "ResistanceFrom", "Subsystem From", "Resistance of connection corrected From subsystem.")
-        
+        obj.setEditorMode("ResistanceFrom", 1)
         obj.addProperty("App::PropertyFloatList", "ImpedanceTo", "Subsystem To", "Impedance of connection corrected To subsystem.")
+        obj.setEditorMode("ImpedanceTo", 1)
         obj.addProperty("App::PropertyFloatList", "ResistanceTo", "Subsystem To", "Resistance of connection corrected To subsystem.")
-        
+        obj.setEditorMode("ResistanceTo", 1)
         
         """How or more specifically, when to update the size of the coupling?"""
         #obj.addProperty("App::PropertyFloat", "Size", "Coupling", "Size of the junction.")

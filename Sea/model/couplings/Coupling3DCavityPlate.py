@@ -21,7 +21,7 @@ class Coupling3DCavityPlate(Coupling):
         """
         Critical frequency
         """
-        return coupling_3D_platecavity.critical_frequency(self.subsystem_to, self.subsystem_from)
+        return Coupling3DPlateCavity.critical_frequency(self.subsystem_to, self.subsystem_from)
     
     @property
     def critical_wavelength(self):
@@ -41,7 +41,7 @@ class Coupling3DCavityPlate(Coupling):
         """
         Radiation efficiency.
         """
-        return coupling_3D_platecavity.radiation_efficiency(self, self.subsystem_to.component)
+        return Coupling3DPlateCavity.radiation_efficiency(self, self.subsystem_to.component)
     
     @property
     def clf(self):

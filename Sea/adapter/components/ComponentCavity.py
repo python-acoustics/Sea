@@ -11,7 +11,9 @@ class ComponentCavity(Component):
         Component.__init__(self, obj, system, material)
         
         obj.addProperty("App::PropertyVector", "Position", "Cavity", "Position within the cavity.")
+        obj.setEditorMode("Position", 1)
         obj.addProperty("App::PropertyLink", "Structure", "Structure", "Fused structure.")
+        obj.setEditorMode("Structure", 2)
         
         obj.Structure = system.Structure
         obj.Position = position

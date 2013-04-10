@@ -29,14 +29,18 @@ class Component2DPlate(ComponentStructural, Sea.model.components.Component2DPlat
     def __init__(self, obj, system, material, part):
         
         obj.addProperty("App::PropertyFloat", "Length", self.name, "Length of the plate.")
+        obj.setEditorMode("Length", 1)
         obj.addProperty("App::PropertyFloat", "Width", self.name, "Width of the plate.")
-        
+        obj.setEditorMode("Width", 1)
         ComponentStructural.__init__(self, obj, system, material, part)
         
         
         obj.addProperty("App::PropertyFloat", "Area", self.name, "Area of the plate.")
+        obj.setEditorMode("Area", 1)
         obj.addProperty("App::PropertyFloat", "Thickness", self.name, "Thickness of the plate.")
+        obj.setEditorMode("Thickness", 1)
         obj.addProperty("App::PropertyFloat", "MassPerArea", self.name, "Mass per unit area.")
+        obj.setEditorMode("MassPerArea", 1)
         self.calc_area_and_thickness(obj)
         
         
