@@ -26,22 +26,16 @@ class Component(Base):
     
     object_sort = 'Component'
     
-    def _get_mass(self):
-        if self._mass == None:
-            return self.volume * self.material.density
     
-    def _set_mass(self, x):
-        self._mass = x
-    
+    @property
+    def mass(self):
+        """
+        Mass :math:`m` of the component.
 
-    _mass = None
-    mass = property(fget=_get_mass, fset=_set_mass)
-    """
-    Mass :math:`m` of the component.
-    
-    .. math:: m = \\rho V 
-    
-    """   
+        .. math:: m = \\rho V 
+
+        """   
+        return self.volume * self.material.density
     
     @property
     def velocity(self):
