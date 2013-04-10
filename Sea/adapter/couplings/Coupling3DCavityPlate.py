@@ -28,7 +28,7 @@ class Coupling3DCavityPlate(Coupling, Sea.model.couplings.Coupling3DCavityPlate)
         """
         Calculate the connecting surface between the objects.
         """
-        comp_from = obj.Document.getObject(obj.ComponentFrom)
-        comp_to = obj.Document.getObject(obj.ComponentTo)
-        obj.Area = Sea.actions.connection.ShapeConnection(comp_from.Shape, comp_to.Shape).shape().Area
+        shape_from = obj.SubsystemFrom.Component.Shape
+        shape_to = obj.SubsystemTo.Component.Shape
+        obj.Area = Sea.actions.connection.ShapeConnection(shape_from, shape_to).shape().Area
         
