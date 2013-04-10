@@ -116,18 +116,3 @@ import logging
     #obj.Document.recompute()
     #return obj
    
-   
-def makeSystem(structure):
-    """
-    Add :class:`Sea.adapter.system.System` to document`.
-    
-    :param structure: fused structure the SEA model will describe
-    
-    """    
-    obj = structure.Document.addObject("App::DocumentObjectGroupPython", "SEA")
-    obj.Label = "SEA model"
-    #obj = sea.newObject("App::FeaturePython", "System")
-    Sea.adapter.system.System(obj, structure)
-    obj.Document.recompute()
-    return obj
-    

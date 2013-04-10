@@ -5,7 +5,7 @@ Module containing excitations.
 from ExcitationPoint import ExcitationPoint
 from ExcitationRain import ExcitationRain
 
-
+from ViewProviderExcitation import ViewProviderExcitation
 
 import inspect, sys
 excitations_map = {item[0]: item[1] for item in inspect.getmembers(sys.modules[__name__], inspect.isclass)}

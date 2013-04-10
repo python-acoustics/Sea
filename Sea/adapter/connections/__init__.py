@@ -3,9 +3,9 @@ Module with the different types of Connections that are available.
 """
 
 
-from connection_point import ConnectionPoint
-from connection_line import ConnectionLine
-from connection_surface import ConnectionSurface
+from ConnectionPoint import ConnectionPoint
+from ConnectionLine import ConnectionLine
+from ConnectionSurface import ConnectionSurface
 
 
 import inspect, sys
