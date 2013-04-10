@@ -7,12 +7,19 @@ class ViewProviderBase(object):
     __metaclass__ = abc.ABCMeta
     
     def __init__(self, obj):
+        """Constructor
+        
+        :param obj: Object
+        :type obj: :class:`FreeCAD.ViewObject` 
+        """
         obj.Proxy = self
         self.obj = obj
 
     def claimChildren(self):
         """
         Return tree children.
+        
+        :rtype: list
         """
         return []
         

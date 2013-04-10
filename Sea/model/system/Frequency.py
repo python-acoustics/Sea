@@ -29,20 +29,26 @@ class Frequency(object):
     
     @property
     def bandwidth(self):
-        """
-        Bandwidth of frequency bands,
+        """Bandwidth of frequency bands,
+        
+        :rtype: :class:`numpy.ndarray`
         """
         return self.upper - self.lower
 
     @property
     def angular(self):
-        """
-        Angular frequency
+        """Angular frequency
+        
+        :rtype: :class:`numpy.ndarray`
         """
         return self.center * 2.0 * np.pi 
         
     @property
     def amount(self):
+        """Amount of frequency bands
+        
+        :rtype: :func:`int`
+        """
         try:
             return len(self.center)
         except TypeError:

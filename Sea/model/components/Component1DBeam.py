@@ -14,11 +14,12 @@ class SubsystemLong(SubsystemStructural):
     
     @property
     def wavenumber(self, N, delta):
-        """
-        Wavenumber in radians per unit length.
+        """Wavenumber in radians per unit length.
         
         :param N: mode
         :param delta: boundary condition dependent constant
+        
+        :rtype: :class:`numpy.ndarray`
         
         .. math:: k = (N + \\delta_{BC} ) \\frac{\\pi}{L}
         
@@ -28,8 +29,9 @@ class SubsystemLong(SubsystemStructural):
     
     @property
     def soundspeed_phase(self):
-        """
-        Phase velocity for longitudinal wave.
+        """Phase velocity for longitudinal wave.
+        
+        :rtype: :class:`numpy.ndarray`
         
         .. math:: c_{L,\\phi}^{1D} = \\frac{E}{\\rho}
         """
@@ -37,8 +39,9 @@ class SubsystemLong(SubsystemStructural):
 
     @property
     def soundspeed_group(self):
-        """
-        Group velocity for longitudinal wave.
+        """Group velocity for longitudinal wave.
+        
+        :rtype: :class:`numpy.ndarray`
         
         .. math:: c_{L,g}^{1D} = c_{L,\\phi}^{1D}
         """
@@ -46,8 +49,9 @@ class SubsystemLong(SubsystemStructural):
     
     @property
     def average_frequency_spacing(self):
-        """
-        Average frequency spacing for longitudinal waves.
+        """Average frequency spacing for longitudinal waves.
+        
+        :rtype: :class:`numpy.ndarray`
         
         .. math:: \\overline{\\delta f}_L^{1D} = \\frac{c_{L, \\phi}^{1D}}{2L}
         
@@ -57,8 +61,9 @@ class SubsystemLong(SubsystemStructural):
         
     @property
     def impedance_force_point_edge(self):
-        """
-        Impedance for longitudinal waves in a bar when excited at a point by a force.
+        """Impedance for longitudinal waves in a bar when excited at a point by a force.
+    
+        :rtype: :class:`numpy.ndarray`
     
         .. math:: Z_{L}^{F, 1D} = 2 \\rho S c_L
         
@@ -73,8 +78,9 @@ class SubsystemBend(SubsystemStructural):
     """
     @property
     def soundspeed_phase(self):
-        """
-        Phase velocity for bending wave.
+        """Phase velocity for bending wave.
+        
+        :rtype: :class:`numpy.ndarray`
         
         .. math:: c_{B,\\phi}^{2D} = \\sqrt{\\omega \\kappa c_{L, \\phi}^{1D} }
         
@@ -84,8 +90,9 @@ class SubsystemBend(SubsystemStructural):
                 
     @property
     def soundspeed_group(self):
-        """
-        Group velocity for bending wave.
+        """Group velocity for bending wave.
+        
+        :rtype: :class:`numpy.ndarray`
         
         .. math:: c_{B,g}^{1D} = 2 c_{B,\\phi}^{1D}
         
@@ -94,8 +101,9 @@ class SubsystemBend(SubsystemStructural):
         
     @property
     def average_frequency_spacing(self):
-        """
-        Average frequency spacing for bending waves. Valid when :math:`f << c_{L,\\phi}  / 4 \\pi \\kappa`.
+        """Average frequency spacing for bending waves. Valid when :math:`f << c_{L,\\phi}  / 4 \\pi \\kappa`.
+        
+        :rtype: :class:`numpy.ndarray`
         
         .. math:: \\overline{\\delta f}_B^{1D} = \\frac{c_{B, \\phi}^{1D}}{L}
         
@@ -105,8 +113,9 @@ class SubsystemBend(SubsystemStructural):
 
     @property
     def impedance_force_point_center(self):
-        """
-        Impedance for bending waves in a thin beam excited far way from the edges.
+        """Impedance for bending waves in a thin beam excited far way from the edges.
+        
+        :rtype: :class:`numpy.ndarray`
         
         .. math:: Z_B^{F,1D} = 2 \\rho S c_{L, \\phi}^{1D} (1 + j)
         
@@ -116,8 +125,9 @@ class SubsystemBend(SubsystemStructural):
 
     @property
     def impedance_force_point_edge(self):
-        """
-        Impedance for bending waves in a thin beam excited on the side.
+        """Impedance for bending waves in a thin beam excited on the side.
+        
+        :rtype: :class:`numpy.ndarray`
         
         .. math:: Z_B^{F,1D} = \\frac{1}{2} \\rho S c_{L, \\phi}^{1D} (1 + j)
         
@@ -128,8 +138,9 @@ class SubsystemBend(SubsystemStructural):
     
     @property
     def impedance_moment_center(self):
-        """
-        Moment impedance for bending waves excited in the center of the beam.
+        """Moment impedance for bending waves excited in the center of the beam.
+        
+        :rtype: :class:`numpy.ndarray`
         
         .. math:: W = 2 \\rho S c_B \\frac{(1-j)}{k_B^2}
         
@@ -140,8 +151,9 @@ class SubsystemBend(SubsystemStructural):
     
     @property
     def impedance_moment_edge(self):
-        """
-        Moment impedance for bending waves excited at the edge of the beam.
+        """Moment impedance for bending waves excited at the edge of the beam.
+        
+        :rtype: :class:`numpy.ndarray`
         
         .. math:: W = \\frac{1}{2} \\rho S c_B \\frac{(1-j)}{k_B^2} 
         
@@ -156,8 +168,9 @@ class SubsystemShear(SubsystemStructural):
     """
     @property
     def soundspeed_phase(self):
-        """
-        Phase velocity for shear wave.
+        """Phase velocity for shear wave.
+        
+        :rtype: :class:`numpy.ndarray`
         
         .. math:: c_{T,g}^{1D} = \\sqrt{\\frac{G J }{\\rho I_p}}
         """
@@ -165,8 +178,9 @@ class SubsystemShear(SubsystemStructural):
 
     @property
     def soundspeed_group(self):
-        """
-        Group velocity for shear wave.
+        """Group velocity for shear wave.
+        
+        :rtype: :class:`numpy.ndarray`
         
         .. math:: c_{T,g}^{1D} = c_{T,\\phi}^{1D}
         
@@ -175,8 +189,9 @@ class SubsystemShear(SubsystemStructural):
 
     @property
     def average_frequency_spacing(self):
-        """
-        Average frequency spacing for bending waves.
+        """Average frequency spacing for bending waves.
+        
+        :rtype: :class:`numpy.ndarray`
         
         .. math:: \\overline{\\delta f}_T^{1D} = \\frac{c_T}{2L}
         
@@ -187,6 +202,11 @@ class SubsystemShear(SubsystemStructural):
         
     @property
     def impedance(self):
+        """Impedance
+        
+        :rtype: :class:`numpy.ndarray`
+        """
+        
         return np.zeros(self.frequency.amount)
         
 class Component1DBeam(ComponentStructural):
@@ -225,29 +245,30 @@ class Component1DBeam(ComponentStructural):
 
     @property
     def mass_per_area(self):
-        """
-        Mass per unit area.
+        """Mass per unit area.
+        
+        :rtype: :func:`float`
         """
         return self.material.density * self.height #*self.width
              
     @property
     def area_moment_of_inertia(self):
-        """
-        Area moment of inertia.
+        """Area moment of inertia.
+        
+        :rtype: :func:`float`
         """
         return np.sqrt(self.cross_section) * np.power(np.sqrt(self.cross_section),3.0) / 12.0
             
     @property
     def radius_of_gyration(self):
-        """
-        Radius of gyration :math:`\\kappa` is given by dividing the thickness of the beam by 12.
+        """Radius of gyration :math:`\\kappa` is given by dividing the thickness of the beam by 12.
+        
+        :rtype: :func:`float`
         
         .. math:: \\kappa = \\frac{h}{12}
         
         See Lyon, above eq. 8.1.10
         """
         return self.height / 12.0
-    
-
-
+        
         

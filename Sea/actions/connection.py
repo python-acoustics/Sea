@@ -38,6 +38,7 @@ class ShapeConnection(object):
         
         :param x: a list of shapes
         
+        :rtype: list
         """
         common = list()
         
@@ -57,6 +58,7 @@ class ShapeConnection(object):
         :param a: an instance of :class:`FreeCAD.TopoShape`
         :param b: an instance of :class:`FreeCAD.TopoShape`
         
+        :rtype: list
         """
         
         com = list()   

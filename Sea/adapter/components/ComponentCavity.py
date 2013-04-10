@@ -40,6 +40,8 @@ class ComponentCavity(Component):
         
         :param structure: a :class:`Part.MultiFuse`
         :param position: a :class:`FreeCAD.Vector`
+        
+        :rtype: :class:`FreeCAD.TopoShape`
         """
         #structure = obj.Structure
         tolerance = 0.01

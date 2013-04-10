@@ -90,15 +90,17 @@ class Subsystem(Base):
     
     @staticmethod
     def excitations(obj):
-        """
-        Return a list of excitations.
+        """Return a list of excitations.
+        
+        :rtype: list
         """
         return filter(Sea.actions.document.isExcitation, obj.InList)
     
     @staticmethod
     def couplingsFrom(obj):
-        """
-        Return a list of couplings from
+        """Return a list of couplings from
+        
+        :rtype: list
         """
         couplings = list()
         for item in obj.InList:
@@ -109,8 +111,9 @@ class Subsystem(Base):
         
     @staticmethod
     def couplingsTo(obj):
-        """
-        Return a list of couplings from
+        """Return a list of couplings from
+        
+        :rtype: list
         """
         couplings = list()
         for item in obj.InList:
@@ -128,7 +131,7 @@ class Subsystem(Base):
         
         :param subsystem: Subsystem that is excited
         :param sort: Type of excitation specified in :class:`Sea.adapter.excitations.excitations_map`
-        
+        :type sort: :func:`str`
         """
         from Sea.adapter.object_maps import excitations_map
         

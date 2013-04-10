@@ -90,11 +90,14 @@ class System(object):
     
 
     def createMatrix(self, subsystems, f):
-        """
-        Create loss factor matrix for given frequency band.
+        """Create loss factor matrix for given frequency band.
         
         :param subsystems: is a list of subsystems. Reason to give the list as argument instead of using self.subsystems is that that list might change during execution.
+        :type subsystems: list
         :param f: is the index of the center frequency of the frequency band
+        :type f: int
+        :rtype: :class:`numpy.ndarray`
+        
         """
         logging.info('Creating matrix for centerfrequency %s', str(self.frequency.center[f]))
         
@@ -132,8 +135,9 @@ class System(object):
         return LF
 
     def clearResults(self):
-        """
-        Clear the results. Reset modal energies. Set :attr:`solved` to False.
+        """Clear the results. Reset modal energies. Set :attr:`solved` to False.
+        
+        :rtype: None
         """
         logging.info('Clearing results...')
         
@@ -146,6 +150,8 @@ class System(object):
      
     def solveSystem(self):  # Put the actual solving in a separate thread
         """Solve modal powers.
+        
+        :rtype: :func:`bool`
         
         This method solves the modal energies for every subsystem.
         The method :meth:`createMatrix` is called for every frequency band to construct a matrix of :term:`loss factors` and :term:`modal densities`.

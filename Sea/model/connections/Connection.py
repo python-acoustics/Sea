@@ -34,8 +34,9 @@ class Connection(Base):
     
     @property
     def impedance(self):
-        """
-        Total impedance at the coupling.
+        """Total impedance at the coupling.
+        
+        :rtype: :class:`numpy.ndarray`
         """
         imp = np.zeros(len(self.omega))
         print self.subsystems
@@ -45,8 +46,7 @@ class Connection(Base):
         return impedance
     
     def get_coupling(self, subsystem_from, subsystem_to):
-        """
-        Return the coupling between subsystems for calculations.
+        """Return the coupling between subsystems for calculations.
         """
         return
     

@@ -17,13 +17,6 @@ class System(Base, Sea.model.system.System):
     A class that contains the SEA model
     """
     
-    _components = list()
-    _connections = list()
-    _couplings = list()
-    _excitations = list()
-    _materials = list()
-    
-    
     def __init__(self, obj, structure):
         """
         :param obj: FeaturePython object 
@@ -102,6 +95,8 @@ class System(Base, Sea.model.system.System):
     def makeFrequency(system):
         """
         Make a :class:`Sea.adapter.baseclasses.Frequency` object.
+        
+        :param system: System
         """
         
         obj = system.Document.addObject("App::FeaturePython", "FrequencySettings")

@@ -23,8 +23,17 @@
 
 
 
+
 import os
 import sys
+
+def skip(app, what, name, obj, skip, options):
+    if name == "__init__":
+        return False
+    return skip
+
+def setup(app):
+    app.connect("autodoc-skip-member", skip)
 
 
 sys.path.append(os.path.join(os.getcwd(), '..'))
@@ -38,6 +47,8 @@ intersphinx_mapping = {
     'FreeCAD': ('http://free-cad.sourceforge.net/api/', None),
     'FreeCADGui': ('http://free-cad.sourceforge.net/api/', None),
     'Part': ('http://free-cad.sourceforge.net/api/', None),
+    'numpy': ('http://docs.scipy.org/doc/numpy/', None),
+    'python' : ('http://docs.python.org/2.7', None),
     }
 
 # Add any paths that contain templates here, relative to this directory.
@@ -278,6 +289,6 @@ class Mock(object):
         else:
             return Mock()
 
-MOCK_MODULES = ['FreeCAD', 'FreeCADGui', 'Part', 'PyQt4', 'pivy']
+MOCK_MODULES = ['FreeCAD', 'FreeCADGui', 'Part', 'PyQt4', 'pivy', 'numpy']
 for mod_name in MOCK_MODULES:
     sys.modules[mod_name] = Mock()

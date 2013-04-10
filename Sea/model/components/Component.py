@@ -29,9 +29,10 @@ class Component(Base):
     
     @property
     def mass(self):
-        """
-        Mass :math:`m` of the component.
-
+        """Mass :math:`m` of the component.
+        
+        :rtype: :class:`float`
+        
         .. math:: m = \\rho V 
 
         """   
@@ -39,8 +40,11 @@ class Component(Base):
     
     @property
     def velocity(self):
-        """
-        Velocity of the component :math:`v_{component}`. This is the sum of all subsystems velocities.
+        """Velocity of the component :math:`v_{component}`. 
+        
+        :rtype: :class:`numpy.ndarray`
+        
+        This is the sum of all subsystems velocities.       
         """
         
         velocity = np.zeros(self.frequency.amount)
@@ -53,6 +57,8 @@ class Component(Base):
     def velocity_level(self):
         """
         Velocity level :math:`L_v`.
+        
+        :rtype: :class:`numpy.ndarray`
         
         .. math:: L_v = 20 \\log_{10}{\\frac{v}{v_0}}
         """

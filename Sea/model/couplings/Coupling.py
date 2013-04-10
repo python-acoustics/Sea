@@ -45,58 +45,66 @@ class Coupling(Base):
     
     @abc.abstractproperty
     def impedance_from(self):
-        """
-        Impedance of :attr:`subsystem_from` corrected for the type of coupling.
+        """Impedance of :attr:`subsystem_from` corrected for the type of coupling.
+        
+        :rtype: :class:`numpy.ndarray`
         """
         return
     
     @abc.abstractproperty
     def impedance_to(self):
-        """
-        Impedance of :attr:`subsystem_to` corrected for the type of coupling.
+        """Impedance of :attr:`subsystem_to` corrected for the type of coupling.
+        
+        :rtype: :class:`numpy.ndarray`
         """
         return
      
     @abc.abstractproperty
     def clf(self):
-        """
-        Coupling loss factor `\\eta`.
+        """Coupling loss factor `\\eta`.
+        
+        :rtype: :class:`numpy.ndarray`
         """
         return
         
     @property
     def mobility_from(self):
-        """
-        Mobility of :attr:`subsystem_from` corrected for the type of coupling.
+        """Mobility of :attr:`subsystem_from` corrected for the type of coupling.
+        
+        :rtype: :class:`numpy.ndarray`
         """
         return 1.0 / self.impedance_from
         
     @property
     def mobility_to(self):
-        """
-        Mobility of :attr:`subsystem_to` corrected for the type of coupling.
+        """Mobility of :attr:`subsystem_to` corrected for the type of coupling.
+        
+        :rtype: :class:`numpy.ndarray`
         """
         return 1.0 / self.impedance_to
     
     @property
     def resistance_from(self):
-        """
-        Resistance of :attr:`subsystem_from` corrected for the type of coupling.
+        """Resistance of :attr:`subsystem_from` corrected for the type of coupling.
+        
+        :rtype: :class:`numpy.ndarray`
         """
         return np.real(self.impedance_from)
     
     @property
     def resistance_to(self):
-        """
-        Resistance of :attr:`subsystem_to` corrected for the type of coupling.
+        """Resistance of :attr:`subsystem_to` corrected for the type of coupling.
+        
+        :rtype: :class:`numpy.ndarray`
         """
         return np.real(self.impedance_to)
     
     
     @property
     def modal_coupling_factor(self):
-        """
-        Modal coupling factor of the coupling.
+        """Modal coupling factor of the coupling.
+        
+        :rtype: :class:`numpy.ndarray`
         
         .. math:: \\beta_{ij} = \\frac{ f * \\eta_{ij} } { \\overline{\\delta f_i} }
         
