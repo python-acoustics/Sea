@@ -7,18 +7,23 @@ from ComponentStructural import ComponentStructural
 from ..subsystems import SubsystemLong, SubsystemBend, SubsystemShear
 
 class SubsystemLong(SubsystemLong, Sea.model.components.Component2DPlate.SubsystemLong):
+    """Subsystem for longitudinal waves in a plate.
+    """
     pass
 
 class SubsystemBend(SubsystemBend, Sea.model.components.Component2DPlate.SubsystemBend):
+    """Subsystem for bending waves in a plate.
+    """
     pass
 
 class SubsystemShear(SubsystemShear, Sea.model.components.Component2DPlate.SubsystemShear):
+    """Subsysem for shear waves in a plate.
+    """
     pass
 
     
 class Component2DPlate(ComponentStructural, Sea.model.components.Component2DPlate.Component2DPlate):
-    """
-    Plate structural component.
+    """Plate structural component.
     
     This adapter describes a :class:`Sea.model.components.Component2DPlate`
     """

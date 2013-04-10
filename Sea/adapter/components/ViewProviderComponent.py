@@ -12,6 +12,8 @@ class ViewProviderComponent(ViewProviderBase):
     def subsystems(self):
         """
         Return a list of subsystems.
+        
+        :rtype: list
         """
         try:
             obj = self.obj.Object

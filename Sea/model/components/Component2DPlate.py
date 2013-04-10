@@ -14,8 +14,9 @@ class SubsystemLong(SubsystemStructural):
     
     @property
     def soundspeed_group(self):
-        """
-        Group velocity for longitudinal waves in a 2D isotopic plate.
+        """Group velocity for longitudinal waves in a 2D isotopic plate.
+        
+        :rtype: :class:`numpy.ndarray`
         
         .. math:: c_L^{'} = \\sqrt{\\frac{E}{\\rho \\left( 1 - \\mu^2 \\right)}}
         
@@ -28,8 +29,9 @@ class SubsystemLong(SubsystemStructural):
             
     @property
     def soundspeed_phase(self):
-        """
-        Phase velocity for longitudinal waves in a 2D isotropic plate.
+        """Phase velocity for longitudinal waves in a 2D isotropic plate.
+        
+        :rtype: :class:`numpy.ndarray`
         
         .. math:: c_{group} = c_{phase} = c_L
         
@@ -39,8 +41,9 @@ class SubsystemLong(SubsystemStructural):
     
     @property
     def average_frequency_spacing(self):
-        """
-        Average frequency spacing for a 2D isotropic plate.
+        """Average frequency spacing for a 2D isotropic plate.
+        
+        :rtype: :class:`numpy.ndarray`
         
         .. math:: \\overline{\delta f}_S^{2D} = \\frac{{c_L^1}^2}{\\omega A}
         
@@ -53,8 +56,9 @@ class SubsystemLong(SubsystemStructural):
 
     @property
     def wavenumber(self, m, n, delta1, delta2):
-        """
-        Wavenumber for longitudinal waves in a plate.
+        """Wavenumber for longitudinal waves in a plate.
+        
+        :rtype: :class:`numpy.ndarray`
         
         .. math:: k_L = \\sqrt{\\left[ \\left( m - \\delta_1 \\right) \\frac{\\pi}{L_1} \\right] + \\left[ \\left( n - \\delta_2 \\right) \\frac{\\pi}{L_2} \\right]}
        
@@ -65,6 +69,11 @@ class SubsystemLong(SubsystemStructural):
     
     @property
     def impedance(self):
+        """Impedance
+        
+        :rtype: :class:`numpy.ndarray`
+        
+        """
         return np.zeros(self.frequency.amount)    
         
     #@property
@@ -86,8 +95,9 @@ class SubsystemBend(SubsystemStructural):
 
     @property
     def soundspeed_phase(self):
-        """
-        Phase velocity for bending wave.
+        """Phase velocity for bending wave.
+        
+        :rtype: :class:`numpy.ndarray`
         
         .. math:: c_{B,\\phi}^{2D} = \\sqrt{\\omega \\kappa c_L^{'}}
         
@@ -97,8 +107,9 @@ class SubsystemBend(SubsystemStructural):
                 
     @property
     def soundspeed_group(self):
-        """
-        Group velocity for bending wave.
+        """Group velocity for bending wave.
+        
+        :rtype: :class:`numpy.ndarray`
         
         .. math:: c_{B, g}^{2D} = 2 c_{B,\\phi}^{2D}
         
@@ -108,8 +119,9 @@ class SubsystemBend(SubsystemStructural):
     
     @property
     def average_frequency_spacing(self):
-        """
-        Average frequency spacing for bending waves in a 2D isotropic plate.
+        """Average frequency spacing for bending waves in a 2D isotropic plate.
+        
+        :rtype: :class:`numpy.ndarray`
         
         .. math:: \\overline{\\delta f}_B^{2D} = \\frac{2 \\kappa c_L^{', 2D}}{A}
         
@@ -119,9 +131,9 @@ class SubsystemBend(SubsystemStructural):
     
     @property
     def wavenumber(self):
-        """
-        Wavenumber of flexural waves in a plate.
+        """Wavenumber of flexural waves in a plate.
         
+        :rtype: :class:`numpy.ndarray`
         
         .. math:: k_B = \\sqrt[4]{ \\frac{ \\rho \\omega }{D}} 
         
@@ -132,8 +144,9 @@ class SubsystemBend(SubsystemStructural):
     
     @property
     def flexural_rigidity(self):
-        """
-        Flexural rigidity of a plate.
+        """Flexural rigidity of a plate.
+        
+        :rtype: :class:`numpy.ndarray`
         
         .. math:: D = \\frac{t^3}{12 \\left( 1 - \\nu^2 \\right)}
         
@@ -141,11 +154,15 @@ class SubsystemBend(SubsystemStructural):
         """
         return self.thickness**3.0 / (12.0 * (1.0 - self.poisson()**2.0))
     
-    
     @property
     def impedance(self):
-        return np.zeros(self.frequency.amount)
-    
+        """Impedance
+        
+        :rtype: :class:`numpy.ndarray`
+        
+        """
+        return np.zeros(self.frequency.amount)    
+        
     
 class SubsystemShear(SubsystemStructural):
     """

@@ -7,6 +7,8 @@ from ..subsystems import SubsystemLong
 from ComponentCavity import ComponentCavity
 
 class SubsystemLong(SubsystemLong, Sea.model.components.Component3DCavity.SubsystemLong):
+    """Subsystem for longitudinal waves in a 3D cavity.
+    """
     pass
 
 

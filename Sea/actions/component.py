@@ -5,10 +5,11 @@ Actions related to children of :class:`Sea.adapter.baseclasses.Component`
 import itertools
 
 def determine_structural_sort(part):
-    """
-    Determine which structural component describes the :class:`FreeCAD.Part` best
+    """Determine which structural component describes the :class:`FreeCAD.Part` best
     
     :param part: an instance of a child of :class:`FreeCAD.Part`
+    
+    :rtype: :func:`str`
     """
     
     if part.Type == 'Part::Box':
@@ -33,10 +34,11 @@ def determine_structural_sort(part):
             #return "Component3DBox"
     
 def determine_cavity_sort(shape):
-    """
-    Determine which cavity component describes the :class:`FreeCAD.Part` best
+    """Determine which cavity component describes the :class:`FreeCAD.Part` best
     
     :param part: an instance of a child of :class:`FreeCAD.Part`
+    
+    :rtype: :func:`str`
     """
     
     return "Component3DCavity"

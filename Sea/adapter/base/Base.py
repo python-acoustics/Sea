@@ -25,9 +25,8 @@ class Base(object):
         Constructor
         
         :param obj: FreeCAD Python Feature object
-        :param system: :class:`Sea.adapter.system.System` instance
+        :type obj: :class:`FreeCAD.DocumentObject` 
         """
-        #system.Objects = system.Objects + [obj]
         
         obj.touch()
         obj.Proxy = self
@@ -56,7 +55,9 @@ class Base(object):
         Respond on a change in object :attr:`obj` to property :attr:`prop`.
         
         :param obj: Feature object
+        :type obj: :class:`FreeCAD.DocumentObject` 
         :param prop: Property that was updated
+        :type prop: string
         """
         logging.info("Object %s - onChanged - Changing property %s.", obj.Name, prop)
         
@@ -72,6 +73,7 @@ class Base(object):
         This method will be executed on a recomputation.
         
         :param obj: Feature object
+        :type obj: :class:`FreeCAD.DocumentObject` 
         """
         pass
         
@@ -81,6 +83,9 @@ class Base(object):
     def delete(obj):
         """
         Remove object from the document.
+        
+        :param obj: Object to be deleted
+        :type obj: :class:`FreeCAD.DocumentObject'
         """
         import FreeCAD as App
         App.ActiveDocument.removeObject(obj.Name)

@@ -17,9 +17,11 @@ class Component(Base):
         Constructor
         
         :param obj: FreeCAD Python Feature object
-        :param system: :class:`Sea.adapter.system.System` instance
-        :param material: Material instance as defined in :mod:`Sea.adapter.materials`
-        :param material: FreeCAD part
+        :type obj: :class:`FreeCAD.DocumentObject`
+        :param system: System instance
+        :type system: :class:`Sea.adapter.system.System.System`
+        :param material: Material instance
+        :type material: :class:`Sea.adapter.materials.Material.Material`
         """
         
         Base.__init__(self, obj)
@@ -86,17 +88,12 @@ class Component(Base):
             obj.Proxy.volume = obj.Volume
         
         #if prop == 'Material':
-            #obj.Proxy.material = obj.Material.Proxy.model
+            #obj.Proxy.material = obj.Material.Proxy
         
         if prop == 'Frequency':
             for sub in obj.subsystems():
                 sub.Frequency = obj.Frequency
             
-
-        #if prop == 'Subsystems':
-            #obj.Proxy.linked_subsystems = [subsystem.Proxy.model for subsystem in obj.Subsystems]
-        
-        
         Base.onChanged(self, obj, prop)
         
         

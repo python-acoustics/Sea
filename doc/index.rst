@@ -17,7 +17,7 @@ Contents
    intro.rst
    sea.rst
    freecad-sea.rst
-   tutorial.rst
+   tutorial.rs
    reference.rst
    quantities.rst
    glossary.rst
