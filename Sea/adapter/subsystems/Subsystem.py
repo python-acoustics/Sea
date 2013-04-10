@@ -20,27 +20,34 @@ class Subsystem(Base):
         Base.__init__(self, obj)
         
         obj.addProperty("App::PropertyLink", "Component", "Subsystem", "Component this subsystem belongs to.")
+        obj.setEditorMode("Component", 1)
         obj.Component = component
         
         obj.addProperty("App::PropertyFloatList", "ModalEnergy", "Subsystem", "Modal energy.")
+        obj.setEditorMode("ModalEnergy", 1)
         obj.Frequency = component.Frequency
         
         obj.addProperty("App::PropertyFloatList", "Impedance", "Subsystem", "Impedance.")
+        obj.setEditorMode("ImpedanceF", 1)
         obj.addProperty("App::PropertyFloatList", "Resistance", "Subsystem", "Resistance.")
+        obj.setEditorMode("Resistance", 1)
         obj.addProperty("App::PropertyFloatList", "Mobility", "Subsystem", "Mobility.")
+        obj.setEditorMode("Mobility", 1)
         obj.addProperty("App::PropertyFloatList", "ModalDensity", "Subsystem", "Modal density.")
-        
+        obj.setEditorMode("ModalDensity", 1)
         obj.addProperty("App::PropertyFloatList", "SoundspeedGroup", "Subsystem", "Group speed.")
+        obj.setEditorMode("SoundspeedGroup", 1)
         obj.addProperty("App::PropertyFloatList", "SoundspeedPhase", "Subsystem", "Phase speed.")
+        obj.setEditorMode("SoundspeedPhase", 1)
         obj.addProperty("App::PropertyFloatList", "AverageFrequencySpacing", "Subsystem", "Average frequency spacing.")
+        obj.setEditorMode("AverageFrequencySpacing", 1)
         obj.addProperty("App::PropertyFloatList", "Energy", "Subsystem", "Energy.")
+        obj.setEditorMode("Energy", 1)
         obj.addProperty("App::PropertyFloatList", "Velocity", "Subsystem", "Mean velocity.")
+        obj.setEditorMode("Velocity", 1)
         obj.addProperty("App::PropertyFloatList", "VelocityLevel", "Subsystem", "Velocity level.")
+        obj.setEditorMode("VelocityLevel", 1)
         
-        #obj.addProperty("App::PropertyLinkList", "CouplingsFrom", "Couplings", "Couplings that originate from this subsystem.")
-        #obj.addProperty("App::PropertyLinkList", "CouplingsTo", "Couplings", "Couplings that end at this subsystem.")
-        
-        #obj.addProperty("App::PropertyLinkList", "Excitations", "Excitation", "Excitations the subsystem experiences.")
         
         obj.makeExcitation = self.makeExcitation
         

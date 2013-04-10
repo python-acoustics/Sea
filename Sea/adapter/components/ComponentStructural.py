@@ -12,8 +12,11 @@ class ComponentStructural(Component):
         #obj.addProperty("App::PropertyFloat", "BendingStiffness", "Component", "Bending stiffness of the Component")
         
         obj.addProperty("App::PropertyFloat", "AreaMomentOfInertia", "Structural", "Area moment of intertia.")
+        obj.setEditorMode("AreaMomentOfInertia", 1)
         obj.addProperty("App::PropertyFloat", "RadiusOfGyration", "Structural", "Radius of gyration.")
+        obj.setEditorMode("RadiusOfGyration", 1)
         obj.addProperty("App::PropertyLink","Part","Structural", "Reference to Part")
+        obj.setEditorMode("Part", 1)
         obj.addProperty("App::PropertyLinkSub", "ShapeLink", "Structural", "Reference to Shape of Part")
         
         obj.Part = part

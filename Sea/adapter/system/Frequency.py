@@ -16,6 +16,10 @@ class Frequency(Sea.model.system.Frequency):
         obj.addProperty("App::PropertyIntegerList", "Enabled", "System","List of enabled frequency bands")
         obj.addProperty("App::PropertyInteger", "Amount", "Amount of frequency bands.")
         
+        obj.setEditorMode('Amount', 2)  # Hide
+        obj.setEditorMode('Bandwidth', 1)   # Read-only
+        obj.setEditorMode('Angular', 1) # Read-only
+        
         self.execute(obj)
         
     def onChanged(self, obj, prop):

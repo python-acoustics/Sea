@@ -30,17 +30,19 @@ class Component1DBeam(ComponentStructural, Sea.model.components.Component1DBeam.
         ComponentStructural.__init__(self, obj, material, part)
         
         obj.addProperty("App::PropertyLength", "Length", "Beam", "Length of the beam")
-        obj.setEditorMode("MaxLength", 2)
+        obj.setEditorMode("MaxLength", 1)
         
         obj.addProperty("App::PropertyFloat", "CrossSection", "Beam", "Cross section of the beam")
-        obj.setEditorMode("CrossSection", 2)
+        obj.setEditorMode("CrossSection", 1)
         
         obj.addProperty("App::PropertyFloat", "MassPerArea", "Beam", "Mass per unit area")
+        obj.setEditorMode("MassPerArea", 1)
         obj.addProperty("App::PropertyFloat", "AreaMoment", "Beam", "Area moment of inertia")
-
+        obj.setEditorMode("AreaMoment", 1)
+        
         self.SubsystemLong = obj.makeSubsystem(SubsystemLong())
         self.SubsystemBend = obj.makeSubsystem(SubsystemBend()) 
-        obj.SubsystemShear = obj.makeSubsystem(SubsystemShear()) 
+        self.SubsystemShear = obj.makeSubsystem(SubsystemShear()) 
 
     def onChanged(self, obj, prop):
         ComponentStructural.onChanged(self, obj, prop)

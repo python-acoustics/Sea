@@ -14,6 +14,7 @@ class Excitation(Base):
         Base.__init__(self, obj)
         
         obj.addProperty("App::PropertyLink", "Subsystem", "Excitation", "Subsystem that is excited.")
+        obj.setEditorMode("Subsystem", 1)
         obj.Subsystem = subsystem
         
         obj.addProperty("App::PropertyFloatList", "Power", "Excitation", "Input power with which the subsystem is excited.")

@@ -37,7 +37,7 @@ class Connection(Base, Sea.model.connections.Connection):
         #obj.addProperty("App::PropertyString", "Sort", "Connection", "Is the connection described by a point, line or area.")
         
         obj.addProperty("App::PropertyFloatList", "ImpedanceJunction", "Connection", "Total impedance at the junction.")
-
+        obj.setEditorMode("ImpedanceJunction", 1)
         obj.Components = components
         
         #obj.Shape = component_a.Shape.common(component_b.Shape)

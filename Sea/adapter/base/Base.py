@@ -34,8 +34,11 @@ class Base(object):
         self.obj = self
         
         obj.addProperty("App::PropertyString", "ClassName", "SEA", "Name of the class of this object.")
+        obj.setEditorMode('ClassName', 1)
         obj.addProperty("App::PropertyString", "SeaObject", "SEA", "Type of SEA object.")
+        obj.setEditorMode('SeaObject', 1)
         obj.addProperty("App::PropertyLink", "Frequency", "SEA", "Link to current frequency settings.")
+        obj.setEditorMode("Frequency", 1)
         
         obj.SeaObject = obj.Proxy.object_sort      
         obj.ClassName = self.__class__.__name__

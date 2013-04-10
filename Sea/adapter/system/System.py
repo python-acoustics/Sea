@@ -33,18 +33,14 @@ class System(Base, Sea.model.system.System):
         
         Base.__init__(self, obj)
         
-        obj.addProperty("App::PropertyPythonObject", "Model", "Base", "Model describing the object.")
-        
         obj.addProperty("App::PropertyString", "SeaObject", "SEA", "Type of SEA object.")
+        obj.setEditorMode('SeaObject', 1)
         
-        #obj.addProperty("App::PropertyFloatList", "Frequency", "System","List of available frequency bands")
-        
-        #obj.addProperty("App::PropertyIntegerList", "EnabledBands", "System","List of enabled frequency bands")
-        
-        #obj.addProperty("App::PropertyBool", "Octaves", "System", "Use 1/1-octaves (True) or 1/3-octaves (False).")        
         obj.addProperty("App::PropertyBool", "Solved", "System", "Boolean showing whether results are present")
+        obj.setEditorMode('Solved', 1)
         
         obj.addProperty("App::PropertyLink", "Structure", "System", "Geometry of the structure described by the SEA system.")
+        obj.setEditorMode("Structure", 1)
         obj.Structure = structure
         
         

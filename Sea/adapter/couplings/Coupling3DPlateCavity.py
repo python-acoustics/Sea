@@ -12,6 +12,13 @@ class Coupling3DPlateCavity(Coupling, Sea.model.couplings.Coupling3DPlateCavity)
         Coupling.__init__(self, obj, connection, subsystem_from, subsystem_to)
        
         obj.addProperty("App::PropertyFloat", "Area", "Surface", "Area of the connecting surface.")
+        obj.setEditorMode("Area", 1)
+        
+        obj.addProperty("App::PropertyFloat", "CriticalFrequency", "Coupling", "Critical frequency.")
+        obj.setEditorMode("CriticalFrequency", 1)
+        
+        obj.addProperty("App::PropertyFloatList", "RadiationEfficiency", "Coupling", "Radiation effiency.")
+        obj.setEditorMode("RadiationEfficiency", 1)
         self.calc_area(obj)
         
     def onChanged(self, obj, prop):
