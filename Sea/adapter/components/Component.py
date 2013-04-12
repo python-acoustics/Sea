@@ -130,7 +130,9 @@ class Component(Base):
             Sea.adapter.subsystems.ViewProviderSubsystem(obj.ViewObject)
         except AttributeError:
             pass
+        #obj.Label = obj.Label + '_' 
         logging.info("Sea: Created %s.", obj.Name)
+        component.touch()
         obj.Document.recompute()
         return obj  
     

@@ -34,11 +34,6 @@ class Material(Base):
     def onChanged(self, obj, prop):
         Base.onChanged(self, obj, prop)
         
-        for comp in obj.Components:
-            comp.touch()
-            for sub in comp.Subsystems:
-                sub.touch()
-        
         if prop == 'Density':
             obj.Proxy.density = obj.Density
         elif prop == 'LossFactor':

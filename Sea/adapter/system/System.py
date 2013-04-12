@@ -128,6 +128,8 @@ class System(Base, Sea.model.system.System):
         except AttributeError:
             pass
         logging.info("Sea: Created %s.", obj.Name)
+        #obj.touch()
+        system.touch()
         obj.Document.recompute()
         return obj 
 
@@ -142,9 +144,15 @@ class System(Base, Sea.model.system.System):
         from Sea.adapter.object_maps import materials_map
         
         obj = system.Document.addObject("App::FeaturePython", 'Material')
-        #obj.Label = sort
+        try:
+            Sea.adapter.materials.ViewProviderMaterial(obj.ViewObject)
+        except AttributeError:
+            pass
+        obj.Label = 'Material' + sort
         materials_map[sort](obj, system)
         logging.info("Sea: Created %s.", obj.Name)
+        #obj.touch()
+        system.touch()
         obj.Document.recompute()
         return obj
 
@@ -161,7 +169,13 @@ class System(Base, Sea.model.system.System):
         
         obj = system.Document.addObject("App::FeaturePython", "Connection")
         connections_map[sort](obj, system, components)
+        #try:
+        Sea.adapter.connections.ViewProviderConnection(obj.ViewObject)
+        #except AttributeError:
+            #pass
+        obj.Label = 'Connection' + sort
         logging.info("Sea: Created %s.", obj.Name)
+        system.touch()
         obj.Document.recompute()
         return obj  
     
@@ -337,6 +351,8 @@ class System(Base, Sea.model.system.System):
             pass
         frequency = Sea.adapter.system.System.makeFrequency(system)
         system.Frequency = frequency
+        system.touch()
+        frequency.touch()
         system.Document.recompute()
         return system
         

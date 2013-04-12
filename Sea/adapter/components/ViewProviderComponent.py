@@ -1,13 +1,10 @@
 
-
 from ..base import ViewProviderBase
 
 class ViewProviderComponent(ViewProviderBase):
     
     def claimChildren(self):
-        sub = self.subsystems()
-        print sub
-        return sub
+        return self.subsystems()
         
     def subsystems(self):
         """
@@ -20,7 +17,5 @@ class ViewProviderComponent(ViewProviderBase):
         except AttributeError:
             return []
             
-        viewproviders = obj.subsystems()
-        print viewproviders
+        return obj.subsystems()
         
-        return viewprovider
