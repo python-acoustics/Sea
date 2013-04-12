@@ -6,6 +6,7 @@ The following are Material classes encapsulating their respective :mod:`Sea.mode
 from MaterialGas import MaterialGas
 from MaterialSolid import MaterialSolid
 
+from ViewProviderMaterial import ViewProviderMaterial
 
     
 import inspect, sys

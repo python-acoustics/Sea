@@ -171,6 +171,7 @@ class Connection(Base, Sea.model.connections.Connection):
             Sea.adapter.couplings.ViewProviderCoupling(obj.ViewObject)
         except AttributeError:
             pass
+        obj.Label = obj.ClassName + '_' + subsystem_from.ClassName.replace('Subsystem', '') + '_to_' + subsystem_to.ClassName.replace('Subsystem', '')
         logging.info("Sea: Created %s.", obj.Name)
         obj.Document.recompute()
         return obj
