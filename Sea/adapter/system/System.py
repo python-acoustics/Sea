@@ -169,11 +169,11 @@ class System(Base, Sea.model.system.System):
         
         obj = system.Document.addObject("App::FeaturePython", "Connection")
         connections_map[sort](obj, system, components)
-        #try:
-        Sea.adapter.connections.ViewProviderConnection(obj.ViewObject)
-        #except AttributeError:
-            #pass
-        obj.Label = 'Connection' + sort
+        try:
+            Sea.adapter.connections.ViewProviderConnection(obj.ViewObject)
+        except AttributeError:
+            pass
+        obj.Label = '' + sort
         logging.info("Sea: Created %s.", obj.Name)
         system.touch()
         obj.Document.recompute()

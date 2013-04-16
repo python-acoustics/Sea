@@ -3,10 +3,10 @@ Adapter classes for :class:`Sea.model.components.ComponentCavity3D`
 """
 
 import Sea
-from ..subsystems import SubsystemLong
+from ..subsystems import SubsystemCavityLong
 from ComponentCavity import ComponentCavity
 
-class SubsystemLong(SubsystemLong, Sea.model.components.Component3DCavity.SubsystemLong):
+class SubsystemLong(SubsystemCavityLong, Sea.model.components.Component3DCavity.SubsystemLong):
     """Subsystem for longitudinal waves in a 3D cavity.
     """
     pass

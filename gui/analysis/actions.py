@@ -18,14 +18,15 @@ class RunAnalysis(object):
     
     def Activated(self):
         import Sea
-        if App.ActiveDocument is not None:
-            if App.ActiveDocument.ActiveObject:
-                Sea.actions.solve(App.ActiveDocument.ActiveObject)
-            else:
-                App.Console.PrintMessage('Please select an SEA system.\n')
+        
+        objects = Gui.Selection.getSelection()
+        systems = filter(Sea.actions.document.isSystem, objects)
+        if len(systems) == 0:
+            App.Console.PrintMessage('Please select an SEA system.\n')
+        elif len(systems) == 1:
+            systems[0].solve()
         else:
-            App.Console.PrintMessage('First create a model.\n')
-         
+            App.Console.PrintMessage('Please select a single SEA system.\n')
         
     def GetResources(self):
         MenuText = QtCore.QT_TRANSLATE_NOOP('Sea_RunAnalysis', 'Start calculation')

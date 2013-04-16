@@ -6,11 +6,8 @@ Introduction
 .. toctree::
    :maxdepth: 2
    
-   
+.. include:: ../README.txt  
 
-===========================
-Statistical Energy Analysis
-===========================
 
 ========
 FreeCAD

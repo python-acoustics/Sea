@@ -43,10 +43,6 @@ class Subsystem(Base):
         obj.setEditorMode("AverageFrequencySpacing", 1)
         obj.addProperty("App::PropertyFloatList", "Energy", "Subsystem", "Energy.")
         obj.setEditorMode("Energy", 1)
-        obj.addProperty("App::PropertyFloatList", "Velocity", "Subsystem", "Mean velocity.")
-        obj.setEditorMode("Velocity", 1)
-        obj.addProperty("App::PropertyFloatList", "VelocityLevel", "Subsystem", "Velocity level.")
-        obj.setEditorMode("VelocityLevel", 1)
         
         
         obj.makeExcitation = self.makeExcitation
@@ -85,9 +81,7 @@ class Subsystem(Base):
         obj.SoundspeedPhase = obj.Proxy.soundspeed_phase.tolist()
         obj.AverageFrequencySpacing = obj.Proxy.average_frequency_spacing.tolist()
         obj.Energy = obj.Proxy.energy.tolist()
-        obj.Velocity = obj.Proxy.velocity.tolist()
-        obj.VelocityLevel = obj.Proxy.velocity_level.tolist()
-    
+        
     @staticmethod
     def excitations(obj):
         """Return a list of excitations.
