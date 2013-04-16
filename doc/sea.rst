@@ -27,9 +27,9 @@ represents one wave type. The subsystems are then connected through
 :term:`couplings`. :term:`Power` is added into the system through
 :term:`excitation` of one or more subsystems. :term:`Power dissipation` in
 subsystems and couplings are modeled using :term:`loss factors`. Finally, a
-single matrix composed of loss factors, :term:`modal densities` and input
+single matrix composed of :term:`loss factors`, :term:`modal densities` and input
 powers, is solved resulting in the modal energies of each subsystem, from which
-their vibration or noise levels can be calculated.
+their velocity or pressure levels can be calculated.
 
 
 =================

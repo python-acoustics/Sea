@@ -1,23 +1,20 @@
 .. _index:
 
-Welcome to the FreeCAD-SEA documentation!
-=========================================
 
 
-.. include:: ../README.txt  
 
-========
+
 Contents
 ========
 
 
 .. toctree::
    :maxdepth: 2
-
+   
    intro.rst
    sea.rst
    freecad-sea.rst
-   tutorial.rs
+   tutorial.rst
    reference.rst
    quantities.rst
    glossary.rst
@@ -25,7 +22,7 @@ Contents
 
  
    
-==================
+
 Indices and tables
 ==================
 
