@@ -1,6 +1,8 @@
 
-from SubsystemLong import SubsystemLong
-from SubsystemBend import SubsystemBend
-from SubsystemShear import SubsystemShear
+from SubsystemCavityLong import SubsystemCavityLong
+from SubsystemStructuralLong import SubsystemStructuralLong
+from SubsystemStructuralBend import SubsystemStructuralBend
+from SubsystemStructuralShear import SubsystemStructuralShear
+
 
 from ViewProviderSubsystem import ViewProviderSubsystem

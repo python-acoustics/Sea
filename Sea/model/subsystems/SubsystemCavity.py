@@ -38,3 +38,25 @@ class SubsystemCavity(Subsystem):
             return np.zeros(self.frequency.amount)
         
         
+    @property
+    def pressure(self):
+        """Mean sound pressure :math:`p`
+        
+        """
+        
+    
+    
+    @property
+    def pressure_level(self):
+        """
+        Sound pressure level :math:`L_p`.
+        
+        :rtype: :class:`numpy.ndarray`
+        
+        .. math:: L_p = 20 \\log_{10}{\\frac{p}{p_0}}
+        """
+        try:
+            return 20.0 * np.log10(self.pressure / (2.0 * 10**(-5.0)) ) 
+        except FloatingPointError:
+            return np.zeros(self.frequency.amount)
+    

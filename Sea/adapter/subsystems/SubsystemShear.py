@@ -1,14 +1,19 @@
 import abc
 
-from Subsystem import Subsystem
-
-
-class SubsystemShear(Subsystem):
+class SubsystemShear(object):
     """
     Adapter class for shear wave subsystems.
     """
-    def __init__(self, obj, component):
-        Subsystem.__init__(self, obj, component)
-        component.Proxy.subsystem_shear = obj.Proxy
+    __metaclass__ = abc.ABCMeta
+    
+    def __init__(self, obj):
+        obj.Component.Proxy.subsystem_shear = obj.Proxy
+        
+        
+    def onChanged(self, obj, prop):
+        pass
+    
+    def execute(self, obj):
+        pass
         
                    

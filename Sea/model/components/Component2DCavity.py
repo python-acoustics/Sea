@@ -35,3 +35,5 @@ class Component2DCavity(ComponentCavity):
     """
     An instance of :class:`SubsystemLong` describing longitudinal waves.
     """
+    
+    

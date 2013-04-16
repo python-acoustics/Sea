@@ -4,15 +4,15 @@ Adapter class for :class:`Sea.model.components.Component1DBeam`
 
 import Sea
 from ComponentStructural import ComponentStructural
-from ..subsystems import SubsystemLong, SubsystemBend, SubsystemShear
+from ..subsystems import SubsystemStructuralLong, SubsystemStructuralBend, SubsystemStructuralShear
 
-class SubsystemLong(SubsystemLong, Sea.model.components.Component1DBeam.SubsystemLong):
+class SubsystemLong(SubsystemStructuralLong, Sea.model.components.Component1DBeam.SubsystemLong):
     pass
 
-class SubsystemBend(SubsystemBend, Sea.model.components.Component1DBeam.SubsystemBend):
+class SubsystemBend(SubsystemStructuralBend, Sea.model.components.Component1DBeam.SubsystemBend):
     pass
 
-class SubsystemShear(SubsystemShear, Sea.model.components.Component1DBeam.SubsystemShear):
+class SubsystemShear(SubsystemStructuralShear, Sea.model.components.Component1DBeam.SubsystemShear):
     pass
 
 

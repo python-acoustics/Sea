@@ -15,6 +15,12 @@ class ComponentCavity(Component):
         obj.addProperty("App::PropertyLink", "Structure", "Structure", "Fused structure.")
         obj.setEditorMode("Structure", 2)
         
+        obj.addProperty("App::PropertyFloatList", "Pressure", "Subsystem", "Mean pressure.")
+        obj.setEditorMode('Pressure', 1)
+        obj.addProperty("App::PropertyFloatList", "PressureLevel", "Subsystem", "Pressure level.")
+        obj.setEditorMode('PressureLevel', 1)
+        
+        
         obj.Structure = system.Structure
         obj.Position = position
         self.execute(obj)
@@ -25,6 +31,10 @@ class ComponentCavity(Component):
     def execute(self, obj):
         self.updateCavity(obj)
         Component.execute(self, obj)
+        
+        obj.Pressure = obj.Proxy.pressure.tolist()
+        obj.PressureLevel = obj.Proxy.pressure_level.tolist()
+        
         
     def updateCavity(self, obj):
         """

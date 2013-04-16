@@ -19,6 +19,12 @@ class ComponentStructural(Component):
         obj.setEditorMode("Part", 1)
         obj.addProperty("App::PropertyLinkSub", "ShapeLink", "Structural", "Reference to Shape of Part")
         
+        obj.addProperty("App::PropertyFloatList", "Velocity", "Subsystem", "Mean velocity.")
+        obj.setEditorMode('Velocity', 1)
+        obj.addProperty("App::PropertyFloatList", "VelocityLevel", "Subsystem", "Velocity level.")
+        obj.setEditorMode('VelocityLevel', 1)
+        
+        
         obj.Part = part
         obj.ShapeLink = (obj.Part, ['Shape'])
         
@@ -41,6 +47,8 @@ class ComponentStructural(Component):
         
         obj.AreaMomentOfInertia = obj.Proxy.area_moment_of_inertia
         obj.RadiusOfGyration = obj.Proxy.radius_of_gyration
-    
+        obj.Velocity = obj.Proxy.velocity.tolist()
+        obj.VelocityLevel = obj.Proxy.velocity_level.tolist()
+        
     
   

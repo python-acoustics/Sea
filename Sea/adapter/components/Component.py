@@ -51,10 +51,6 @@ class Component(Base):
         obj.addProperty("App::PropertyStringList", "EnabledSubsystems", "Subsystems", "List of enabled subsystems for this component.")
         obj.setEditorMode('EnabledSubsystems', 1)
         
-        obj.addProperty("App::PropertyFloatList", "Velocity", "Subsystem", "Mean velocity.")
-        obj.setEditorMode('Velocity', 1)
-        obj.addProperty("App::PropertyFloatList", "VelocityLevel", "Subsystem", "Velocity level.")
-        obj.setEditorMode('VelocityLevel', 1)
         obj.Frequency = system.Frequency
         
         
@@ -101,8 +97,6 @@ class Component(Base):
         Base.execute(self, obj)
     
         obj.Mass = obj.Proxy.mass
-        obj.Velocity = obj.Proxy.velocity.tolist()
-        obj.VelocityLevel = obj.Proxy.velocity_level.tolist()
         
     
     @staticmethod

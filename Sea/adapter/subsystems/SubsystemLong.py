@@ -1,15 +1,16 @@
 import abc
 
-from Subsystem import Subsystem
-
-
-class SubsystemLong(Subsystem):
+class SubsystemLong(object):
     """
     Adapter class for longitudinal wave subsystems.
     """
     __metaclass__ = abc.ABCMeta
     
-    def __init__(self, obj, component):
-        Subsystem.__init__(self, obj, component)
-        component.Proxy.subsystem_long = obj.Proxy
-        
+    def __init__(self, obj):
+        obj.Component.Proxy.subsystem_long = obj.Proxy
+    
+    def onChanged(self, obj, prop):
+        pass
+    
+    def execute(self, obj):
+        pass
